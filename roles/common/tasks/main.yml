@@ -11,5 +11,4 @@
     - pv
 
 - name: Ensure consistent hostname
-  script: set_hostname.sh {{ ansible_hostname }} {{ ansible_fqdn }}
-  #when: ansible_hostname == ansible_fqdn
+  script: set_hostname.sh {{ ansible_hostname }} {{ ansible_fqdn }} creates=/etc/ansible-hostname

@@ -14,3 +14,5 @@ if [ $(grep -c "$FQDN" /etc/hosts) = "0" ]; then
 	echo "Adding hostname to /etc/hosts"
 	sed -i -r "s/^127\.0\.1\.1.*$/127.0.1.1\t$HOSTNAME $FQDN # Added by Ansible/" /etc/hosts
 fi
+
+touch /etc/ansible-hostname

@@ -4,4 +4,6 @@
   roles:
     - common
 
-
+- hosts: teamcity
+  roles:
+    - monitoring
