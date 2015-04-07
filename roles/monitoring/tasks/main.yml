@@ -1,12 +1,21 @@
 ---
+- name: Test if Zabbix Repo is Installed
+  shell: '/usr/bin/dpkg --get-selections zabbix-release 2>/dev/null | grep -c install'
+  ignore_errors: True
+  register: zabbix_repo_installed
+  changed_when: False
+
 - name: Download Zabbix Repo
   get_url: url=http://repo.zabbix.com/zabbix/2.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_2.2-1+trusty_all.deb dest=/tmp/zabbix-repo.deb
+  when: zabbix_repo_installed == 0
 
 - name: Install Zabbix Repo
   command: dpkg -i /tmp/zabbix-repo.deb creates=/etc/apt/sources.list.d/zabbix.list
+  when: zabbix_repo_installed == 0
 
 - name: Update APT Cache
   apt: update_cache=yes
+  when: zabbix_repo_installed == 0
 
 - name: Install Zabbix Client
   apt: name=zabbix-agent state=present
