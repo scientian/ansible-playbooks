@@ -1,0 +1,7 @@
+# Master Playbook
+
+- hosts: all
+  roles:
+    - common
+
+
