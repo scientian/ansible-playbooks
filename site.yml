@@ -4,6 +4,7 @@
   roles:
     - common
 
-- hosts: teamcity
+- hosts:
+    - wit
   roles:
     - monitoring

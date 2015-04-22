@@ -16,11 +16,12 @@ steve-playground
 172.16.20.138 # teamcity
 172.16.20.139 # teamcity-agent
 
-
-
-
-
-
+[wit]
+wit.wurflcloud.com
+wit-origin1.wurflcloud.com
+wit-origin2.wurflcloud.com
+wit-origin3.wurflcloud.com
+wit-origin4.wurflcloud.com
 
 # Ex 2: A collection of hosts belonging to the 'webservers' group
 
