@@ -1,0 +1,17 @@
+[wit-origin-cache]
+wit-node-1
+
+[wit-origin-cache:vars]
+org=ScientiaMobile
+container=wit-origin-cache
+app_user=www-data
+app_group=www-data
+
+[wit-backend]
+wit-node-2
+
+[wit-backend:vars]
+org=ScientiaMobile
+container=wit-backend
+app_user=www-data
+app_group=www-data

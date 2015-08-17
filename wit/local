@@ -1,0 +1,17 @@
+[wit-origin-cache]
+192.168.33.10
+
+[wit-origin-cache:vars]
+org=ScientiaMobile
+container=wit-origin-cache
+app_user=vagrant
+app_group=vagrant
+
+[wit-backend]
+192.168.33.11
+
+[wit-backend:vars]
+org=ScientiaMobile
+container=wit-backend
+app_user=vagrant
+app_group=vagrant
