@@ -1,0 +1,14 @@
+---
+- hosts: wit
+
+  remote_user: "{{ remote_user }}"
+
+  tasks:
+  - name: Setup | Check for dir /home/{{ remote_user }}/.composer
+    file: path=/home/{{ remote_user }}/.composer state=directory
+  - name: Setup | Composer Auth File
+    template: src=templates/composer-auth.json.j2 dest=/home/{{ remote_user }}/.composer/auth.json
+  - name: Setup | Check for dir /home/{{ remote_user }}/.docker
+    file: path=/home/{{ remote_user }}/.docker state=directory
+  - name: Setup | Docker Hub Auth File
+    template: src=templates/docker-auth.json.j2 dest=/home/{{ remote_user }}/.docker/config.json

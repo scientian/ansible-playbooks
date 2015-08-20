@@ -1,0 +1,4 @@
+remote_user: vagrant
+github_oauth_token: 123456
+docker_hub_token: 123456
+docker_hub_email: "deploy@scientiamobile.com"
