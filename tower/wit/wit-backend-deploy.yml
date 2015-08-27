@@ -14,7 +14,7 @@
   # TODO Temporary fix since ansible (docker-py ?) does not allow to mount single files if it exists
   # see (https://github.com/ansible/ansible-modules-core/issues/1337). Update source code renaming web to public?
   - name: Application | Create symlink for the web dir
-    shell: ln -s web public
+    shell: ln -sf web public
     args:
       chdir: "{{ source_path }}/{{ project }}"
 
