@@ -3,7 +3,7 @@
 
   tasks:
 
-  - name: Docker | Data project
+  - name: Docker | Data
     docker:
       name: "{{project}}-data"
       image: ubuntu:14.04
@@ -20,7 +20,7 @@
       username: "{{ docker_hub_username }}"
       password: "{{ docker_hub_password }}"
 
-  - name: Docker | php fpm project
+  - name: Docker | PHP-FPM
     docker:
       name: "{{project}}-php-fpm"
       image: scientiamobile/base.php-fpm
