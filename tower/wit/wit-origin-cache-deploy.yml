@@ -3,10 +3,10 @@
   sudo: no
   tasks:
   - name: Application | Git pull the latest code
-    git: repo=git@github.com:{{ org }}/{{ container }}.git
-      dest={{ source_path }}/{{ container }}
+    git: repo=git@github.com:{{ org }}/{{ project }}.git
+      dest={{ source_path }}/{{ project }}
       accept_hostkey=yes
       force=yes
 
   - name: Application | Composer install
-    composer: command=install working_dir={{ source_path }}/{{ container }}
+    composer: command=install working_dir={{ source_path }}/{{ project }}

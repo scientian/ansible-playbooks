@@ -3,20 +3,20 @@
   sudo: no
   tasks:
   - name: Application | Git pull the latest code
-    git: repo=git@github.com:{{ org }}/{{ container }}.git
-      dest={{ source_path }}/{{ container }}
+    git: repo=git@github.com:ScientiaMobile/{{ project }}.git
+      dest={{ source_path }}/{{ project }}
       accept_hostkey=yes
       force=yes
 
   - name: Application | Composer install
-    composer: command=install working_dir={{ source_path }}/{{ container }}
+    composer: command=install working_dir={{ source_path }}/{{ project }}
 
   # TODO Temporary fix since ansible (docker-py ?) does not allow to mount single files if it exists
   # see (https://github.com/ansible/ansible-modules-core/issues/1337). Update source code renaming web to public?
   - name: Application | Create symlink for the web dir
     shell: ln -s web public
     args:
-      chdir: "{{ source_path }}/{{ container }}"
+      chdir: "{{ source_path }}/{{ project }}"
 
   # TODO Verify path, user and permissions
   - name: Application | Create Cache dir

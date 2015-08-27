@@ -3,49 +3,49 @@
 
   tasks:
 
-  - name: Docker | Data container
+  - name: Docker | Data project
     docker:
-      name: "{{container}}-data"
+      name: "{{project}}-data"
       image: ubuntu:14.04
       state: reloaded
       volumes:
-        - "{{ source_path }}/{{ container }}:/u/apps/site"
+        - "{{ source_path }}/{{ project }}:/u/apps/site"
 
   - name: Docker | Beanstalkd
     docker:
-      name: "{{container}}-beanstalkd"
+      name: "{{project}}-beanstalkd"
       image: scientiamobile/base.beanstalkd
       state: reloaded
       email: "{{ docker_hub_email }}"
       username: "{{ docker_hub_username }}"
       password: "{{ docker_hub_password }}"
 
-  - name: Docker | php fpm container
+  - name: Docker | php fpm project
     docker:
-      name: "{{container}}-php-fpm"
+      name: "{{project}}-php-fpm"
       image: scientiamobile/base.php-fpm
       state: reloaded
       email: "{{ docker_hub_email }}"
       username: "{{ docker_hub_username }}"
       password: "{{ docker_hub_password }}"
       volumes:
-        - "{{ source_path }}/{{ container }}/docker/resources/supervisor-wit-worker.conf:/etc/supervisor/conf.d/wit-origin-cache-worker.conf"
+        - "{{ source_path }}/{{ project }}/docker/resources/supervisor-wit-worker.conf:/etc/supervisor/conf.d/wit-origin-cache-worker.conf"
       volumes_from:
-        - "{{container}}-data"
+        - "{{project}}-data"
       links:
-        - "{{container}}-beanstalkd:beanstalkd"
+        - "{{project}}-beanstalkd:beanstalkd"
 
   - name: Docker | Nginx
     docker:
-      name: "{{container}}-nginx"
+      name: "{{project}}-nginx"
       image: scientiamobile/base.nginx
       state: reloaded
       email: "{{ docker_hub_email }}"
       username: "{{ docker_hub_username }}"
       password: "{{ docker_hub_password }}"
       volumes_from:
-        - "{{container}}-data"
+        - "{{project}}-data"
       links:
-        - "{{container}}-php-fpm:fcgi"
+        - "{{project}}-php-fpm:fcgi"
       ports:
         - "80:80"
