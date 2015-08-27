@@ -1,6 +1,6 @@
 ---
 - hosts: all
-
+  sudo: no
   tasks:
   - name: Application | Git pull the latest code
     git: repo=git@github.com:{{ org }}/{{ container }}.git
