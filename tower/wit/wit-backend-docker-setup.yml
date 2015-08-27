@@ -1,0 +1,45 @@
+---
+- hosts: all
+
+  tasks:
+  - name: Docker | Data container
+    docker:
+      name: "{{container}}-data"
+      image: ubuntu:14.04
+      state: reloaded
+      volumes:
+        - "{{ source_path }}/{{ container }}:/u/apps/site"
+        - /tmp/image_cache:/u/image_cache
+
+  - name: Docker | Redis
+    docker:
+      name: "{{container}}-redis"
+      image: redis:3
+      state: reloaded
+
+  - name: Docker | php fpm container
+    docker:
+      name: "{{container}}-php-fpm"
+      image: scientiamobile/base.php-fpm
+      state: reloaded
+      email: "{{ docker_hub_email }}"
+      username: "{{ docker_hub_username }}"
+      password: "{{ docker_hub_password }}"
+      volumes_from:
+        - "{{container}}-data"
+      links:
+        - "{{container}}-redis:redis"
+  - name: Docker | Nginx
+    docker:
+      name: "{{container}}-nginx"
+      image: scientiamobile/base.nginx
+      state: reloaded
+      email: "{{ docker_hub_email }}"
+      username: "{{ docker_hub_username }}"
+      password: "{{ docker_hub_password }}"
+      volumes_from:
+        - "{{container}}-data"
+      links:
+        - "{{container}}-php-fpm:fcgi"
+      ports:
+        - "80:80"

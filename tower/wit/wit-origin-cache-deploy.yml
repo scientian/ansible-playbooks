@@ -1,0 +1,12 @@
+---
+- hosts: all
+
+  tasks:
+  - name: Application | Git pull the latest code
+    git: repo=git@github.com:{{ org }}/{{ container }}.git
+      dest={{ source_path }}/{{ container }}
+      accept_hostkey=yes
+      force=yes
+
+  - name: Application | Composer install
+    composer: command=install working_dir={{ source_path }}/{{ container }}
