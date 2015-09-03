@@ -43,3 +43,8 @@
         - "{{project}}-php-fpm:fcgi"
       ports:
         - "80:80"
+  # TODO: remove composer from docker images
+  - name: Composer | Fix vendor dir permissions
+    shell: "chown -Rf {{ app_user }}:{{ app_group }} ./vendor"
+    args:
+      chdir: "{{ source_path }}/{{ project }}"
