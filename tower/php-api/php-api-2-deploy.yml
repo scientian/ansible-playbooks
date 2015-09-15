@@ -13,7 +13,7 @@
       force=yes
       version=api_v20
   - name: Application | Composer install
-    composer: command=install working_dir={{ source_path }}/{{ project }}
+    composer: command=install working_dir={{ source_path }}/{{ project }} no_dev=no
 
   - name: Application | Set project permissions
     file: dest={{ source_path }}/{{ project }} state=directory
