@@ -2,12 +2,18 @@
 - hosts: all
   sudo: no
   tasks:
+  - name: Application | Create application dir
+    file: path={{ source_path }} state=directory owner={{ app_user }} group={{ app_group }} mode=0775
+    sudo: yes
+
   - name: Application | Git pull the latest code
     git: repo=git@github.com:ScientiaMobile/WURFL-API-PHP.git
       dest={{ source_path }}/{{ project }}
       accept_hostkey=yes
       force=yes
       version=api_v20
+  - name: Application | Composer install
+    composer: command=install working_dir={{ source_path }}/{{ project }}
 
   - name: Application | Set project permissions
     file: dest={{ source_path }}/{{ project }} state=directory
@@ -16,10 +22,7 @@
       recurse=yes
     sudo: yes
 
-  - name: Application | Composer install
-    composer: command=install working_dir={{ source_path }}/{{ project }}
-
   # Temporary fix to avoid apache re-configuration
   - name: Application | Create symlink for the web dir
-    shell: ln -sf {{ source_path }}/{{ project }} /var/www/v2
+    shell: ln -sf {{ source_path }}/{{ project }}/public /var/www/v2
     sudo: yes
