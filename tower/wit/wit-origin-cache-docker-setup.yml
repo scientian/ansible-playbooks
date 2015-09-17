@@ -20,6 +20,11 @@
       username: "{{ docker_hub_username }}"
       password: "{{ docker_hub_password }}"
 
+  - name: Docker | Redis
+    docker:
+      name: "{{project}}-redis"
+      image: redis:3
+
   - name: Docker | PHP-FPM
     docker:
       name: "{{project}}-php-fpm"
@@ -34,6 +39,7 @@
         - "{{project}}-data"
       links:
         - "{{project}}-beanstalkd:beanstalkd"
+        - "{{project}}-redis:redis"
 
   - name: Docker | Nginx
     docker:
