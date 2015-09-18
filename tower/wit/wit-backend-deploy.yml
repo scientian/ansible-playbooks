@@ -12,13 +12,6 @@
   - name: Application | Composer install
     composer: command=install working_dir={{ source_path }}/{{ project }}
 
-  # TODO Temporary fix since ansible (docker-py ?) does not allow to mount single files if it exists
-  # see (https://github.com/ansible/ansible-modules-core/issues/1337). Update source code renaming web to public?
-  - name: Application | Create symlink for the web dir
-    shell: ln -sf web public
-    args:
-      chdir: "{{ source_path }}/{{ project }}"
-
   # TODO Verify path, user and permissions
   - name: Application | Create Cache dir
     file: path=/tmp/image_cache state=directory owner={{ app_user }} group={{ app_group }} mode=0777
