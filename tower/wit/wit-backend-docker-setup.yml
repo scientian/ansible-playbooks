@@ -19,6 +19,7 @@
 
   - name: Docker | PHP-FPM
     docker:
+      hostname: {{hostname}}
       name: "{{project}}-php-fpm"
       image: scientiamobile/base.php-fpm
       state: reloaded
@@ -37,7 +38,7 @@
       email: "{{ docker_hub_email }}"
       username: "{{ docker_hub_username }}"
       password: "{{ docker_hub_password }}"
-      volumes: {{ source_path }}/{{ project }}/docker/nginx/site.conf:/etc/nginx/conf.d/site.conf
+      volumes: "{{ source_path }}/{{ project }}/docker/nginx/site.conf:/etc/nginx/conf.d/site.conf"
       volumes_from:
         - "{{project}}-data"
       links:

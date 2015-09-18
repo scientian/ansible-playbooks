@@ -27,6 +27,7 @@
 
   - name: Docker | PHP-FPM
     docker:
+      hostname: {{hostname}}
       name: "{{project}}-php-fpm"
       image: scientiamobile/base.php-fpm
       state: reloaded
