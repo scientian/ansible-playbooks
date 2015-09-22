@@ -1,0 +1,6 @@
+---
+- name: Deploy
+  hosts: all
+  remote_user: "{{ remote_user }}"
+  roles:
+    - { role: carlosbuenosvinos.ansistrano-deploy }

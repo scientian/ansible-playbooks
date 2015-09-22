@@ -5,7 +5,7 @@ The ansible playbooks provided in this repository will allow to:
 - deploy the latest source code
 
 ## Requirements
-- [ansible](http://www.ansible.com) >= 1.9.2
+- [ansible](http://www.ansible.com) >= 1.9.3
 - a Docker Hub Account with access to the [ScientiaMobile repository](https://hub.docker.com/u/scientiamobile/dashboard/)
 
 *Note*: [SSH agent forwarding](https://developer.github.com/guides/using-ssh-agent-forwarding/) is used to access the ScientiaMobile GitHub Repos.
@@ -15,24 +15,36 @@ The ansible playbooks provided in this repository will allow to:
 *Note* In the current implementation the playbooks will ask for the following info:
 
 - **SUDO password** *The sudo password for the remote user*
-- **[Remote User] Username** *The user used with sudo privileges used for provisiong and deploy*
-- **[Docker Hub] Username** *Docker Hub Account's username*
-- **[Docker Hub] Password** *Docker Hub Account's password*
-- **[Docker Hub] Email** *Docker Hub Account's email*
 
-### wit-origin-cache provisioning and deploy
+# Run the host-setup.yml playbook against the specified host or group
+ansible-playbook \
+  host-setup.yml \
+  --inventory-file staging \
+  --limit <host-or-group-name>
+  --ask-vault-pass
 
-	ansible-playbook -i staging wit-origin-cache.yml
+# Deploy wit-backend code in the staging environment
+ansible-playbook \
+  deploy.yml \
+  --inventory-file staging \
+  --limit wit-backend
 
-### wit-backend provisioning and deploy
+# Deploy wit-origin-cache code in the staging environment
+ansible-playbook \
+  deploy.yml \
+  --inventory-file staging \
+  --limit wit-origin-cache
 
-	ansible-playbook -i staging wit-backend.yml
+# Docker provision for wit-backend (uses encrypted vars defined in wit-vars.yml)
+ansible-playbook \
+  wit-backend-docker.yml \
+  --inventory-file staging \
+  --limit wit-backend \
+  --ask-vault-pass
 
-## Local testing
-
-For local testing two vagrant boxes are configured in the vagrant folder.
-To test locally:
-
-	cd vagrant && vagrant up
-    ansible-playbook -i local wit-origin-cache.yml
-    ansible-playbook -i local wit-backend.yml
+# Docker provision for wit-origin-cache (uses encrypted vars defined in wit-vars.yml)
+ansible-playbook \
+  wit-origin-cache-docker.yml \
+  --inventory-file staging \
+  --limit wit-origin-cache \
+  --ask-vault-pass

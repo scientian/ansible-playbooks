@@ -1,0 +1,20 @@
+---
+# Update code deployment step
+- name: ANSISTRANO | Get release timestamp
+  local_action: command date -u +%Y%m%d%H%M%SZ
+  run_once: true
+  register: ansistrano_timestamp
+  sudo: no
+
+- name: ANSISTRANO | Set release version from timestamp
+  set_fact: ansistrano_release_version="{{ ansistrano_timestamp.stdout }}"
+  when: ansistrano_release_version is not defined
+
+- name: ANSISTRANO | Get release path
+  command: echo "{{ ansistrano_releases_path.stdout }}/{{ ansistrano_release_version }}"
+  register: ansistrano_release_path
+
+- include: "update-code/{{ ansistrano_deploy_via | default('rsync') }}.yml"
+
+- name: ANSISTRANO | Copy release version into REVISION file
+  shell: echo {{ ansistrano_release_version }} > {{ ansistrano_release_path.stdout }}/REVISION

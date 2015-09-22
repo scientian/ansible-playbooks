@@ -1,0 +1,6 @@
+---
+- name: Host setup
+  hosts: all
+  remote_user: "{{ remote_user }}"
+  roles:
+    - { role: common }

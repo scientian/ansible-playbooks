@@ -1,0 +1,21 @@
+---
+# tasks file for host_setup
+- name: General | Install required packages
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - python-apt
+    - python-pip
+    - php5-cli
+    - curl
+
+- name: Download composer installer
+  get_url: url="https://getcomposer.org/installer" dest=/tmp/composer.phar
+
+- name: Install composer
+  command: /usr/bin/php /tmp/composer.phar --install-dir=/usr/local/bin  --filename=composer
+
+- name: General | Install docker-py
+  pip: name=docker-py version=1.2.3
+
+- name: Application | Create application dir
+  file: path={{ source_path }} state=directory owner={{ app_user }} group={{ app_group }} mode=0775
