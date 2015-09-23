@@ -1,22 +1,11 @@
 ---
 remote_user: lucac
-source_path: /u/apps
 app_user: lucac
 app_group: lucac
+source_path: /u/apps
 
-### Ansistrano variables
-# see https://github.com/ansistrano
-ansistrano_deploy_to: "{{ source_path }}/{{ project }}"
-ansistrano_deploy_via: "git"
-ansistrano_git_repo: "git@github.com:ScientiaMobile/{{ project }}.git"
-ansistrano_git_branch: "{{version}}"
-#ansistrano_before_symlink_tasks_file: "{{ playbook_dir }}/<your-deployment-config>/my-before-symlink-tasks.yml"
-#ansistrano_after_symlink_tasks_file: "{{ playbook_dir }}/<your-deployment-config>/my-after-symlink-tasks.yml"
-#ansistrano_before_cleanup_tasks_file: "{{ playbook_dir }}/<your-deployment-config>/my-before-cleanup-tasks.yml"
-#ansistrano_after_cleanup_tasks_file: "{{ playbook_dir }}/<your-deployment-config>/my-after-cleanup-tasks.yml"
-
-### Encrypted vars defined in wit-vars.yml
+### TODO Store as encrypted vars ?
 # see http://docs.ansible.com/ansible/playbooks_vault.html
-#docker_hub_username: ...
-#docker_hub_password: ...
-#docker_hub_email: ...
+docker_hub_username: smdeploy
+docker_hub_password: peebie7O
+docker_hub_email: deploy@scientiamobile.com

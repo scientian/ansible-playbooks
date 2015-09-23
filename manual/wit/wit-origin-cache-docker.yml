@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: wit-origin-cache
 
   remote_user: "{{ remote_user }}"
   sudo: yes
@@ -9,7 +9,7 @@
 
   tasks:
   # Include encrypted vars
-  - include_vars: "wit-vars.yml"
+  #- include_vars: "wit-vars.yml"
 
   - name: Docker | Data
     docker:
@@ -18,6 +18,8 @@
       state: reloaded
       volumes:
         - "{{ app_path }}:/u/apps/site"
+        - /tmp/file_cache:/u/file_cache
+        - /tmp/metadata_cache:/u/metadata_cache
 
   - name: Docker | Beanstalkd
     docker:
@@ -35,7 +37,7 @@
 
   - name: Docker | PHP-FPM
     docker:
-      hostname: "{{hostname}}"
+      hostname: "{{ansible_hostname}}"
       name: "{{project}}-php-fpm"
       image: scientiamobile/base.php-fpm
       state: reloaded

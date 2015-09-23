@@ -1,5 +1,4 @@
 ---
-# tasks file for host_setup
 - name: General | Install required packages
   apt: pkg={{ item }} state=latest
   with_items:
@@ -8,14 +7,31 @@
     - php5-cli
     - curl
 
-- name: Download composer installer
-  get_url: url="https://getcomposer.org/installer" dest=/tmp/composer.phar
-
-- name: Install composer
-  command: /usr/bin/php /tmp/composer.phar --install-dir=/usr/local/bin  --filename=composer
-
 - name: General | Install docker-py
   pip: name=docker-py version=1.2.3
+
+- name: Docker | Download installer
+  get_url: url="https://get.docker.com/" dest=/tmp/docker_installer.sh
+
+- name: Docker | Install
+  command: /bin/sh /tmp/docker_installer.sh
+
+- name: Docker | Download fix interface script
+  get_url: url="https://gist.githubusercontent.com/kamermans/94b1c41086de0204750b/raw/configure_docker0.sh" dest=/tmp/configure_docker0.sh
+
+- name: Docker | Run fix interface script
+  command: /bin/sh /tmp/configure_docker0.sh
+
+- name: Docker | Fix bridge IP
+  shell: "echo 'DOCKER_OPTS="--bip=192.168.254.1/24"' >> /etc/default/docker"
+  notify:
+  - restart docker
+
+- name: Composer | Download installer
+  get_url: url="https://getcomposer.org/installer" dest=/tmp/composer.phar
+
+- name: Composer | Install
+  command: /usr/bin/php /tmp/composer.phar --install-dir=/usr/local/bin  --filename=composer
 
 - name: Application | Create application dir
   file: path={{ source_path }} state=directory owner={{ app_user }} group={{ app_group }} mode=0775

@@ -1,14 +1,13 @@
 ---
-- hosts: all
+- name: Deploy WIT Origin Cache
+  hosts: wit-origin-cache
+  remote_user: "{{ remote_user }}"
   sudo: no
-  tasks:
-  - name: Application | Git pull the latest code
-    git: repo=git@github.com:{{ org }}/{{ project }}.git
-      dest={{ source_path }}/{{ project }}
-      accept_hostkey=yes
-      force=yes
-      version={{branch}}
 
+  roles:
+    - { role: carlosbuenosvinos.ansistrano-deploy }
+
+  tasks:
   - name: Application | Composer install
     composer: command=install working_dir={{ source_path }}/{{ project }}
 

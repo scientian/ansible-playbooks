@@ -1,0 +1,16 @@
+---
+- name: Deploy WIT Backend
+  hosts: wit-backend
+  remote_user: "{{ remote_user }}"
+  sudo: no
+
+  roles:
+    - { role: carlosbuenosvinos.ansistrano-deploy }
+
+  tasks:
+  - name: Application | Composer install
+    composer: command=install working_dir={{ source_path }}/{{ project }}
+
+  # TODO Verify path, user and permissions
+  - name: Application | Create Image Cache dir
+    file: path=/tmp/image_cache state=directory owner={{ app_user }} group={{ app_group }} mode=0777
