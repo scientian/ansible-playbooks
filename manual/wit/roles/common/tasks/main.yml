@@ -11,7 +11,7 @@
   pip: name=docker-py version=1.2.3
 
 - name: Docker | Download installer
-  get_url: url="https://get.docker.com/" dest=/tmp/docker_installer.sh
+  shell: "curl -sSL https://get.docker.com/ > /tmp/docker_installer.sh"
 
 - name: Docker | Install
   command: /bin/sh /tmp/docker_installer.sh
@@ -20,10 +20,10 @@
   get_url: url="https://gist.githubusercontent.com/kamermans/94b1c41086de0204750b/raw/configure_docker0.sh" dest=/tmp/configure_docker0.sh
 
 - name: Docker | Run fix interface script
-  command: /bin/sh /tmp/configure_docker0.sh
+  command: "/bin/sh /tmp/configure_docker0.sh 192.168.254.1/24"
 
 - name: Docker | Fix bridge IP
-  shell: "echo 'DOCKER_OPTS="--bip=192.168.254.1/24"' >> /etc/default/docker"
+  shell: "echo 'DOCKER_OPTS=\"--bip=192.168.254.1/24\"' >> /etc/default/docker"
   notify:
   - restart docker
 
