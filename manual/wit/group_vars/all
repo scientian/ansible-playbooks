@@ -4,7 +4,7 @@ app_user: lucac
 app_group: lucac
 source_path: /u/apps
 
-app_path: "{{ source_path }}/{{ project }}/current"
+app_path: "{{ source_path }}/{{ project }}"
 
 ansistrano_deploy_to: "{{ source_path }}/{{ project }}"
 ansistrano_git_repo: "git@github.com:ScientiaMobile/{{ project }}.git"

@@ -17,31 +17,26 @@ The ansible playbooks provided in this repository will allow to:
 - **SUDO password** *The sudo password for the remote user*
 
 ### Run the host-setup.yml playbook against the specified host or group
-    ansible-playbook \
-      wit-host-setup.yml \
+    ansible-playbook wit-host-setup.yml \
       --inventory-file staging \
       --limit wit-backend
 
 ### Deploy wit-backend code in the staging environment
-    ansible-playbook \
-      wit-backend-deploy.yml \
+    ansible-playbook wit-backend-deploy.yml \
+      --inventory-file staging \
+      --limit wit-backend
+
+### Docker provision for wit-backend
+    ansible-playbook wit-backend-docker.yml \
       --inventory-file staging \
       --limit wit-backend
 
 ### Deploy wit-origin-cache code in the staging environment
-    ansible-playbook \
-      wit-origin-cache-deploy.yml \
+    ansible-playbook wit-origin-cache-deploy.yml \
       --inventory-file staging \
       --limit wit-origin-cache
 
-### Docker provision for wit-backend
-    ansible-playbook \
-      wit-backend-docker.yml \
-      --inventory-file staging \
-      --limit wit-backend
-
 ### Docker provision for wit-origin-cache
-    ansible-playbook \
-      wit-origin-cache-docker.yml \
+    ansible-playbook wit-origin-cache-docker.yml \
       --inventory-file staging \
       --limit wit-origin-cache

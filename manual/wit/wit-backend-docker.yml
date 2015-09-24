@@ -15,7 +15,7 @@
       state: reloaded
       volumes:
         - "{{ app_path }}:/u/apps/site"
-        - /tmp/image_cache:/u/image_cache
+        - /u/data/wit-backend/image_cache:/u/image_cache
 
   - name: Docker | Redis
     docker:

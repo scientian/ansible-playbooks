@@ -15,8 +15,7 @@
       state: reloaded
       volumes:
         - "{{ app_path }}:/u/apps/site"
-        - /u/file_cache:/tmp/file_cache
-        - /u/metadata_cache:/tmp/metadata_cache
+        - /u/data/wit-origin-cache:/u/data/wit-origin-cache
 
   - name: Docker | Beanstalkd
     docker:
