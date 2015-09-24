@@ -4,9 +4,6 @@
   remote_user: "{{ remote_user }}"
   sudo: yes
 
-  vars:
-    app_path: "{{ source_path }}/{{ project }}/current"
-
   tasks:
   # Include encrypted vars
   #- include_vars: "wit-vars.yml"
@@ -54,8 +51,3 @@
         - "{{project}}-php-fpm:fcgi"
       ports:
         - "80:80"
-  # TODO: remove composer from docker images
-  - name: Composer | Fix vendor dir permissions
-    shell: "chown -Rf {{ app_user }}:{{ app_group }} ./vendor"
-    args:
-      chdir: "{{ app_path }}"

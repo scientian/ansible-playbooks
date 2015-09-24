@@ -4,12 +4,15 @@
   remote_user: "{{ remote_user }}"
   sudo: no
 
+  vars:
+    ansistrano_deploy_via: git
+
   roles:
     - { role: carlosbuenosvinos.ansistrano-deploy }
 
   tasks:
   - name: Application | Composer install
-    composer: command=install working_dir={{ source_path }}/{{ project }}
+    composer: command=install working_dir={{ app_path }}
 
   # TODO Verify path, user and permissions
   - name: Application | Create File Cache dir

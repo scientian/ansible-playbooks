@@ -4,6 +4,16 @@ app_user: lucac
 app_group: lucac
 source_path: /u/apps
 
+app_path: "{{ source_path }}/{{ project }}/current"
+
+ansistrano_deploy_to: "{{ source_path }}/{{ project }}"
+ansistrano_git_repo: "git@github.com:ScientiaMobile/{{ project }}.git"
+ansistrano_git_branch: "{{version}}"
+#ansistrano_before_symlink_tasks_file: "{{ playbook_dir }}/<your-deployment-config>/my-before-symlink-tasks.yml"
+#ansistrano_after_symlink_tasks_file: "{{ playbook_dir }}/<your-deployment-config>/my-after-symlink-tasks.yml"
+#ansistrano_before_cleanup_tasks_file: "{{ playbook_dir }}/<your-deployment-config>/my-before-cleanup-tasks.yml"
+#ansistrano_after_cleanup_tasks_file: "{{ playbook_dir }}/<your-deployment-config>/my-after-cleanup-tasks.yml"
+
 ### TODO Store as encrypted vars ?
 # see http://docs.ansible.com/ansible/playbooks_vault.html
 docker_hub_username: smdeploy
