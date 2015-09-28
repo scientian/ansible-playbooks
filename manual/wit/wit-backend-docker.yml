@@ -34,6 +34,8 @@
       password: "{{ docker_hub_password }}"
       volumes_from:
         - "{{project}}-data"
+      volumes:
+        - "{{ app_path }}/docker/resources/wit-backend-cron:/etc/cron.d/wit-backend-cron"
       links:
         - "{{project}}-redis:redis"
   - name: Docker | Nginx
