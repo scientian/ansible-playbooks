@@ -2,7 +2,6 @@
 - name: Deploy WIT Backend
   hosts: wit-backend
   remote_user: "{{ remote_user }}"
-  gather_facts: yes
   sudo: no
 
   # Remove comments if you want to use ansistrano deployments
