@@ -1,0 +1,14 @@
+[wit-origin-cache]
+
+
+[wit-backend]
+wit-node-1
+wit-node-2
+wit-node-3
+
+[wit-frontend]
+
+[wit:children]
+wit-frontend
+wit-backend
+wit-origin-cache
