@@ -27,7 +27,7 @@
     docker:
       hostname: "{{ansible_hostname}}"
       name: "{{project}}-php-fpm"
-      image: scientiamobile/base.php-fpm
+      image: scientiamobile/base.php7
       state: reloaded
       email: "{{ docker_hub_email }}"
       username: "{{ docker_hub_username }}"
