@@ -56,6 +56,7 @@
       email: "{{ docker_hub_email }}"
       username: "{{ docker_hub_username }}"
       password: "{{ docker_hub_password }}"
+      volumes: "{{ app_path }}/docker/nginx/site.conf:/etc/nginx/conf.d/site.conf"
       volumes_from:
         - "{{project}}-data"
       links:
