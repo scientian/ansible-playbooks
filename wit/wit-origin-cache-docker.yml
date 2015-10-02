@@ -10,6 +10,7 @@
 
   - name: Docker | Data
     docker:
+      pull: always
       name: "{{project}}-data"
       image: ubuntu:14.04
       state: reloaded
@@ -19,6 +20,7 @@
 
   - name: Docker | Beanstalkd
     docker:
+      pull: always
       name: "{{project}}-beanstalkd"
       image: scientiamobile/base.beanstalkd
       state: reloaded
@@ -33,6 +35,7 @@
 
   - name: Docker | PHP-FPM
     docker:
+      pull: always
       hostname: "{{ansible_hostname}}"
       name: "{{project}}-php-fpm"
       image: scientiamobile/base.php-fpm
@@ -50,6 +53,7 @@
 
   - name: Docker | Nginx
     docker:
+      pull: always
       name: "{{project}}-nginx"
       image: scientiamobile/base.nginx
       state: reloaded
