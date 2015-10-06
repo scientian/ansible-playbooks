@@ -1,7 +1,7 @@
 ---
 remote_user: deploy
 app_user: deploy
-app_group: deploy
+app_group: deployusers
 source_path: /u/apps
 
 app_path: "{{ source_path }}/{{ project }}"
