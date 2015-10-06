@@ -69,4 +69,4 @@
         - "{{project}}-data"
         - "{{project}}-varnish"
       env:
-        - FORWARD_LOGS=logs-iad
+        FORWARD_LOGS: logs-iad
