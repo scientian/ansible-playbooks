@@ -10,6 +10,7 @@
 
   - name: Docker | Data
     docker:
+      hostname: "{{ansible_hostname}}-doc-data"
       pull: always
       name: "{{project}}-data"
       image: ubuntu:14.04
@@ -20,14 +21,15 @@
 
   - name: Docker | Redis
     docker:
+      hostname: "{{ansible_hostname}}-doc-redis"
       name: "{{project}}-redis"
       image: redis:3
       state: reloaded
 
   - name: Docker | PHP-FPM
     docker:
+      hostname: "{{ansible_hostname}}-doc-php-fpm"
       pull: always
-      hostname: "{{ansible_hostname}}"
       name: "{{project}}-php-fpm"
       image: scientiamobile/wit-backend.php-fpm
       state: reloaded
@@ -44,6 +46,7 @@
         - "{{project}}-redis:redis"
   - name: Docker | Nginx
     docker:
+      hostname: "{{ansible_hostname}}-doc-nginx"
       pull: always
       name: "{{project}}-nginx"
       image: scientiamobile/base.nginx
