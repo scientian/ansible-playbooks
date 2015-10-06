@@ -7,6 +7,9 @@ wit-node-2
 wit-node-3
 
 [wit-frontend]
+wit-ce
+wit-be
+wit-stby
 
 [wit:children]
 wit-frontend
