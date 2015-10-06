@@ -33,17 +33,7 @@
         - "{{ app_path }}/docker/varnish/resources/config/backends/dev_backend_selector.vcl:/etc/varnish/backends/backend_selector.vcl"
       ports:
         - "80:80"
-      command: >
-        varnishd
-        -F
-        -a :80
-        -T 127.0.0.1:6082
-        -f /etc/varnish/default_dev.vcl
-        -S /etc/varnish/secret
-        -u varnish
-        -g varnish
-        -p nuke_limit=2000
-        -s malloc,256M
+      command: varnishd -F -a :80 -T 127.0.0.1:6082 -f /etc/varnish/default_dev.vcl -S /etc/varnish/secret -u varnish -g varnish -p nuke_limit=2000 -s malloc,256M
 
   - name: Docker | Nginx
     docker:
