@@ -69,5 +69,5 @@
       volumes_from:
         - "{{project}}-data"
         - "{{project}}-varnish"
-      environment:
+      env:
         - FORWARD_LOGS=logs-iad
