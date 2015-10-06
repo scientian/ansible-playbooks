@@ -1,0 +1,81 @@
+---
+- hosts: wit-frontend
+
+  remote_user: "{{ remote_user }}"
+  sudo: yes
+
+  tasks:
+
+  - name: Docker | Data
+    docker:
+      hostname: "{{ansible_hostname}}-doc-data"
+      pull: always
+      name: "{{project}}-data"
+      image: ubuntu:14.04
+      state: reloaded
+      volumes:
+        - "{{ app_path }}:/u/apps/site"
+
+  - name: Docker | Varnish
+    docker:
+      hostname: "{{ansible_hostname}}-doc-varnish"
+      pull: always
+      name: "{{project}}-varnish"
+      image: scientiamobile/wit-frontend.varnish
+      state: reloaded
+      email: "{{ docker_hub_email }}"
+      username: "{{ docker_hub_username }}"
+      password: "{{ docker_hub_password }}"
+      volumes_from:
+        - "{{project}}-data"
+      volumes:
+        - /run/shm/logs:/var/lib/varnish
+        - "{{ app_path }}/docker/varnish/resources/config/backends/dev_backend_selector.vcl:/etc/varnish/backends/backend_selector.vcl"
+      ports:
+        - "80:80"
+      command: >
+        varnishd
+        -F
+        -a :80
+        -T 127.0.0.1:6082
+        -f /etc/varnish/default_dev.vcl
+        -S /etc/varnish/secret
+        -u varnish
+        -g varnish
+        -p nuke_limit=2000
+        -s malloc,256M
+
+  - name: Docker | Nginx
+    docker:
+      hostname: "{{ansible_hostname}}-doc-nginx"
+      pull: always
+      name: "{{project}}-nginx"
+      image: scientiamobile/base.nginx
+      state: reloaded
+      email: "{{ docker_hub_email }}"
+      username: "{{ docker_hub_username }}"
+      password: "{{ docker_hub_password }}"
+      volumes: "{{ app_path }}/docker/nginx/site.conf:/etc/nginx/conf.d/site.conf"
+      volumes_from:
+        - "{{project}}-data"
+      links:
+        - "{{project}}-varnish:varnish"
+      ports:
+        - "443:443"
+
+  - name: Docker | Logger
+    docker:
+      hostname: "{{ansible_hostname}}-doc-logger"
+      pull: always
+      name: "{{project}}-logger"
+      image: scientiamobile/wit-frontend.logger
+      state: reloaded
+      email: "{{ docker_hub_email }}"
+      username: "{{ docker_hub_username }}"
+      password: "{{ docker_hub_password }}"
+      volumes: "{{ app_path }}/docker/nginx/site.conf:/etc/nginx/conf.d/site.conf"
+      volumes_from:
+        - "{{project}}-data"
+        - "{{project}}-varnish"
+      environment:
+        - FORWARD_LOGS=logs-iad
