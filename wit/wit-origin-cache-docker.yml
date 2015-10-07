@@ -39,6 +39,7 @@
       hostname: "{{ansible_hostname}}-doc-redis-metadata"
       name: "{{project}}-redis-metadata"
       image: redis:3
+      state: reloaded
       volumes_from:
         - "{{project}}-data"
       volumes:
