@@ -42,7 +42,7 @@
       volumes_from:
         - "{{project}}-data"
       volumes:
-        - /u/data/wit-origin-cache/metadata_cache:/u/data/wit-origin-cache/metadata_cache
+        - /u/data/wit-origin-cache/metadata_cache:/data
 
   - name: Docker | PHP-FPM
     docker:
