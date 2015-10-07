@@ -5,8 +5,6 @@
   sudo: yes
 
   tasks:
-  # Include encrypted vars
-  #- include_vars: "wit-vars.yml"
 
   - name: Docker | Data
     docker:
@@ -36,6 +34,16 @@
       name: "{{project}}-redis"
       image: redis:3
 
+  - name: Docker | Redis Medatada
+    docker:
+      hostname: "{{ansible_hostname}}-doc-redis-metadata"
+      name: "{{project}}-redis-metadata"
+      image: redis:3
+      volumes_from:
+        - "{{project}}-data"
+      volumes:
+        - /u/data/wit-origin-cache/metadata_cache:/u/data/wit-origin-cache/metadata_cache
+
   - name: Docker | PHP-FPM
     docker:
       hostname: "{{ansible_hostname}}-doc-php-fpm"
@@ -54,6 +62,7 @@
       links:
         - "{{project}}-beanstalkd:beanstalkd"
         - "{{project}}-redis:redis"
+        - "{{project}}-redis-metadata:redismetadata"
 
   - name: Docker | Nginx
     docker:
