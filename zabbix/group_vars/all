@@ -1,0 +1,15 @@
+---
+remote_user: deploy
+app_user: deploy
+app_group: deployusers
+source_path: /u/apps
+
+app_path: "{{ source_path }}/{{ project }}"
+
+ansistrano_deploy_to: "{{ source_path }}/{{ project }}"
+ansistrano_git_repo: "git@github.com:ScientiaMobile/{{ project }}.git"
+ansistrano_git_branch: "{{version}}"
+
+docker_hub_username: smdeploy
+docker_hub_password: peebie7O
+docker_hub_email: deploy@scientiamobile.com
