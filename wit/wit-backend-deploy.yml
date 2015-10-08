@@ -4,12 +4,6 @@
   remote_user: "{{ remote_user }}"
   sudo: no
 
-  # Remove comments if you want to use ansistrano deployments
-  #vars:
-  #  ansistrano_deploy_via: git
-  #roles:
-  #  - { role: carlosbuenosvinos.ansistrano-deploy }
-
   tasks:
   - name: Application | Git pull the latest code
     git: repo=git@github.com:ScientiaMobile/{{ project }}.git
