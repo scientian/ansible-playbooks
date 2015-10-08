@@ -11,3 +11,6 @@
       accept_hostkey=yes
       force=yes
       version={{version}}
+
+  - name: Application | Logger | Composer install
+    composer: command=install working_dir={{ app_path }}/docker/logger/resources
