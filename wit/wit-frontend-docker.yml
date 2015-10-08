@@ -44,7 +44,7 @@
       hostname: "{{ansible_hostname}}-doc-nginx"
       pull: always
       name: "{{project}}-nginx"
-      image: scientiamobile/base.nginx
+      image: scientiamobile/wit-frontend.nginx
       state: reloaded
       email: "{{ docker_hub_email }}"
       username: "{{ docker_hub_username }}"
