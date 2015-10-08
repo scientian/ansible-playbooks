@@ -5,8 +5,6 @@
   sudo: yes
 
   tasks:
-  # Include encrypted vars
-  #- include_vars: "wit-vars.yml"
 
   - name: Docker | Data
     docker:
