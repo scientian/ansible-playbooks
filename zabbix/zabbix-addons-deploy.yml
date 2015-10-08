@@ -13,8 +13,8 @@
       version={{version}}
 
   - name: Dcoker Build | building zabbix-addons image
-    command: chdir={{ app_path }}/varnish/build.sh
+    command: chdir={{ app_path }}/varnish build.sh
 
   - name: Docker UP | starting zabbix-addons container
-    command: chdir={{ app_path }}/varnish/start.sh
+    command: chdir={{ app_path }}/varnish start.sh
  
