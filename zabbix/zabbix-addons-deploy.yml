@@ -2,7 +2,7 @@
 - name: Deploy Zabbix-addons for Varnish stats
   hosts: wit-frontend
   remote_user: "{{ remote_user }}"
-  sudo: no
+  sudo: yes
 
   tasks:
   - name: Application | Git pull the latest code
