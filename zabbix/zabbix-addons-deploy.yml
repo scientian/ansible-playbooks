@@ -2,7 +2,6 @@
 - name: Deploy Zabbix-addons for Varnish stats
   hosts: wit-frontend
   remote_user: "{{ remote_user }}"
-  sudo: yes
 
   tasks:
   - name: Application | Git pull the latest code
@@ -12,9 +11,13 @@
       force=yes
       version={{version}}
 
-  - name: Dcoker Build | building zabbix-addons image
-    command: chdir={{ app_path }}/varnish ./build.sh
+  - name: Docker Build | building zabbix-addons image
+    become: yes
+    become_user: root
+    command: chdir={{ app_path }}/varnish sudo ./build.sh
 
   - name: Docker UP | starting zabbix-addons container
-    command: chdir={{ app_path }}/varnish ./start.sh
+    become: yes
+    become_user: root
+    command: chdir={{ app_path }}/varnish sudo ./start.sh
  
