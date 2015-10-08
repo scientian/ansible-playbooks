@@ -11,3 +11,10 @@
       accept_hostkey=yes
       force=yes
       version={{version}}
+
+  - name: Dcoker Build | building zabbix-addons image
+    command: /varnish/build.sh working_dir={{ app_path }}
+
+  - name: Docker UP | starting zabbix-addons container
+    command: /varnish/start.sh working_dir={{ app_path }}
+ 
