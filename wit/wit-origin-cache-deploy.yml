@@ -21,7 +21,12 @@
   - name: Application | Composer install
     composer: command=install working_dir={{ app_path }}
 
+  - name: Application | Check if Cache path exists
+    stat: path=/u/data/wit-origin-cache
+    register: check_cache_path
+
   - name: Application | Create File Cache dir
+    when: check_cache_path.stat.exists == false
     sudo: yes
     file: path=/u/data/wit-origin-cache/file_cache
       state=directory
@@ -31,10 +36,11 @@
       recurse=yes
 
   - name: Application | Create Metadata Cache dir
+    when: check_cache_path.stat.exists == false
     sudo: yes
     file: path=/u/data/wit-origin-cache/metadata_cache
       state=directory
-      owner=999
+      owner=www-data
       group={{ app_user }}
       mode=0775
       recurse=yes
