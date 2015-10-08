@@ -34,7 +34,7 @@
     sudo: yes
     file: path=/u/data/wit-origin-cache/metadata_cache
       state=directory
-      owner=www-data
+      owner=999
       group={{ app_user }}
       mode=0775
       recurse=yes
