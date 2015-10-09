@@ -14,7 +14,7 @@
   - name: Docker Build | building zabbix-addons image
     become: yes
     become_user: root
-    command: chdir={{ app_path }}/varnish sudo ./build.sh
+    command: chdir={{ app_path }}/varnish ./build.sh
 
   - name: Docker UP | starting zabbix-addons container
     become: yes
