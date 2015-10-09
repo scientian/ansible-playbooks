@@ -14,10 +14,15 @@
   - name: Docker Build | building zabbix-addons image
     become: yes
     become_user: root
-    command: chdir={{ app_path }}/varnish sudo ./build.sh
+    command: chdir={{ app_path }}/varnish ./build.sh
 
   - name: Docker UP | starting zabbix-addons container
     become: yes
     become_user: root
-    command: chdir={{ app_path }}/varnish sudo ./start.sh
+    command: chdir={{ app_path }}/varnish ./start.sh
  
+  - name: Zabbix Agent | Linking userparameter file
+    become: yes
+    become_user: root
+    command: ln -s  /u/apps/zabbix-addons/varnish/userparameters/userparameter_varnish.conf /etc/zabbix/zabbix_agent.d/userparameter_varnish.conf
+

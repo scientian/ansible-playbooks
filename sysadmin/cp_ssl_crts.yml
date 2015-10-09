@@ -1,0 +1,15 @@
+# usage:
+# ansible-playbook cp_ssl_crts.yml --extra-var "tld=foo.com" --inventory-file hosts --limit subblockofhosts --ask-become-pass
+#
+---
+- name: Copy SSL certs to remote hosts
+  hosts: all
+  remote_user: "{{ remote_user }}"
+  
+  tasks:
+  - name: RSYNC | coping over SSL certs 
+    command: rsync -avx --progress backup:/data/IT/SSL_Certificates/{{ tld }} /etc/ssl/private/{{ tld }}
+
+  - name: CHOWN | fixing permissions
+    command: 'chown -R root: /etc/ssl/private/{{ tld }} && chmod -R 744 /etc/ssl/private/{{ told }}'
+    sudo: true
