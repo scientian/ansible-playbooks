@@ -9,7 +9,6 @@
   - name: Docker | Data
     docker:
       hostname: "{{ansible_hostname}}-doc-data"
-      pull: always
       name: "{{project}}-data"
       image: ubuntu:14.04
       state: reloaded

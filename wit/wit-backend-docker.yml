@@ -23,15 +23,10 @@
       image: redis:3
       state: reloaded
 
-  - name: Docker | Build PHP-FPM Image
-    docker:
-      name: "scientiamobile/wit-backend.php-fpm"
-      state: build
-      path: "{{ app_path }}/docker/php-fpm"
-
   - name: Docker | PHP-FPM
     docker:
       hostname: "{{ansible_hostname}}-doc-php-fpm"
+      pull: always
       name: "{{project}}-php-fpm"
       image: scientiamobile/wit-backend.php-fpm
       state: reloaded
