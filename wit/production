@@ -11,6 +11,11 @@ wit-ce
 wit-be
 wit-stby
 
+[wit-frontend:vars]
+varnish_default_vcl=production_backend_selector.vcl
+varnish_backend_selector_vcl=/etc/varnish/default_production.vcl
+varnish_backend_storage=malloc,100G
+
 [wit:children]
 wit-frontend
 wit-backend
