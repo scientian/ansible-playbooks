@@ -25,7 +25,7 @@ The ansible playbooks provided in this repository will allow to:
 
 ## FRONTEND
 
-    ansible-playbook wit-frontend-deploy.yml --inventory-file production --limit wit-frontend
+    ansible-playbook wit-frontend-production-deploy.yml --inventory-file production --limit wit-frontend
     ansible-playbook wit-frontend-docker.yml --ask-become-pass --inventory-file production --limit wit-frontend 
 
 ## BACKEND
@@ -43,7 +43,7 @@ The ansible playbooks provided in this repository will allow to:
 
 ## FRONTEND
 
-    ansible-playbook wit-frontend-deploy.yml --inventory-file staging --limit wit-frontend
+    ansible-playbook wit-frontend-staging-deploy.yml --inventory-file staging --limit wit-frontend
     ansible-playbook wit-frontend-docker.yml --ask-become-pass --inventory-file staging --limit wit-frontend 
 
 ## BACKEND
