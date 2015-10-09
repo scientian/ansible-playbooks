@@ -6,6 +6,8 @@ source_path: /u/apps
 
 app_path: "{{ source_path }}/{{ project }}"
 
+docker_image_prefix: "scientiamobile/"
+
 ansistrano_deploy_to: "{{ source_path }}/{{ project }}"
 ansistrano_git_repo: "git@github.com:ScientiaMobile/{{ project }}.git"
 ansistrano_git_branch: "{{version}}"
