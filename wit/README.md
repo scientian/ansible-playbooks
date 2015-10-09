@@ -21,22 +21,38 @@ The ansible playbooks provided in this repository will allow to:
       --inventory-file staging \
       --limit wit-backend
 
-### Deploy wit-backend code in the staging environment
-    ansible-playbook wit-backend-deploy.yml \
-      --inventory-file staging \
-      --limit wit-backend
+# PRODUCTION
 
-### Docker provision for wit-backend
-    ansible-playbook wit-backend-docker.yml \
-      --inventory-file staging \
-      --limit wit-backend
+## FRONTEND
 
-### Deploy wit-origin-cache code in the staging environment
-    ansible-playbook wit-origin-cache-deploy.yml \
-      --inventory-file staging \
-      --limit wit-origin-cache
+    ansible-playbook wit-frontend-deploy.yml --inventory-file production --limit wit-frontend
+    ansible-playbook wit-frontend-docker.yml --ask-become-pass --inventory-file production --limit wit-frontend 
 
-### Docker provision for wit-origin-cache
-    ansible-playbook wit-origin-cache-docker.yml \
-      --inventory-file staging \
-      --limit wit-origin-cache
+## BACKEND
+
+    ansible-playbook wit-backend-deploy.yml --ask-become-pass --inventory-file production --limit wit-backend
+    ansible-playbook wit-backend-docker.yml --ask-become-pass --inventory-file production --limit wit-backend
+
+## ORIGIN CACHE
+
+    ansible-playbook wit-origin-cache-deploy.yml --ask-become-pass --inventory-file production --limit wit-origin-cache
+    ansible-playbook wit-origin-cache-docker.yml --ask-become-pass --inventory-file production --limit wit-origin-cache
+      
+      
+# STAGING
+
+## FRONTEND
+
+    ansible-playbook wit-frontend-deploy.yml --inventory-file staging --limit wit-frontend
+    ansible-playbook wit-frontend-docker.yml --ask-become-pass --inventory-file staging --limit wit-frontend 
+
+## BACKEND
+
+    ansible-playbook wit-backend-deploy.yml --ask-become-pass --inventory-file staging --limit wit-backend
+    ansible-playbook wit-backend-docker.yml --ask-become-pass --inventory-file staging --limit wit-backend
+
+## ORIGIN CACHE
+
+    ansible-playbook wit-origin-cache-deploy.yml --ask-become-pass --inventory-file staging --limit wit-origin-cache
+    ansible-playbook wit-origin-cache-docker.yml --ask-become-pass --inventory-file staging --limit wit-origin-cache
+
