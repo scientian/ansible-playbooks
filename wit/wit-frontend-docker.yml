@@ -32,10 +32,12 @@
       volumes:
         - /run/shm/logs:/var/lib/varnish
         - /u/cache:/u/cache
-        - "{{ app_path }}/docker/varnish/resources/config/default_{{ inventory_file }}.vcl:/etc/varnish/default_{{ inventory_file }}.vcl"
+        - "{{ app_path }}/docker/varnish/resources/config/default_production.vcl:/etc/varnish/default_production.vcl"
+        - "{{ app_path }}/docker/varnish/resources/config/backends:/etc/varnish/backends"
+        - "{{ app_path }}/docker/varnish/resources/config/backends/backend_iad.vcl:/etc/varnish/backend_iad.vcl"
       ports:
         - "80:80"
-      command: "varnishd -F -a :80 -T 127.0.0.1:6082 -f /etc/varnish/default_{{ inventory_file }}.vcl -S /etc/varnish/secret -u varnish -g varnish -p nuke_limit=2000 -s malloc,100G"
+      command: varnishd -F -a :80 -T 127.0.0.1:6082 -f /etc/varnish/default_production.vcl -S /etc/varnish/secret -u varnish -g varnish -p nuke_limit=2000 -s malloc,100G
 
   - name: Docker | Nginx
     docker:
