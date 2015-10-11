@@ -35,7 +35,7 @@
         - "{{ app_path }}/docker/varnish/resources/config/backends/backend_selector.vcl:/etc/varnish/backends/backend_selector.vcl"
       ports:
         - "80:80"
-      command: "varnishd -F -a :80 -T 127.0.0.1:6082 -f /etc/varnish/default_production.vcl -S /etc/varnish/secret -u varnish -g varnish -p thread_pools=2 -p thread_pool_min=500 -p thread_pool_max=10000 -p thread_pool_add_delay=2 -p sess_timeout=10 -p send_timeout=15 -p listen_depth=65536 -p nuke_limit=2000 -s malloc,100G"
+      command: "varnishd -F -a :80 -T 127.0.0.1:6082 -f /etc/varnish/default_production.vcl -S /etc/varnish/secret -u varnish -g varnish -p thread_pools=2 -p thread_pool_min=500 -p thread_pool_max=2000 -p thread_pool_add_delay=2 -p sess_timeout=10 -p send_timeout=15 -p listen_depth=65536 -p nuke_limit=2000 -s malloc,100G"
 
   - name: Docker | Nginx
     docker:
