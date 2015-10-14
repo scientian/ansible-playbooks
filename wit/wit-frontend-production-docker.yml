@@ -27,7 +27,6 @@
       email: "{{ docker_hub_email }}"
       username: "{{ docker_hub_username }}"
       password: "{{ docker_hub_password }}"
-      cap_add: SYS_RESOURCES
       volumes_from:
         - "{{project}}-data"
       volumes:
