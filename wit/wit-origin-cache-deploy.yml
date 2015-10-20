@@ -1,6 +1,6 @@
 ---
 - name: Deploy WIT Origin Cache
-  hosts: wit-origin-cache
+  hosts: wit-origincache
   remote_user: "{{ remote_user }}"
   sudo: no
 
