@@ -1,5 +1,5 @@
 ---
-- hosts: wit-origin-cache
+- hosts: wit-origincache
 
   remote_user: "{{ remote_user }}"
   sudo: yes
