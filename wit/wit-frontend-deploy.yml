@@ -17,3 +17,4 @@
 
   - name: Application | Reload Varnish Config
     command: docker exec -ti {{ project }}-varnish /u/apps/site/docker/varnish/resources/utils/reload_config.sh
+    sudo: yes
