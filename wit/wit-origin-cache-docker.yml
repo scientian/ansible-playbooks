@@ -43,6 +43,8 @@
         - "{{project}}-data"
       volumes:
         - /u/data/wit-origin-cache/metadata_cache:/data
+        - "{{ app_path }}/docker/resources/redis.conf:/etc/redis.conf"
+      command: redis-server /etc/redis.conf
 
   - name: Docker | PHP-FPM
     docker:
