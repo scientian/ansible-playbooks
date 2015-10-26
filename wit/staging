@@ -9,11 +9,11 @@ wit-frontendhit-stg
 wit-frontendmiss-stg
 
 [wit-frontend:vars]
-varnish_default_vcl=staging_backend_selector.vcl
-varnish_backend_selector_vcl=/etc/varnish/default_staging.vcl
-varnish_backend_storage=malloc,4G
+varnish_default_vcl="staging_backend_selector.vcl"
+varnish_backend_selector_vcl="/etc/varnish/default_staging.vcl"
+varnish_backend_storage="malloc,4G"
 
 [wit:children]
 wit-frontend
 wit-backend
-wit-origin-cache
+wit-origini-cache
