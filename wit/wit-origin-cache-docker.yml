@@ -33,7 +33,7 @@
       name: "{{project}}-redis"
       image: redis:3
 
-  - name: Docker | Redis Medatada
+  - name: Docker | Redis Metadata
     docker:
       hostname: "{{ansible_hostname}}-doc-redis-metadata"
       name: "{{project}}-redis-metadata"
@@ -59,6 +59,7 @@
       password: "{{ docker_hub_password }}"
       volumes:
         - "{{ app_path }}/docker/resources/supervisor-wit-worker.conf:/etc/supervisor/conf.d/wit-origin-cache-worker.conf"
+        - "{{ app_path }}/docker/resources/www.conf:/etc/php5/fpm/pool.d/www.conf"
       volumes_from:
         - "{{project}}-data"
       links:
