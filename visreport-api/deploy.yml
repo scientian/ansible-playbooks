@@ -1,0 +1,36 @@
+---
+- name: Deploy Vis Report API
+  hosts: all
+  remote_user: "{{ remote_user }}"
+  sudo: no
+
+  tasks:
+  - name: Application | Git pull the latest code
+    git: repo=git@github.com:ScientiaMobile/{{ project }}.git
+      dest={{ source_path }}/{{ project }}
+      accept_hostkey=yes
+      force=yes
+      version={{version}}
+
+  - name: Application | Composer install
+    composer: command=install working_dir={{ app_path }}
+
+  - name: Application | Create MongoDB Storage Directory
+    when: check_cache_path.stat.exists == false
+    sudo: yes
+    file: path=/u/data/visreport-api/mongodb
+      state=directory
+      owner=www-data
+      group={{ app_user }}
+      mode=0775
+      recurse=yes
+
+  - name: Application | Create Laravel Storage Directory
+    when: check_cache_path.stat.exists == false
+    sudo: yes
+    file: path=/u/data/visreport-api/storage
+      state=directory
+      owner=www-data
+      group={{ app_user }}
+      mode=0775
+      recurse=yes

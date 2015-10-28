@@ -1,0 +1,47 @@
+---
+- name: General | Install required packages
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - python-apt
+    - python-pip
+    - php5-cli
+    - curl
+  tags:
+    - packages
+
+- name: General | Install docker-py
+  pip: name=docker-py version=1.2.3
+  tags:
+    - docker
+
+- name: Docker | Download installer
+  shell: "curl -sSL https://get.docker.com/ > /tmp/docker_installer.sh"
+  tags:
+    - docker
+
+- name: Docker | Install
+  command: /bin/sh /tmp/docker_installer.sh
+  tags:
+    - docker
+
+- name: Docker | Run fix interface script
+  script: configure_docker.sh 192.168.254.1/24
+  notify:
+  - restart docker
+  tags:
+    - docker
+
+- name: Composer | Download installer
+  get_url: url="https://getcomposer.org/installer" dest=/tmp/composer.phar
+  tags:
+    - composer
+
+- name: Composer | Install
+  command: /usr/bin/php /tmp/composer.phar --install-dir=/usr/local/bin  --filename=composer
+  tags:
+    - composer
+
+- name: Application | Create application dir
+  file: path={{ source_path }} state=directory owner={{ app_user }} group={{ app_group }} mode=0775
+  tags:
+    - application
