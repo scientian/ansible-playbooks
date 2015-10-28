@@ -13,10 +13,16 @@
       version={{version}}
 
   - name: Application | Composer install
-    composer: command=install working_dir={{ app_path }}
+    command: /usr/local/bin/composer install --no-dev --ignore-platform-reqs --prefer-dist
+    args:
+      chdir: "{{ app_path }}"
+
+  - name: Application | Check if project data dir exists
+    stat: path=/u/data/visreport-api
+    register: check_project_data_path
 
   - name: Application | Create MongoDB Storage Directory
-    when: check_cache_path.stat.exists == false
+    when: check_project_data_path.stat.exists == false
     sudo: yes
     file: path=/u/data/visreport-api/mongodb
       state=directory
@@ -26,7 +32,7 @@
       recurse=yes
 
   - name: Application | Create Laravel Storage Directory
-    when: check_cache_path.stat.exists == false
+    when: check_project_data_path.stat.exists == false
     sudo: yes
     file: path=/u/data/visreport-api/storage
       state=directory
