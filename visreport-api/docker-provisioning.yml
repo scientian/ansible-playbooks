@@ -23,6 +23,9 @@
       name: "{{project}}-mongo"
       image: mongo:3
       state: reloaded
+      volumes_from:
+        - "{{project}}-data"
+
 
   - name: Docker | PHP-FPM
     docker:
