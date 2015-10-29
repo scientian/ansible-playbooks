@@ -1,3 +1,9 @@
+[wit-origin-cache]
+wit-origincache-stg
+
+[wit-backend]
+wit-backend-stg
+
 [wit-frontend]
 wit-frontendhit-stg
 wit-frontendmiss-stg

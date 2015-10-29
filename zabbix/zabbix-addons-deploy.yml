@@ -1,6 +1,6 @@
 ---
-- name: Deploy Zabbix-addons for Varnish stats
-  hosts: wit-frontend
+- name: Deploy Zabbix-addons
+  hosts: all
   remote_user: "{{ remote_user }}"
 
   tasks:
@@ -12,17 +12,43 @@
       version={{version}}
 
   - name: Docker Build | building zabbix-addons image
+    when: "'wit-frontend' in group_names"
     become: yes
     become_user: root
     command: chdir={{ app_path }}/varnish ./build.sh
 
   - name: Docker UP | starting zabbix-addons container
+    when: "'wit-frontend' in group_names"
     become: yes
     become_user: root
     command: chdir={{ app_path }}/varnish ./start.sh
- 
-  - name: Zabbix Agent | Linking userparameter file
-    become: yes
-    become_user: root
-    command: ln -s  /u/apps/zabbix-addons/varnish/userparameters/userparameter_varnish.conf /etc/zabbix/zabbix_agent.d/userparameter_varnish.conf
 
+  - name: Zabbix-UserParam | Check if varnish-userparameter link exists
+    when: "'wit-frontend' in group_names"
+    stat: path=/etc/zabbix/zabbix_agentd.d/userparameter_varnish.conf
+    register: sym
+#  - debug: msg="islnk isn't defined (path doesn't exist)"
+#    when: sym.stat.islnk is not defined
+#  - debug: msg="islnk is defined (path must exist)"
+#    when: sym.stat.islnk is defined
+#  - debug: msg="Path exists and is a symlink"
+#    when: sym.stat.islnk is defined and sym.stat.islnk
+#  - debug: msg="Path exists and isn't a symlink"
+#    when: sym.stat.islnk is defined and sym.stat.islnk == False
+
+
+  - name: Zabbix-UserParam | Create varnish-userparameter link
+    when: "'wit-frontend' in group_names and sym.stat.islnk is not defined"
+    sudo: yes
+    file: src=/u/apps/zabbix-addons/varnish/userparameters/userparameter_varnish.conf dest=/etc/zabbix/zabbix_agentd.d/userparameter_varnish.conf
+      state=link
+
+  - name: Zabbix-UserParam | Check if diskstats-userparameter link exists
+    stat: path=/etc/zabbix/zabbix_agentd.d/userparameter_diskstats.conf
+    register: sym2
+
+  - name: Zabbix-UserParam | Create diskstats-userparameter link
+    when: sym2.islnk is not defined
+    sudo: yes
+    file: src=/u/apps/zabbix-addons/diskstats/userparameter_diskstats.conf dest=/etc/zabbix/zabbix_agentd.d/userparameter_diskstats.conf
+      state=link
