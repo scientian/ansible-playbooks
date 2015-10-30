@@ -49,6 +49,20 @@
 
 # Beanstalk module deploy and link
 
+  - name: Docker Pull | Pull base image 
+    when: "'wit-origin-cache' in group_names"
+    become: yes
+    become_user: root
+    docker:
+      hostname: "{{ansible_hostname}}-doc-nginx"
+      pull: always
+      name: "{{project}}-doc-base"
+      image: scientiamobile/base.php
+      state: stopped
+      email: "{{ docker_hub_email }}"
+      username: "{{ docker_hub_username }}"
+      password: "{{ docker_hub_password }}"
+
   - name: Docker Build | building zabbix-addons beanstalkd module
     when: "'wit-origin-cache' in group_names"
     become: yes
