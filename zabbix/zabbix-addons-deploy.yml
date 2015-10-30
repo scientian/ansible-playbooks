@@ -34,20 +34,14 @@
     become: yes
     become_user: root
     docker:
-      hostname: "{{ansible_hostname}}-doc-base"
+      hostname: "{{ansible_hostname}}-doc-beanstalk"
       pull: always
-      name: "{{project}}-doc-base"
+      name: "{{project}}-doc-beanstalk"
       image: scientiamobile/base.php
-      state: stopped
+      state: restarted
       email: "{{ docker_hub_email }}"
       username: "{{ docker_hub_username }}"
       password: "{{ docker_hub_password }}"
-
-  - name: Docker Build | building zabbix-addons beanstalkd module
-    when: "'wit-origin-cache' in group_names"
-    become: yes
-    become_user: root
-    command: chdir={{ app_path }}/beanstalkd ./build.sh
 
   - name: Docker UP | starting zabbix-addons beanstalkd container
     when: "'wit-origin-cache' in group_names"
