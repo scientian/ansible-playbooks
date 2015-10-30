@@ -55,9 +55,14 @@
     become_user: root
     command: chdir={{ app_path }}/beanstalkd ./start.sh
 
-# Diskstats link
+# establish symlink for zabbix userparam
 
   - name: Zabbix-UserParam | Create userparameter link
     sudo: yes
     file: src=/u/apps/zabbix-addons/userparameters/userparameter_zabbix_addons.conf dest=/etc/zabbix/zabbix_agentd.d/userparameter_zabbix_addons.conf
       state=link
+
+  - name: Application | Restarting Zabbix Agent
+    sudo: yes
+    service: name=zabbix-agent state=restarted
+
