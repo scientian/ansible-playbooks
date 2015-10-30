@@ -99,7 +99,7 @@
 #    file: src=/u/apps/zabbix-addons/diskstats/userparameter_diskstats.conf dest=/etc/zabbix/zabbix_agentd.d/userparameter_diskstats.conf
 #      state=link
 
-  - name: Docker UP | starting zabbix-addons beanstalkd container
+  - name: Application | install zabbix-addons
     sudo: yes
     command: chdir={{ app_path }}/scripts ./install.sh
 
