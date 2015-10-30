@@ -13,7 +13,7 @@
 
 # to do: remove the build tasks once zabbix-addons repo is in "docker-auto-build"
 
-# Varnish module deploy and link
+# Varnish module deploy
 
   - name: Docker Build | building zabbix-addons varnish module
     when: "'wit-frontend' in group_names"
@@ -27,27 +27,7 @@
     become_user: root
     command: chdir={{ app_path }}/varnish ./start.sh
 
-#  - name: Zabbix-UserParam | Check if varnish-userparameter link exists
-#    when: "'wit-frontend' in group_names"
-#    stat: path=/etc/zabbix/zabbix_agentd.d/userparameter_varnish.conf
-#    register: sym
-#  - debug: msg="islnk isn't defined (path doesn't exist)"
-#    when: sym.stat.islnk is not defined
-#  - debug: msg="islnk is defined (path must exist)"
-#    when: sym.stat.islnk is defined
-#  - debug: msg="Path exists and is a symlink"
-#    when: sym.stat.islnk is defined and sym.stat.islnk
-#  - debug: msg="Path exists and isn't a symlink"
-#    when: sym.stat.islnk is defined and sym.stat.islnk == False
-
-#  - name: Zabbix-UserParam | Create varnish-userparameter link
-#    when: "'wit-frontend' in group_names and sym.stat.islnk is not defined"
-#    sudo: yes
-#    file: src=/u/apps/zabbix-addons/varnish/userparameters/userparameter_varnish.conf dest=/etc/zabbix/zabbix_agentd.d/userparameter_varnish.conf
-#      state=link
-
-
-# Beanstalk module deploy and link
+# Beanstalk module deploy
 
   - name: Docker Hub | Pull base image 
     when: "'wit-origin-cache' in group_names"
@@ -75,31 +55,9 @@
     become_user: root
     command: chdir={{ app_path }}/beanstalkd ./start.sh
 
-#  - name: Zabbix-UserParam | Check if varnish-userparameter link exists
-#    when: "'wit-origin-cache' in group_names"
-#   stat: path=/etc/zabbix/zabbix_agentd.d/userparameter_beanstalkd.conf
-#   register: sym3
-
-# - name: Zabbix-UserParam | Create varnish-userparameter link
-#   when: "'wit-origin-cache' in group_names and sym.stat.islnk is not defined"
-#   sudo: yes
-#   file: src=/u/apps/zabbix-addons/varnish/userparameters/userparameter_beanstalkd.conf dest=/etc/zabbix/zabbix_agentd.d/userparameter_beanstalkd.conf
-#     state=link
-
-
 # Diskstats link
 
-#  - name: Zabbix-UserParam | Check if diskstats-userparameter link exists
-#    stat: path=/etc/zabbix/zabbix_agentd.d/userparameter_diskstats.conf
-#    register: sym2
-
-#  - name: Zabbix-UserParam | Create diskstats-userparameter link
-#    when: sym2.islnk is not defined
-#    sudo: yes
-#    file: src=/u/apps/zabbix-addons/diskstats/userparameter_diskstats.conf dest=/etc/zabbix/zabbix_agentd.d/userparameter_diskstats.conf
-#      state=link
-
-  - name: Application | install zabbix-addons
+  - name: Zabbix-UserParam | Create userparameter link
     sudo: yes
-    command: chdir={{ app_path }}/scripts ./install.sh
-
+    file: src=/u/apps/zabbix-addons/userparameters/userparameter_zabbix_addons.conf dest=/etc/zabbix/zabbix_agentd.d/userparameter_zabbix_addons.conf
+      state=link
