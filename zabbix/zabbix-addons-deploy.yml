@@ -49,12 +49,12 @@
 
 # Beanstalk module deploy and link
 
-  - name: Docker Pull | Pull base image 
+  - name: Docker Hub | Pull base image 
     when: "'wit-origin-cache' in group_names"
     become: yes
     become_user: root
     docker:
-      hostname: "{{ansible_hostname}}-doc-nginx"
+      hostname: "{{ansible_hostname}}-doc-base"
       pull: always
       name: "{{project}}-doc-base"
       image: scientiamobile/base.php
