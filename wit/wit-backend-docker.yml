@@ -22,6 +22,9 @@
       name: "{{project}}-redis"
       image: redis:3
       state: reloaded
+      volumes:
+        - "{{ app_path }}/docker/resources/redis.conf:/etc/redis/redis.conf"
+      command: redis-server /etc/redis/redis.conf
 
   - name: Docker | PHP-FPM
     docker:
