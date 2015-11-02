@@ -27,6 +27,28 @@
     become_user: root
     command: chdir={{ app_path }}/varnish ./start.sh
 
+# NGINX module deploy
+  
+  - name: Docker Hub | Pull base image
+    when: "'wit-frontend' in group_names"
+    become: yes
+    become_user: root
+    docker:
+      hostname: "{{ansible_hostname}}-doc-base"
+      pull: always
+      name: "{{project}}-doc-base"
+      image: scientiamobile/base.php
+      state: stopped
+      email: "{{ docker_hub_email }}"
+      username: "{{ docker_hub_username }}"
+      password: "{{ docker_hub_password }}"
+
+  - name: Docker UP | starting zabbix-addons NGINX container
+    when: "'wit-frontend' in group_names"
+    become: yes
+    become_user: root
+    command: chdir={{ app_path }}/nginx ./start.sh
+
 # Beanstalk module deploy
 
   - name: Docker Hub | Pull base image 
@@ -34,11 +56,11 @@
     become: yes
     become_user: root
     docker:
-      hostname: "{{ansible_hostname}}-doc-beanstalk"
+      hostname: "{{ansible_hostname}}-doc-base"
       pull: always
-      name: "{{project}}-doc-beanstalk"
+      name: "{{project}}-doc-base"
       image: scientiamobile/base.php
-      state: restarted
+      state: stopped
       email: "{{ docker_hub_email }}"
       username: "{{ docker_hub_username }}"
       password: "{{ docker_hub_password }}"
