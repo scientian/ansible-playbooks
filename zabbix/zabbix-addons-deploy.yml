@@ -30,7 +30,6 @@
 # NGINX module deploy
   
   - name: Docker Hub | Pull base image
-    when: "'wit-frontend' in group_names"
     become: yes
     become_user: root
     docker:
@@ -44,7 +43,6 @@
       password: "{{ docker_hub_password }}"
 
   - name: Docker UP | starting zabbix-addons NGINX container
-    when: "'wit-frontend' in group_names"
     become: yes
     become_user: root
     command: chdir={{ app_path }}/nginx ./start.sh
