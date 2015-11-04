@@ -1,0 +1,26 @@
+# Common tasks
+
+- name: Add common packages
+  apt: name={{ item }} state=latest
+  with_items:
+    - curl
+    - wget
+    - pcregrep
+    - htop
+    - iftop
+    - pv
+
+- name: Ensure consistent hostname
+  script: set_hostname.sh {{ ansible_hostname }} {{ ansible_fqdn }} creates=/etc/ansible-hostname
+
+# enable and reset root passwd
+# remove Ubuntu from passwd
+# set ntp
+# apt udpate/clean/autoclean/autoremove
+# sshd - ensure root access is disabled
+# sshd - rate limit ssh packets
+# rsyslog - forward to logbox
+# network - find a way to dynamically set the ip based on the subnet statically
+# network - ensure dns active bacup and search is consistent 
+# ipa - do it in common role or different role
+# zabbix - do it in common role or different role
