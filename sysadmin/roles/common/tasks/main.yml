@@ -20,7 +20,7 @@
 # sshd - ensure root access is disabled
 # sshd - rate limit ssh packets
 # rsyslog - forward to logbox
-# network - find a way to dynamically set the ip based on the subnet statically
+# network - find a way to dynamically set the static-ip based on the subnet
 # network - ensure dns active bacup and search is consistent 
 # ipa - do it in common role or different role
 # zabbix - do it in common role or different role
