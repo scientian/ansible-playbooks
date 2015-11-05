@@ -42,21 +42,6 @@
       links:
         - "{{project}}-mongo:mongo"
 
-  - name: Docker | Python
-    docker:
-      hostname: "{{ansible_hostname}}-doc-python"
-      pull: always
-      name: "{{project}}-python"
-      image: scientiamobile/vis-report-api.python
-      state: reloaded
-      email: "{{ docker_hub_email }}"
-      username: "{{ docker_hub_username }}"
-      password: "{{ docker_hub_password }}"
-      volumes_from:
-        - "{{project}}-data"
-      links:
-        - "{{project}}-mongo:mongo"
-
   - name: Docker | Nginx
     docker:
       hostname: "{{ansible_hostname}}-doc-nginx"
@@ -73,3 +58,20 @@
         - "{{project}}-php-fpm:fcgi"
       ports:
         - "80:80"
+
+  - name: Docker | Python
+    docker:
+      hostname: "{{ansible_hostname}}-doc-python"
+      pull: always
+      name: "{{project}}-python"
+      image: scientiamobile/vis-report-api.python
+      state: reloaded
+      email: "{{ docker_hub_email }}"
+      username: "{{ docker_hub_username }}"
+      password: "{{ docker_hub_password }}"
+      volumes_from:
+        - "{{project}}-data"
+      links:
+        - "{{project}}-mongo:mongo"
+
+
