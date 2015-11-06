@@ -22,4 +22,5 @@ The ansible playbooks provided in this repository will allow to:
 # STAGING
 
     ansible-playbook deploy.yml --ask-become-pass --inventory-file staging
+    ansible-playbook deploy-vis-client.yml --ask-become-pass --inventory-file staging
     ansible-playbook docker-provisioning.yml --ask-become-pass --inventory-file staging 
