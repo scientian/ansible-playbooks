@@ -1,0 +1,21 @@
+---
+- name: Deploy Vis API Client
+  hosts: all
+  remote_user: "{{ remote_user }}"
+  sudo: no
+
+  vars:
+    project: "VisApiClient"
+
+  tasks:
+  - name: Application | Git pull the latest code
+    git: repo=git@github.com:ScientiaMobile/{{ project }}.git
+      dest={{ source_path }}/{{ project }}
+      accept_hostkey=yes
+      force=yes
+      version={{version}}
+
+  - name: Application | Composer install
+    command: /usr/local/bin/composer install --no-dev --ignore-platform-reqs --prefer-dist
+    args:
+      chdir: "{{ source_path }}/{{ project }}"

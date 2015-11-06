@@ -14,6 +14,7 @@
       state: reloaded
       volumes:
         - "{{ app_path }}:/u/apps/site"
+        - "{{ source_path }}/VisApiClient:/u/apps/vis-api-client"
         - /u/data/visreport-api/mongodb:/data/db
         - /u/data/visreport-api/storage:/u/apps/site/storage
 
@@ -71,6 +72,8 @@
       password: "{{ docker_hub_password }}"
       volumes_from:
         - "{{project}}-data"
+      volumes:
+        - "{{app_path}}/docker/resources/wurfl-download-cron:/etc/cron.d/wurfl-download-cron"
       links:
         - "{{project}}-mongo:mongo"
 
