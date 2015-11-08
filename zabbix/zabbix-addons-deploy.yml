@@ -13,6 +13,19 @@
 
 # to do: remove the build tasks once zabbix-addons repo is in "docker-auto-build"
 
+  - name: Docker Hub | Pull base image
+    become: yes
+    become_user: root
+    docker:
+      hostname: "{{ansible_hostname}}-doc-base"
+      pull: always
+      name: "{{project}}-doc-base"
+      image: scientiamobile/base.php
+      state: stopped
+      email: "{{ docker_hub_email }}"
+      username: "{{ docker_hub_username }}"
+      password: "{{ docker_hub_password }}"
+
 # Varnish module deploy
 
   - name: Docker Build | building zabbix-addons varnish module
@@ -42,19 +55,6 @@
     command: chdir={{ app_path }}/php-fpm ./start.sh
 
 # NGINX module deploy
-  
-  - name: Docker Hub | Pull base image
-    become: yes
-    become_user: root
-    docker:
-      hostname: "{{ansible_hostname}}-doc-base"
-      pull: always
-      name: "{{project}}-doc-base"
-      image: scientiamobile/base.php
-      state: stopped
-      email: "{{ docker_hub_email }}"
-      username: "{{ docker_hub_username }}"
-      password: "{{ docker_hub_password }}"
 
   - name: Docker UP | starting zabbix-addons NGINX container
     become: yes
