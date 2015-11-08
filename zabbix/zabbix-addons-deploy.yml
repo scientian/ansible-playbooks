@@ -19,13 +19,27 @@
     when: "'wit-frontend' in group_names"
     become: yes
     become_user: root
-    command: chdir={{ app_path }}/varnish ./build.sh
+    command: {{ app_path }}/scripts/build.sh varnish
 
   - name: Docker UP | starting zabbix-addons varnish container
     when: "'wit-frontend' in group_names"
     become: yes
     become_user: root
     command: chdir={{ app_path }}/varnish ./start.sh
+
+# PHP-FPM module deploy
+
+  - name: Docker Build | building zabbix-addons php-fpm module
+    when: "'wit-backend' in group_names or 'wit-origin-cache' in group_names"
+    become: yes
+    become_user: root
+    command: {{ app_path }}/scripts/build.sh php-fpm
+
+  - name: Docker UP | starting zabbix-addons php-fpm container
+    when: "'wit-backend' in group_names or 'wit-origin-cache' in group_names"
+    become: yes
+    become_user: root
+    command: chdir={{ app_path }}/php-fpm ./start.sh
 
 # NGINX module deploy
   
