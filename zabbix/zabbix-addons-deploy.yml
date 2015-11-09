@@ -40,6 +40,19 @@
     become_user: root
     command: chdir={{ app_path }}/varnish ./start.sh
 
+# Redis module deploy
+  - name: Docker UP | starting zabbix-addons redis container
+    when: "'wit-origin-cache' in group_names"
+    become: yes
+    become_user: root
+    command: chdir={{ app_path }}/php-fpm ./start.sh wit-origin-cache-redis-metadata
+
+  - name: Docker UP | starting zabbix-addons redis container
+    when: "'wit-backend' in group_names"
+    become: yes
+    become_user: root
+    command: chdir={{ app_path }}/php-fpm ./start.sh wit-backend-redis
+
 # PHP-FPM module deploy
 
   - name: Docker Build | building zabbix-addons php-fpm module
