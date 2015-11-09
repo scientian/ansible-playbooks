@@ -26,6 +26,13 @@
         - "{{ app_path }}/docker/resources/redis.conf:/etc/redis/redis.conf"
       command: redis-server /etc/redis/redis.conf
 
+  - name: Docker | Node.js
+    docker:
+      hostname: "{{ansible_hostname}}-doc-node"
+      name: "{{project}}-node"
+      image: scientiamobile/wit-backend.node
+      state: reloaded
+
   - name: Docker | PHP-FPM
     docker:
       hostname: "{{ansible_hostname}}-doc-php-fpm"
@@ -38,6 +45,7 @@
       password: "{{ docker_hub_password }}"
       volumes_from:
         - "{{project}}-data"
+        - "{{project}}-node"
       volumes:
         - "{{ app_path }}/docker/resources/wit-backend-cron:/etc/cron.d/wit-backend-cron"
         - "{{ app_path }}/docker/php-fpm/resources/pool.d/www.conf:/etc/php5/fpm/pool.d/www.conf"
