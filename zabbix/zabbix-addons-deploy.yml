@@ -45,13 +45,13 @@
     when: "'wit-origin-cache' in group_names"
     become: yes
     become_user: root
-    command: chdir={{ app_path }}/php-fpm ./start.sh wit-origin-cache-redis-metadata
+    command: chdir={{ app_path }}/redis ./start.sh wit-origin-cache-redis-metadata
 
   - name: Docker UP | starting zabbix-addons redis container
     when: "'wit-backend' in group_names"
     become: yes
     become_user: root
-    command: chdir={{ app_path }}/php-fpm ./start.sh wit-backend-redis
+    command: chdir={{ app_path }}/redis ./start.sh wit-backend-redis
 
 # PHP-FPM module deploy
 
