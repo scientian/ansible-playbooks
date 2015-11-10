@@ -32,6 +32,9 @@
       name: "{{project}}-node"
       image: scientiamobile/wit-backend.node
       state: reloaded
+      email: "{{ docker_hub_email }}"
+      username: "{{ docker_hub_username }}"
+      password: "{{ docker_hub_password }}"
 
   - name: Docker | PHP-FPM
     docker:
