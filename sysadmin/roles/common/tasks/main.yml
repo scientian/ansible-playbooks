@@ -23,5 +23,5 @@
 # rsyslog - forward to logbox
 # network - find a way to dynamically set the static-ip based on the subnet # done in pxe image
 # network - ensure dns active bacup and search is consistent 
-# ipa - do it in common role or different role
+# ipa - do it in common role or different role #done in pxe 
 # zabbix - do it in common role or different role
