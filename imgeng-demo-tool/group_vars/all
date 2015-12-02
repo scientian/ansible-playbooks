@@ -1,0 +1,18 @@
+---
+remote_user: vagrant
+app_user: vagrant
+app_group: vagrant
+source_path: /u/apps
+
+project: ImageEngine-demo-tool
+version: master
+
+app_path: "{{ source_path }}/{{ project }}"
+
+docker_image_prefix: "scientiamobile/"
+
+### TODO Store as encrypted vars ?
+# see http://docs.ansible.com/ansible/playbooks_vault.html
+docker_hub_username: smdeploy
+docker_hub_password: peebie7O
+docker_hub_email: deploy@scientiamobile.com
