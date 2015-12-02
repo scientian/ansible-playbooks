@@ -1,7 +1,7 @@
 ---
-remote_user: vagrant
-app_user: vagrant
-app_group: vagrant
+remote_user: deploy
+app_user: deploy
+app_group: deployusers
 source_path: /u/apps
 
 project: ImageEngine-demo-tool
