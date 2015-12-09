@@ -1,0 +1,13 @@
+---
+- hosts: web-servers
+
+  tasks:
+   - name: transfer the script
+     copy: src=/etc/ansible/freeboot.sh dest=/home/ian/freeboot.sh mode=0777
+
+   - name: execute the script
+     command: /bin/sh /home/ian/freeboot.sh
+
+#  handlers:
+#   - name: start apache2
+ #    service: name=apache2 state=started
