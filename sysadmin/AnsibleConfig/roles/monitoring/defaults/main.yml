@@ -1,7 +1,0 @@
----
-zabbix_agent_config_server: zabbix.scientiamobile.local
-zabbix_agent_config_server_active: zabbix.scientiamobile.local
-zabbix_agent_config_hostname: '{{ ansible_fqdn }}'
-zabbix_agent_config_start_agents: 3
-zabbix_agent_config_log_size: 500
-zabbix_agent_config_enable_remote_commands: 0

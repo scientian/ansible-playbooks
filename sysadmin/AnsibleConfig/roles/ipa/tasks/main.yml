@@ -1,6 +1,0 @@
-- name: Install FreeIPA Client
-  apt: name=freeipa-client ensure=present
-
-#- name: Enroll FreeIPA Client
-#  command: ipa-client-install --unattended --debug --enable-dns-updates --mkhomedir --password 'foo'
-#  command: ipa-client-install  -N -p {{ principal_user }} -w {{ principal_password }} --enable-dns-updates --mkhomedir  --hostname {{ client_hostname }} --server {{ freeipaserver_ip }} --domain {{ domain_search }} --realm {{ kerberos_realm_name }}

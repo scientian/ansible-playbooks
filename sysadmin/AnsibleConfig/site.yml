@@ -1,9 +1,0 @@
-# Master Playbook
-
-- hosts: all
-  roles:
-    - common
-
-- hosts: teamcity
-  roles:
-    - monitoring
