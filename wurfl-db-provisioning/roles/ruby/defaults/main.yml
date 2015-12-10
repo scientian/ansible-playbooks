@@ -1,0 +1,5 @@
+ruby:
+    version: 2.2.2
+    rbenv:
+        version: v0.4.0
+        makeopts: ""

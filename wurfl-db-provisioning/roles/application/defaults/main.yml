@@ -1,0 +1,22 @@
+---
+# application
+app_name: app
+app_domain: www.example.com
+app_base_dir: /var/apps/app
+app_root_dir: "{{app_base_dir}}/current/public"
+app_database_name: 'app_database'
+app_env: production
+
+app_passenger_max_pool_size: 8
+app_passenger_port: 3000
+
+app_redis_url: "<%= ENV['REDIS_ADDR'].nil? ? \"redis://localhost:6379\" : \"redis://#{ENV['REDIS_ADDR']}:#{ENV['REDIS_PORT']}\" %>"
+
+app_default_filter: 62
+
+app_mailer_default_from: "<%= ENV['EMAIL_FROM']||'wurfldb@scientiamobile.com' %>"
+app_mailer_default_to: "<%= ENV['EMAIL_FROM']||'wurfldb@scientiamobile.com' %>"
+
+# rollbar
+rollbar_server_key: ''
+rollbar_client_key: ''

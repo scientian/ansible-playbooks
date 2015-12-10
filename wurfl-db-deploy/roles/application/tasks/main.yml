@@ -1,0 +1,139 @@
+- set_fact: release_ts={{ lookup("pipe", "date +%Y%m%d%H%M%S") }}
+- set_fact: release_dir={{ app_releases_dir }}/{{ release_ts }}
+
+- debug: msg="New release dir {{ release_dir }}"
+- debug: msg="Deploying {{ repo_url }} - Branch {{ branch }}"
+
+# Check rbenv / ruby
+- stat: path={{ rbenv_path }}/versions/{{ rbenv_ruby }}
+  register: p
+  
+- fail: msg="Rbenv {{ rbenv_ruby }} does not exist"
+  when: not p.stat.exists or not p.stat.isdir
+
+# Check that base directory exists
+- stat: path={{ app_base_dir }}
+  register: p
+  
+- fail: msg="Application base dir {{ app_base_dir }} does not exist"
+  when: not p.stat.exists or not p.stat.isdir
+
+# Mirror the repo
+# - stat: path={{ app_base_dir }}/repo/HEAD
+#   register: p
+#
+# - name: Mirror the repository
+#   shell: RBENV_ROOT={{ rbenv_path }} RBENV_VERSION={{ rbenv_ruby }} /usr/bin/env git clone --mirror {{ repo_url }} {{ app_base_dir }}/repo chdir="{{ app_base_dir }}"
+#   when: p.stat.exists == False
+#
+# - name: Update the repository mirror
+#   shell: RBENV_ROOT={{ rbenv_path }} RBENV_VERSION={{ rbenv_ruby }} /usr/bin/env git remote update chdir="{{ app_base_dir }}/repo"
+- name: Clone the repository
+  git: repo={{ repo_url }}
+    dest={{ app_base_dir }}/repo
+    accept_hostkey=yes
+    force=yes
+    version={{ branch }}
+
+# Prepare the release directory
+- name: Create the release directory
+  shell: RBENV_ROOT={{ rbenv_path }} RBENV_VERSION={{ rbenv_ruby }} /usr/bin/env mkdir -p {{ release_dir }} chdir="{{ app_base_dir }}/repo"
+
+- name: Export the code to the release directory
+  shell: RBENV_ROOT={{ rbenv_path }} RBENV_VERSION={{ rbenv_ruby }} /usr/bin/env git archive master | tar -x -f - -C {{ release_dir }} chdir="{{ app_base_dir }}/repo"
+
+- name: Get the released sha
+  shell: RBENV_ROOT={{ rbenv_path }} RBENV_VERSION={{ rbenv_ruby }} /usr/bin/env git rev-list --max-count=1 --abbrev-commit master chdir="{{ app_base_dir }}/repo"
+  register: released
+
+- name: Store the release sha in the project dir
+  shell: RBENV_ROOT={{ rbenv_path }} RBENV_VERSION={{ rbenv_ruby }} /usr/bin/env echo "{{ "\n".join(released.stdout_lines) }}" >> REVISION chdir="{{ release_dir }}"
+
+
+# Link directories and configurations
+- name: Check web application shared directories presence
+  file: 
+      path: "{{app_base_dir}}/{{item}}"
+      state: directory
+      recurse: yes
+  with_items:
+      - "shared"
+      - "shared/config"
+      - "shared/data"
+      - "shared/data/export"
+      - "shared/data/export/master"
+      - "shared/data/import"
+      - "shared/data/patch"
+      - "shared/data/wurfl"
+      - "shared/log"
+      - "shared/public/assets"
+      - "shared/system"
+      - "shared/tmp"
+      - "shared/tmp/cache"
+      - "shared/tmp/pids"
+      - "shared/tmp/sockets"
+      - "shared/vendor/bundle"
+
+- name: Make sure the release has a the required dirs
+  file: 
+      path: "{{release_dir}}/{{item}}"
+      state: directory
+      recurse: yes
+  with_items:
+      - "config"
+      - "public"
+      - "log"
+      - "tmp"
+      - "data"
+      - "vendor"
+
+- name: Link the shared directories and configuration files
+  shell: RBENV_ROOT={{ rbenv_path }} RBENV_VERSION={{ rbenv_ruby }} /usr/bin/env ln -s {{ app_shared_dir }}/{{ item }} {{ release_dir }}/{{ item }}
+  with_items:
+      - "config/database.yml"
+      - "config/secrets.yml"
+      - "public/assets "
+      - "log"
+      - "tmp/pids"
+      - "tmp/cache"
+      - "tmp/sockets"
+      - "data/export"
+      - "data/wurfl"
+      - "data/patch"
+      - "data/import"
+      - "vendor/bundle"
+
+# Bundle and assets
+- name: Bundle install
+  shell: RAILS_ENV={{ app_env }} {{ rbenv_prefix }} bundle install --path {{ app_shared_dir }}/bundle --without development test --deployment --quiet chdir="{{ release_dir }}" 
+
+- name: Precompile assets
+  shell: RAILS_ENV={{ app_env }} {{ rbenv_prefix }} bundle exec rake assets:precompile chdir="{{ release_dir }}" 
+
+# Migrate db
+- name: Migrate db
+  shell: RAILS_ENV={{ app_env }} {{ rbenv_prefix }} bundle exec rake db:migrate chdir="{{ release_dir }}"
+
+# Crontab
+- name: Install crontab via whenever
+  shell: RAILS_ENV={{ app_env }} {{ rbenv_prefix }} bundle exec whenever --update-crontab wurfl_development --set environment=staging --roles=app,db,web,jobs chdir="{{ release_dir }}"
+
+# Link the current directory and restart
+- name: Create the new current link
+  shell: RBENV_ROOT={{ rbenv_path }} RBENV_VERSION={{ rbenv_ruby }} /usr/bin/env ln -s {{ release_dir }} {{ app_releases_dir }}/current
+
+- name: Make the new current dir active 
+  shell: RBENV_ROOT={{ rbenv_path }} RBENV_VERSION={{ rbenv_ruby }} /usr/bin/env mv {{ app_releases_dir }}/current {{ app_base_dir }}
+
+- name: Restart the application
+  shell: RBENV_ROOT={{ rbenv_path }} RBENV_VERSION={{ rbenv_ruby }} /usr/bin/env touch {{ release_dir }}/tmp/restart.txt
+
+- stat: path={{ app_shared_dir }}/tmp/pids/sidekiq.pid
+  register: p
+
+- name: Restart sidekiq
+  shell: kill -TERM `cat {{ app_shared_dir }}/tmp/pids/sidekiq.pid`
+  when: p.stat.exists
+
+- debug: msg="Done!"
+

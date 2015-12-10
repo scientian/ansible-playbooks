@@ -1,0 +1,4 @@
+---
+dependencies:
+    - { role: DavidWittman.redis }
+    - { role: monitoring, monitored_services: ['redis'] }

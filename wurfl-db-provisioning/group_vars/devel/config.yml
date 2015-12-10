@@ -1,0 +1,9 @@
+---
+app_env: staging
+app_redis_url: redis://localhost:6379
+
+wurfldb_domain: 'db-scientiamobile.vagrant.dev'
+wurfldb_domain_aliases: 'wurflpro.vagrant.dev'
+wurfl_email_from: 'info@scientiamobile.com'
+wurfl_email_to: 'info@scientiamobile.com'
+

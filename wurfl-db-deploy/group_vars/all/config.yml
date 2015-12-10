@@ -1,0 +1,4 @@
+---
+remote_user: deploy
+app_user: deploy
+app_group: deployusers

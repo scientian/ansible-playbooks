@@ -1,0 +1,14 @@
+[staging]
+staging-db
+
+[redis:children]
+staging
+
+[database:children]
+staging
+
+[web:children]
+staging
+
+[jobs:children]
+staging

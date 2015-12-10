@@ -1,0 +1,15 @@
+---
+
+# MySQL configuration
+mysql_root_password: '{{ wurfldb_mysql_root_pass }}'
+
+mysql_databases:
+  - name: '{{ wurfldb_mysql_database }}'
+    collation: "utf8_general_ci"
+    encoding: "utf8"
+
+mysql_users:
+  - name: '{{ wurfldb_mysql_user }}'
+    host: "localhost"
+    password: '{{ wurfldb_mysql_pass }}'
+    priv: "{{ wurfldb_mysql_database }}.*:ALL"

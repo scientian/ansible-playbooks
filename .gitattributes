@@ -1,0 +1,14 @@
+wurfl-db-provisioning/group_vars/all/secret.yml filter=git-crypt diff=git-crypt
+wurfl-db-provisioning/group_vars/devel/secret.yml filter=git-crypt diff=git-crypt
+wurfl-db-provisioning/group_vars/staging/secret.yml filter=git-crypt diff=git-crypt
+wurfl-db-provisioning/group_vars/production/secret.yml filter=git-crypt diff=git-crypt
+wurfl-db-provisioning/keys/* filter=git-crypt diff=git-crypt
+wurfl-db-provisioning/keys/cert/* filter=git-crypt diff=git-crypt
+wurfl-db-provisioning/roles/web/files/cert/* filter=git-crypt diff=git-crypt
+wurfl-db-deploy/group_vars/all/secret.yml filter=git-crypt diff=git-crypt
+wurfl-db-deploy/group_vars/devel/secret.yml filter=git-crypt diff=git-crypt
+wurfl-db-deploy/group_vars/staging/secret.yml filter=git-crypt diff=git-crypt
+wurfl-db-deploy/group_vars/production/secret.yml filter=git-crypt diff=git-crypt
+wurfl-db-deploy/keys/* filter=git-crypt diff=git-crypt
+wurfl-db-deploy/keys/cert/* filter=git-crypt diff=git-crypt
+wurfl-db-deploy/roles/web/files/cert/* filter=git-crypt diff=git-crypt

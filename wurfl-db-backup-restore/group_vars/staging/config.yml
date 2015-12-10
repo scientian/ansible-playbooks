@@ -1,0 +1,6 @@
+---
+app_env: staging
+
+mysql_user: wurfldb
+mysql_database: wurfldb_staging
+mysql_host: localhost

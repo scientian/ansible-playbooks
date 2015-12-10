@@ -1,0 +1,20 @@
+---
+# application
+app_name: app
+app_base_dir: /var/apps/app
+app_releases_dir: "{{app_base_dir}}/releases"
+app_shared_dir: "{{app_base_dir}}/shared"
+app_root_dir: "{{app_base_dir}}/current/public"
+app_env: production
+
+# Repository
+repo_url: "git@github.com:ScientiaMobile/WURFLDB.git"
+branch: master
+
+# Rbenv
+rbenv_ruby: '2.2.2'
+rbenv_path: '~/.rbenv'
+rbenv_prefix: "RBENV_ROOT={{ rbenv_path }} RBENV_VERSION={{ rbenv_ruby }} {{ rbenv_path }}/bin/rbenv exec"
+
+# Whenever
+whenever_identifier: "{{ app_name }}_{{ app_env }}"

@@ -1,0 +1,6 @@
+---
+app_env: production
+
+mysql_user: wurfldb
+mysql_database: wurfldb_production
+mysql_host: localhost

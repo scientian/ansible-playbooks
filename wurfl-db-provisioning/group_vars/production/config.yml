@@ -1,0 +1,9 @@
+---
+app_env: production
+app_redis_url: redis://localhost:6379
+
+wurfldb_domain: 'db.scientiamobile.com'
+wurfldb_domain_aliases: 'db2.scientiamobile.com wurflpro.com www.wurflpro.com'
+wurfl_email_from: 'info@scientiamobile.com'
+wurfl_email_to: 'info@scientiamobile.com'
+

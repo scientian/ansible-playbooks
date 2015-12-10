@@ -1,0 +1,8 @@
+#!/bin/sh
+ansible-galaxy install --force --ignore-errors --roles-path=$VIRTUAL_ENV/ansible/roles $@ \
+Ansibles.apt,v1.0.2 \
+Ansibles.build-essential,v1.0.1 \
+Ansibles.perl,v1.0.2 \
+DavidWittman.redis,1.0.2 \
+geerlingguy.mysql,1.5.1 \
+sivel.newrelic,0.1.3

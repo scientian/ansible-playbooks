@@ -1,0 +1,20 @@
+- name: Install git packages
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - git
+    - git-core
+
+- name: "Fetching SSH Keys for known hosts"
+  local_action: command ssh-keyscan -t rsa {{ item }}
+  with_items:
+      - bitbucket.org
+      - github.com
+  become: no
+  register: knownhosts
+
+- name: Add default known SSH host keys
+  lineinfile: "dest=/etc/ssh/ssh_known_hosts state=present create=yes line='{{ item.stdout }}'"
+  with_items: knownhosts.results
+
+- name: Make sure ssh_known_hosts is readable
+  file: path=/etc/ssh/ssh_known_hosts mode=0644

@@ -1,0 +1,9 @@
+---
+passenger_root: /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini
+passenger_ruby: /usr/bin/ruby
+
+nginx_worker_processes: "4"
+nginx_worker_connections: "768"
+nginx_keepalive_timeout: "65"
+nginx_add_default_vhost: true
+nginx_remove_old_passenger_vhost: true
