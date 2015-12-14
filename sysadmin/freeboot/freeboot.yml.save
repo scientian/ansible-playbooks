@@ -1,0 +1,32 @@
+---
+- hosts: ---
+- hosts: web-server
+
+ tasks:
+   - name: transfer the script
+     copy: src=/home/deploy/ansible-playbooks/sysadmin/freeboot/freeboot.sh dest=/home/ian/freeboot.sh mode=0777
+     sudo: yes
+
+   - name: execute the script
+     command: /bin/sh /home/ian/freeboot.sh
+     sudo: yes
+
+
+#  handlers:
+#   - name: start apache2
+ #    service: name=apache2 state=started
+
+
+  tasks:
+   - name: transfer the script
+     copy: src=/home/deploy/ansible-playbooks/sysadmin/freeboot/freeboot.sh dest=/home/ian/freeboot.sh mode=0777
+     sudo: yes
+
+   - name: execute the script
+     command: /bin/sh /home/ian/freeboot.sh
+     sudo: yes
+
+
+#  handlers:
+#   - name: start apache2
+ #    service: name=apache2 state=started
