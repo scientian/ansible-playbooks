@@ -1,0 +1,13 @@
+---
+- name: Deploy Github Repo
+  hosts: all
+  remote_user: "{{ remote_user }}"
+
+  tasks:
+  - name: Application | Git pull the latest code
+    git: repo=git@github.com:ScientiaMobile/{{ project }}.git
+      dest={{ source_path }}/{{ project }}
+      accept_hostkey=yes
+      force=yes
+      version={{version}}
+
