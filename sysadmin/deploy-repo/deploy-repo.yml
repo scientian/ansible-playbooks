@@ -4,6 +4,12 @@
   remote_user: "{{ remote_user }}"
 
   tasks:
+- name: Application | Create application dir
+  sudo: yes
+  file: path={{ source_path }} state=directory owner={{ app_user }} group={{ app_group }} mode=0775
+  tags:
+    - application
+
   - name: Application | Git pull the latest code
     git: repo=git@github.com:ScientiaMobile/{{ project }}.git
       dest={{ source_path }}/{{ project }}
