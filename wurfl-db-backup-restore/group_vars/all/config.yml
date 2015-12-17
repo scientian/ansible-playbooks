@@ -1,0 +1,11 @@
+---
+remote_user: deploy
+app_user: deploy
+app_group: deployusers
+
+# application
+app_name: app
+app_base_dir: /var/apps/app
+app_releases_dir: "{{app_base_dir}}/releases"
+app_shared_dir: "{{app_base_dir}}/shared"
+app_root_dir: "{{app_base_dir}}/current/public"

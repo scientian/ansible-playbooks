@@ -1,0 +1,5 @@
+check process redis with pidfile /var/run/redis/{{ redis_port }}.pid
+  start program "/etc/init.d/redis_{{ redis_port }} start"
+  stop program "/etc/init.d/redis_{{ redis_port }} stop"
+  if failed host 127.0.0.1 port {{ redis_port }} then restart
+  if 5 restarts within 5 cycles then timeout

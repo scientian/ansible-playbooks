@@ -1,0 +1,11 @@
+- name: Install monit
+  apt: pkg=monit state=installed
+
+- name: Copy monit master config file into place
+  copy: src=etc_monit_monitrc dest=/etc/monit/monitrc
+  notify: restart monit
+
+- name: Copy monit service config files into place
+  template: src=etc_monit_conf.{{ item }}.j2 dest=/etc/monit/conf.d/{{ item }}
+  with_items: monitored_services
+  notify: restart monit

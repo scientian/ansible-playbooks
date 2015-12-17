@@ -1,0 +1,4 @@
+- include: base.yml tags=base
+- include: git.yml tags=git
+- include: user.yml tags=user
+# - include: security.yml tags=security

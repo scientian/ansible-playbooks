@@ -1,0 +1,44 @@
+---
+
+- name: Backup the application
+  hosts: application
+  remote_user: "{{ remote_user }}"
+  vars:
+      app_name: 'wurfl'
+      app_base_dir: '/var/www/apps/wurfl'
+  vars_prompt:
+      - name: "mysql_password"
+        prompt: "Mysql Password"
+        default: ""
+      - name: "backup_name"
+        prompt: "Backup name (usually the timestamp)"
+        default: ""
+  tasks:
+    - set_fact: restore_ts={{ lookup("pipe", "date +%Y%m%d%H%M%S") }}
+    - debug: msg="Restoring {{ backup_name }}.tgz (restore ts {{restore_ts}})"
+    
+    - name: Check application shared directories presence
+      file: 
+          path: "{{app_base_dir}}/{{item}}"
+          state: directory
+          recurse: yes
+      with_items:
+          - "shared"
+          - "shared/backup"
+          - "shared/backup/{{ backup_name }}"
+          
+    - name: Copy the backup archive on the remote host
+      copy: src=./data/{{ backup_name }}.tgz dest={{ app_base_dir }}/shared/backup/{{ backup_name }}/archive.tgz force=yes
+      
+    - name: Extract the backup archive on the remote host
+      shell: tar xvzf archive.tgz chdir="{{ app_base_dir }}/shared/backup/{{ backup_name }}"
+
+    - name: Import the database on the remote host
+      shell: mysql -u {{ mysql_user }} -p{{ mysql_password }} -h {{ mysql_host }} {{ mysql_database }} < database.sql chdir="{{ app_base_dir }}/shared/backup/{{ backup_name }}"
+    
+    - name: Move the shared data directory in place on the remote host
+      shell: mv {{ app_base_dir }}/shared/data {{ app_base_dir }}/shared/data.{{ restore_ts }} && mv {{ app_base_dir }}/shared/backup/{{ backup_name }}/data {{ app_base_dir }}/shared/
+
+    - name: Remove the remote backup directory
+      shell: rm -rf {{ backup_name }} chdir="{{ app_base_dir }}/shared/backup/"
+    

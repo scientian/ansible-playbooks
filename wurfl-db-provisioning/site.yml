@@ -1,0 +1,40 @@
+---
+- name: apply common configuration to all nodes
+  hosts: all
+  gather_facts: true
+  connection: ssh
+  
+  roles:
+    - { role: base, become: yes, become_user: root }
+    - { role: monitoring, become: yes, become_user: root, monitored_services: ['sshd'] }
+    
+- hosts: redis
+  gather_facts: true
+  connection: ssh
+  roles:
+    - { role: redis, become: yes, become_user: root, tags: ['redis'] }
+
+- hosts: database
+  gather_facts: true
+  connection: ssh
+  roles:
+    - { role: mysql, become: yes, become_user: root, tags: ['mysql']  }
+
+- hosts: web
+  gather_facts: true
+  connection: ssh
+  vars:
+      app_domain: '{{wurfldb_domain}}'
+      app_domain_aliases: '{{wurfldb_domain_aliases}}'
+      app_database_user: '{{wurfldb_mysql_user}}'
+      app_database_pass: '{{wurfldb_mysql_pass}}'
+      app_database_name: '{{wurfldb_mysql_database}}'
+      app_name: 'wurfl'
+      app_base_dir: '/var/www/apps/wurfl'
+      app_mailer_default_from: '{{wurfl_email_from}}'
+      app_mailer_default_to: '{{wurfl_email_to}}'
+  roles:
+    - { role: ruby, become: yes, become_user: root, tags: ['web'] }
+    - { role: nginx_passenger, become: yes, become_user: root, tags: ['web'] }
+    - { role: application, become: yes, become_user: root, tags: ['web'] }
+    - { role: sidekiq, become: yes, become_user: root, tags: ['jobs']  }

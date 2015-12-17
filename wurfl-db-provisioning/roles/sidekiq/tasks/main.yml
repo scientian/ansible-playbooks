@@ -1,0 +1,18 @@
+---
+- name: Install sidekiq init script
+  template:
+    src: sidekiq_init.j2
+    dest: "/etc/init.d/sidekiq_{{ app_name }}"
+    force: yes
+    mode: 755
+    owner: "{{ deploy_user }}"
+
+- name: Ensure old generic sidekiq monit config is removed.
+  file:
+    path: /etc/monit/conf.d/sidekiq
+    state: absent
+
+- name: Copy monit service config files into place
+  template: src=etc_monit_conf.sidekiq.j2 dest=/etc/monit/conf.d/sidekiq_{{ app_name }}
+  notify: restart monit
+

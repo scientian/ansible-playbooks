@@ -1,0 +1,14 @@
+[production]
+172.17.10.19
+
+[redis:children]
+production
+
+[database:children]
+production
+
+[web:children]
+production
+
+[jobs:children]
+production

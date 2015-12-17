@@ -1,0 +1,14 @@
+[devel]
+192.168.33.30 
+
+[redis:children]
+devel
+
+[database:children]
+devel
+
+[web:children]
+devel
+
+[jobs:children]
+devel
