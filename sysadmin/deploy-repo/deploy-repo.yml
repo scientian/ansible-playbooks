@@ -9,5 +9,5 @@
       dest={{ source_path }}/{{ project }}
       accept_hostkey=yes
       force=yes
-      version={{version}}
+      version={{branch}}
 
