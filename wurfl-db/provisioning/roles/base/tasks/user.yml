@@ -1,0 +1,7 @@
+- name: check if deployment user is present
+  shell: /usr/bin/getent passwd {{ deploy_user }} | /usr/bin/wc -l | tr -d ''
+  register: usercreated
+
+- name: 'check if user was present'
+  fail: msg="The user {{ deploy_user }} is NOT present on the server"
+  when: usercreated.stdout == '0'

@@ -1,5 +1,0 @@
-[devel]
-192.168.33.30 
-
-[application:children]
-devel

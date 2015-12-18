@@ -1,0 +1,48 @@
+- name: check rbenv installed
+  command: test -x ~{{deploy_user}}/.rbenv
+  register: rbenv_present
+  ignore_errors: yes
+  become: yes
+  become_user: "{{deploy_user}}"
+
+- name: Install rbenv
+  git: repo=git://github.com/sstephenson/rbenv.git dest=~{{deploy_user}}/.rbenv version={{ ruby.rbenv.version }}
+  become: yes
+  become_user: "{{deploy_user}}"
+  when: rbenv_present|failed
+
+- name: Create (if not exists) ~/.bash.d/
+  file: dest=~{{deploy_user}}/.bash.d/ state=directory
+  become: yes
+  become_user: "{{deploy_user}}"
+
+- name: Copy 50_rbenv.bash to ~/.bash.d/
+  copy: src=50_rbenv.bash dest=~{{deploy_user}}/.bash.d/50_rbenv.bash mode=700 owner={{deploy_user}}
+  become: yes
+  become_user: "{{deploy_user}}"
+
+- name: Add rbenv to ~/.bash_profile
+  # Clever: the task is idempotent because of the regexp=rbenv
+  lineinfile: dest=~{{deploy_user}}/.bash_profile regexp="rbenv" insertafter=EOF line="source ~/.bash.d/50_rbenv.bash" create=yes owner={{deploy_user}}
+  become: yes
+  become_user: "{{deploy_user}}"
+
+- name: Create (if not exists) ~/.rbenv/plugins/
+  file: path=~{{deploy_user}}/.rbenv/plugins/ owner={{deploy_user}} group={{deploy_user}} mode=0755 state=directory
+  become: yes
+  become_user: "{{deploy_user}}"
+
+- name: check ruby-build installed
+  command: test -x ~{{deploy_user}}/.rbenv/plugins/ruby-build
+  register: rbuild_present
+  ignore_errors: yes
+  become: yes
+  become_user: "{{deploy_user}}"
+
+- name: Install ruby-build
+  git: repo=git://github.com/sstephenson/ruby-build.git dest=~{{deploy_user}}/.rbenv/plugins/ruby-build
+  become: yes
+  become_user: "{{deploy_user}}"
+  when: rbuild_present|failed
+
+

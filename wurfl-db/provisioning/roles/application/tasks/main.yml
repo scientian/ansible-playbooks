@@ -1,0 +1,79 @@
+- name: install web app depends
+  apt: pkg={{ item }} state=latest install_recommends=no
+  with_items:
+    - nodejs
+
+- name: Create web application directories
+  file:
+      path: "{{app_base_dir}}/{{item}}"
+      state: directory
+      recurse: yes
+      owner: "{{deploy_user}}"
+      group: "{{deploy_user}}"
+  with_items:
+      - "releases"
+      - "shared"
+      - "shared/config"
+      - "shared/data"
+      - "shared/data/export"
+      - "shared/data/export/master"
+      - "shared/data/import"
+      - "shared/data/patch"
+      - "shared/data/wurfl"
+      - "shared/log"
+      - "shared/system"
+      - "shared/tmp"
+      - "shared/tmp/cache"
+      - "shared/tmp/pids"
+      - "shared/tmp/sockets"
+
+- name: Add database config
+  template: src=database.yml.j2 dest={{app_base_dir}}/shared/config/database.yml
+
+- name: Add secret config
+  template: src=secrets.yml.j2 dest={{app_base_dir}}/shared/config/secrets.yml
+
+- name: install logrotate
+  apt: pkg=logrotate state=latest install_recommends=no
+
+- name: Copy logrotate config file into place
+  template: src=logrotate.j2 dest=/etc/logrotate.d/{{ app_name }}
+
+- name: Create certs dir
+  file: owner=root mode=0700 path=/etc/ssl/private/{{ app_domain }} state=directory
+
+- name: Copy the SSL csr
+  copy: src="cert/scientiamobile.com.csr" dest=/etc/ssl/private/{{ app_domain }}/{{ app_domain }}.csr owner=root mode=0600
+
+- name: Copy the SSL key
+  copy: src="cert/scientiamobile.com.key" dest=/etc/ssl/private/{{ app_domain }}/{{ app_domain }}.key owner=root mode=0600
+
+- name: Copy the SSL ca certificate
+  copy: src="cert/scientiamobile.com.ca" dest=/etc/ssl/private/{{ app_domain }}/{{ app_domain }}.ca owner=root mode=0600
+
+- name: Copy the SSL certificate
+  copy: src="cert/scientiamobile.com.crt" dest=/etc/ssl/private/{{ app_domain }}/{{ app_domain }}.crt owner=root mode=0600
+
+- name: Prepare the chained certificate
+  shell: cat {{ app_domain }}.crt {{ app_domain }}.ca > {{ app_domain }}.chained.crt
+  args:
+      chdir: /etc/ssl/private/{{ app_domain }}/
+
+- name: Configure passenger virtual host.
+  template:
+    src: passenger.j2
+    dest: /etc/nginx/sites-available/{{ app_name }}
+  notify: restart nginx
+
+- name: Ensure passenger virtual host is enabled.
+  file:
+    src: /etc/nginx/sites-available/{{ app_name }}
+    dest: /etc/nginx/sites-enabled/{{ app_name }}
+    state: link
+
+- name: Ensure old passenger config is removed.
+  file:
+    path: /etc/nginx/sites-enabled/passenger
+    state: absent
+  when: nginx_remove_old_passenger_vhost
+  notify: restart nginx

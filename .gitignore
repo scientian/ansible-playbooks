@@ -5,4 +5,10 @@ wurfl-db-provisioning/group_vars/stage/local.yml
 wurfl-db-provisioning/vagrant/.vagrant-*
 wurfl-db-provisioning/vagrant/data/*
 wurfl-db-backup-restore/data/*
+wurfl-db/provisioning/group_vars/all/local.yml
+wurfl-db/provisioning/group_vars/devel/local.yml
+wurfl-db/provisioning/group_vars/stage/local.yml
+wurfl-db/provisioning/vagrant/.vagrant-*
+wurfl-db/provisioning/vagrant/data/*
+wurfl-db/backup-restore/data/*
 

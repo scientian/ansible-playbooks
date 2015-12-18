@@ -1,0 +1,14 @@
+---
+
+- name: deploy the application
+  hosts: application
+  remote_user: "{{ remote_user }}"
+  vars:
+      app_name: 'wurfl'
+      app_base_dir: '/var/www/apps/wurfl'
+  vars_prompt:
+      - name: "branch"
+        prompt: "Repository branch to deploy"
+        default: "master"
+  roles:
+    - { role: application, tags: ['web'] }

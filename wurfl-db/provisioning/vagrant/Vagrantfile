@@ -1,0 +1,82 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
+VAGRANTFILE_API_VERSION = "2"
+
+VAGRANT_DOTFILE_PATH = ENV['VAGRANT_DOTFILE_PATH']||'.vagrant'
+
+def add_key_to_server(config, *key_paths)
+  [*key_paths, nil].each do |key_path|
+    if key_path.nil?
+      fail "Public key not found at following paths: #{key_paths.join(', ')}"
+    end
+
+    full_key_path = File.expand_path(key_path)
+
+    if File.exists?(full_key_path)
+      config.vm.provision 'file',
+        run: 'once',
+        source: full_key_path,
+        destination: '/home/vagrant/user_pubkey'
+      break
+    end
+  end
+end
+
+add_user_deploy = <<SCRIPT
+echo "Creating deploy" && \
+useradd -p $(openssl passwd -1 d3pl0y) -m -s /bin/bash deploy && \
+echo "Done creating deploy!"
+SCRIPT
+
+add_user_lucam = <<-SCRIPT
+echo "Creating lucam" && \
+useradd -p $(openssl passwd -1 luc4m34) -m -s /bin/bash lucam && \
+mkdir -p /home/lucam/.ssh && \
+chmod 700 /home/lucam/.ssh && \
+chown lucam:lucam /home/lucam/.ssh && \
+chown -R lucam /home/ubuntu && \
+mv /home/vagrant/user_pubkey /home/lucam/.ssh/authorized_keys && \
+chown lucam:lucam /home/lucam/.ssh/authorized_keys && \
+chmod 600 /home/lucam/.ssh/authorized_keys && \
+rm -f /home/vagrant/user_pubkey && \
+usermod -a -G sudo lucam && \
+echo "Done creating lucam!"
+SCRIPT
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  add_key_to_server config, '~/.ssh/id_rsa_wurfl.pub', '~/.ssh/id_rsa.pub', '~/.ssh/id_dsa.pub'
+
+  config.vm.provision 'shell',
+    privileged: true,
+    run: 'once',
+    inline: add_user_deploy
+
+  config.vm.provision 'shell',
+    privileged: true,
+    run: 'once',
+    inline: add_user_lucam
+
+  config.vm.hostname = "ubuntu-stage"
+  config.vm.box = "trusty-server-cloudimg-amd64"
+  config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
+
+  {
+    '192.168.33.30' => ['db-scientiamobile', 'wurflpro']
+  }.each do |ip, short_names|
+    main_name = short_names[0]
+    alias_names = short_names[1..-1]
+    config.vm.define main_name do |host|
+      host.vm.network 'private_network', ip: ip
+      host.vm.hostname = "#{main_name}.vagrant.dev"
+      host.hostsupdater.aliases = alias_names.map{|name| "#{name}.vagrant.dev"}
+
+      host.vm.provider :virtualbox do |vb, override|
+        vb.customize ["modifyvm", :id, "--memory", "4096"]
+        vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+        vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+      end
+    end
+  end
+end
