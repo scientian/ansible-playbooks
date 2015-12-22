@@ -1,0 +1,16 @@
+---
+- name: Deploy WURFL Updater
+  hosts: all
+  remote_user: "{{ remote_user }}"
+  sudo: no
+
+  vars:
+    project: "wurfl-updater"
+
+  tasks:
+  - name: Application | Git pull the latest code
+    git: repo=git@github.com:WURFL/{{ project }}.git
+      dest={{ source_path }}/{{ project }}
+      accept_hostkey=yes
+      force=yes
+      version={{version}}

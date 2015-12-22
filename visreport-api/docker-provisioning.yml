@@ -15,6 +15,7 @@
       volumes:
         - "{{ app_path }}:/u/apps/site"
         - "{{ source_path }}/VisApiClient:/u/apps/vis-api-client"
+        - "{{ source_path }}/wurfl-updater:/u/apps/wurfl-updater"
         - /u/data/visreport-api/mongodb:/data/db
         - /u/data/visreport-api/storage:/u/apps/site/storage
 
