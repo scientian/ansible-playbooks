@@ -24,6 +24,7 @@
       state: reloaded
       volumes:
         - "{{ app_path }}/docker/resources/redis.conf:/etc/redis/redis.conf"
+        - /u/data/wit-backend/redis:/data
       command: redis-server /etc/redis/redis.conf
 
   - name: Docker | Node.js
