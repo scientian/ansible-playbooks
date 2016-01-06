@@ -19,32 +19,32 @@
   when: not p.stat.exists or not p.stat.isdir
 
 # Mirror the repo
-# - stat: path={{ app_base_dir }}/repo/HEAD
-#   register: p
-#
-# - name: Mirror the repository
-#   shell: RBENV_ROOT={{ rbenv_path }} RBENV_VERSION={{ rbenv_ruby }} /usr/bin/env git clone --mirror {{ repo_url }} {{ app_base_dir }}/repo chdir="{{ app_base_dir }}"
-#   when: p.stat.exists == False
-#
-# - name: Update the repository mirror
-#   shell: RBENV_ROOT={{ rbenv_path }} RBENV_VERSION={{ rbenv_ruby }} /usr/bin/env git remote update chdir="{{ app_base_dir }}/repo"
-- name: Clone the repository
-  git: repo={{ repo_url }}
-    dest={{ app_base_dir }}/repo
-    accept_hostkey=yes
-    ssh_opts="-o PasswordAuthentication=no -o StrictHostKeyChecking=no"
-    force=yes
-    version={{ branch }}
+- stat: path={{ app_base_dir }}/repo/HEAD
+  register: p
+
+- name: Mirror the repository
+  shell: RBENV_ROOT={{ rbenv_path }} RBENV_VERSION={{ rbenv_ruby }} /usr/bin/env git clone --mirror {{ repo_url }} {{ app_base_dir }}/repo chdir="{{ app_base_dir }}"
+  when: p.stat.exists == False
+
+- name: Update the repository mirror
+  shell: RBENV_ROOT={{ rbenv_path }} RBENV_VERSION={{ rbenv_ruby }} /usr/bin/env git remote update chdir="{{ app_base_dir }}/repo"
+# - name: Clone the repository
+#   git: repo={{ repo_url }}
+#     dest={{ app_base_dir }}/repo
+#     accept_hostkey=yes
+#     ssh_opts="-o PasswordAuthentication=no -o StrictHostKeyChecking=no"
+#     force=yes
+#     version={{ branch }}
 
 # Prepare the release directory
 - name: Create the release directory
   shell: RBENV_ROOT={{ rbenv_path }} RBENV_VERSION={{ rbenv_ruby }} /usr/bin/env mkdir -p {{ release_dir }} chdir="{{ app_base_dir }}/repo"
 
 - name: Export the code to the release directory
-  shell: RBENV_ROOT={{ rbenv_path }} RBENV_VERSION={{ rbenv_ruby }} /usr/bin/env git archive master | tar -x -f - -C {{ release_dir }} chdir="{{ app_base_dir }}/repo"
+  shell: RBENV_ROOT={{ rbenv_path }} RBENV_VERSION={{ rbenv_ruby }} /usr/bin/env git archive {{ branch }} | tar -x -f - -C {{ release_dir }} chdir="{{ app_base_dir }}/repo"
 
 - name: Get the released sha
-  shell: RBENV_ROOT={{ rbenv_path }} RBENV_VERSION={{ rbenv_ruby }} /usr/bin/env git rev-list --max-count=1 --abbrev-commit master chdir="{{ app_base_dir }}/repo"
+  shell: RBENV_ROOT={{ rbenv_path }} RBENV_VERSION={{ rbenv_ruby }} /usr/bin/env git rev-list --max-count=1 --abbrev-commit {{ branch }} chdir="{{ app_base_dir }}/repo"
   register: released
 
 - name: Store the release sha in the project dir
