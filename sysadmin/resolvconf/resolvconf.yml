@@ -4,7 +4,7 @@
   remote_user: "{{ remote_user }}"
 
   tasks:
-  - name: System | Single-Request set in Resolvconf
+  - name: System | Single-Request set in Resolvconf base
     sudo: yes
     lineinfile: dest=/etc/resolvconf/resolv.conf.d/base line="options single-request"
 
