@@ -6,4 +6,8 @@
   tasks:
   - name: System | Single-Request set in Resolvconf
     sudo: yes
-    lineinfile: dest=/etc/resolv.conf line="options single-request"
+    lineinfile: dest=/etc/resolvconf/resolv.conf.d/base line="options single-request"
+
+  - name: System | reload resolvconf.d
+    sudo: yes
+    command: resolvconf -u
