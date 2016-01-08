@@ -10,4 +10,4 @@
 
   - name: System | reload resolvconf.d
     sudo: yes
-    command: resolvconf -u
+    command: "resolvconf -u"
