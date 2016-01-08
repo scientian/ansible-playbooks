@@ -1,0 +1,9 @@
+---
+- name: Deploy Github Repo
+  hosts: all
+  remote_user: "{{ remote_user }}"
+
+  tasks:
+  - name: Application | Single-Request set in Resolvconf
+    sudo: yes
+    lineinfile: dest=/etc/resolv.conf line="options single-request"

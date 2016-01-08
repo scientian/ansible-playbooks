@@ -1,0 +1,14 @@
+---
+#project: zabbix-addons
+#version: master
+
+remote_user: deploy
+app_user: deploy
+app_group: deployusers
+source_path: /u/apps
+
+app_path: "{{ source_path }}/{{ project }}"
+
+docker_hub_username: smdeploy
+docker_hub_password: peebie7O
+docker_hub_email: deploy@scientiamobile.com
