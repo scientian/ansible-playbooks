@@ -1,5 +1,5 @@
 ---
-- name: set single-request dns options
+- name: resovlconf
   hosts: all
   remote_user: "{{ remote_user }}"
 
