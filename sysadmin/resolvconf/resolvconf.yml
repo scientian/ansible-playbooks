@@ -1,5 +1,5 @@
 ---
-- name: Deploy Github Repo
+- name: set single-request dns options
   hosts: all
   remote_user: "{{ remote_user }}"
 
