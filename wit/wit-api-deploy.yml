@@ -1,0 +1,34 @@
+---
+- name: Deploy ImageEngine API
+  hosts: wit-api
+  remote_user: "{{ remote_user }}"
+  sudo: no
+
+  tasks:
+  - name: Application | Git pull the latest code
+    git: repo=git@github.com:ScientiaMobile/{{ project }}.git
+      dest={{ source_path }}/{{ project }}
+      accept_hostkey=yes
+      force=yes
+      version={{version}}
+
+  - name: Application | Composer install
+    composer: command=install working_dir={{ app_path }}
+
+  - name: Application | Check if Cache path exists
+    stat: path=/u/wit-backend/image_cache
+    register: check_cache_path
+
+  - name: Application | Check if project data dir exists
+    stat: path=/u/data/imgeng-api
+    register: check_project_data_path
+
+  - name: Application | Create MongoDB Storage Directory
+    when: check_project_data_path.stat.exists == false
+    sudo: yes
+    file: path=/u/data/imgeng-api/mongodb
+      state=directory
+      owner=www-data
+      group={{ app_user }}
+      mode=0775
+      recurse=yes
