@@ -3,16 +3,17 @@
 #
 #INSIGHT_DEST= /u/ftpinsight/wurfl/wurfl.xml
 ---
-- name: Copy SSL certs to remote hosts
-  hosts: insight-iad
+- name: WURFL.xml distribution
+  hosts: all
   remote_user: "{{ remote_user }}"
-#  sudo: yes
-#  vars:
-#    ssl_path: "/etc/ssl/private/{{ tld }}"
 
   tasks:
-  - name: SCP | copying WEEKLY.XML.GZ
-    command: "scp -C -q data:/u/data/snapshot/snapshot_releases/wurfl/weekly.xml.gz /tmp/weekly.xml.gz"
+  - name: rsync | copying WEEKLY.XML.GZ
+#    command: whoami
+    command: rsync -aqL data:/u/data/snapshot/snapshot_releases/wurfl/weekly.xml.gz /tmp/weekly.xml.gz
+#    register: out
+
+#  - debug: var=out.stdout_lines
 
   - name: Gunzip | unzip 
     command: "gunzip -q -c /tmp/weekly.xml.gz > /tmp/wurfl.xml"
