@@ -10,10 +10,10 @@
   tasks:
   - name: rsync | copying WEEKLY.XML.GZ
     command: rsync -aqL data:/u/data/snapshot/snapshot_releases/wurfl/weekly.xml.gz /tmp/weekly.xml.gz
+    sudo: no
 
   - name: Gunzip | unzip 
-    command: gunzip -q -c /tmp/weekly.xml.gz > /tmp/wurfl.xml
-    sudo: yes
+    unarchive: src=/tmp/weekly.xml.gz dest=/tmp/wurfl.xml
 
 #  - name: SSL | Fix permissions
 #    command: "chown -Rf root:root {{ ssl_path }}"
