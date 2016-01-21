@@ -1,0 +1,27 @@
+# usage:
+# ansible-playbook cp_ssl_crts.yml --extra-var "tld=foo.com" --inventory-file hosts --limit subblockofhosts --ask-become-pass
+#
+#INSIGHT_DEST= /u/ftpinsight/wurfl/wurfl.xml
+---
+- name: Copy SSL certs to remote hosts
+  hosts: insight-iad
+  remote_user: "{{ remote_user }}"
+#  sudo: yes
+#  vars:
+#    ssl_path: "/etc/ssl/private/{{ tld }}"
+
+  tasks:
+  - name: SCP | copying WEEKLY.XML.GZ
+    command: "scp -C -q data:/u/data/snapshot/snapshot_releases/wurfl/weekly.xml.gz /tmp/weekly.xml.gz"
+
+  - name: Gunzip | unzip 
+    command: "gunzip -q -c /tmp/weekly.xml.gz > /tmp/wurfl.xml"
+    sudo: yes
+
+#  - name: SSL | Fix permissions
+#    command: "chown -Rf root:root {{ ssl_path }}"
+#    sudo: yes
+
+#  - name: RSYNC | coping over SSL certs
+#    synchronize: mode=pull src=/data/IT/SSL_Certificates/{{ tld }} dest=/etc/ssl/private/{{ tld }} rsync_path="sudo rsync"
+#    delegate_to: backup
