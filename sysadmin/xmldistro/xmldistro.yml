@@ -13,7 +13,8 @@
     sudo: no
 
   - name: Gunzip | unzip 
-    unarchive: src=/tmp/weekly.xml.gz dest=/tmp copy=no
+    command: /bin/gunzip -q -c /tmp/weekly.xml.gz > /tmp/wurfl.xml 
+#    unarchive: src=/tmp/weekly.xml.gz dest=/tmp copy=no
 
 #  - name: SSL | Fix permissions
 #    command: "chown -Rf root:root {{ ssl_path }}"
