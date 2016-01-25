@@ -8,17 +8,5 @@
   remote_user: "{{ remote_user }}"
 
   tasks:
-  - name: rsync | copying WEEKLY.XML.GZ
-    command: rsync -aqL data:/u/data/snapshot/snapshot_releases/wurfl/weekly.xml.gz /tmp/weekly.xml.gz
-    sudo: no
-
-#  - name: RSYNC | coping over XML
-#    synchronize: mode=pull src=/u/data/snapshot/snapshot_releases/wurfl/weekly.xml.gz dest=/tmp/weekly.xml.gz
-#    delegate_to: data
-
-  - name: Gzip | decompress 
-    shell: gzip -dc /tmp/weekly.xml.gz > /tmp/wurfl.xml
-#    sudo: yes
-#    unarchive: src=/tmp/weekly.xml.gz dest=/tmp copy=no
-
-
+  - name: ssh | copying and decompressing WEEKLY.XML.GZ
+    shell: ssh data "cat /u/data/snapshot/snapshot_releases/wurfl/weekly.xml.gz" | gzip -d > /tmp/wurfl.xml
