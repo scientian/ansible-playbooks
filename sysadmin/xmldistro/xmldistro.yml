@@ -12,15 +12,13 @@
     command: rsync -aqL data:/u/data/snapshot/snapshot_releases/wurfl/weekly.xml.gz /tmp/weekly.xml.gz
     sudo: no
 
+#  - name: RSYNC | coping over XML
+#    synchronize: mode=pull src=/u/data/snapshot/snapshot_releases/wurfl/weekly.xml.gz dest=/tmp/weekly.xml.gz
+#    delegate_to: data
+
   - name: Gunzip | unzip 
     command: gzip -d /tmp/weekly.xml.gz > /tmp/wurfl.xml
 #    sudo: yes
 #    unarchive: src=/tmp/weekly.xml.gz dest=/tmp copy=no
 
-#  - name: SSL | Fix permissions
-#    command: "chown -Rf root:root {{ ssl_path }}"
-#    sudo: yes
 
-#  - name: RSYNC | coping over SSL certs
-#    synchronize: mode=pull src=/data/IT/SSL_Certificates/{{ tld }} dest=/etc/ssl/private/{{ tld }} rsync_path="sudo rsync"
-#    delegate_to: backup
