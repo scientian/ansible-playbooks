@@ -17,7 +17,7 @@
 #    delegate_to: data
 
   - name: Gzip | decompress 
-    command: gzip -d /tmp/weekly.xml.gz > /tmp/wurfl.xml
+    shell: gzip -dc /tmp/weekly.xml.gz > /tmp/wurfl.xml
 #    sudo: yes
 #    unarchive: src=/tmp/weekly.xml.gz dest=/tmp copy=no
 
