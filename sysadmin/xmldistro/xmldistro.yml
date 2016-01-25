@@ -13,7 +13,7 @@
     sudo: no
 
   - name: Gunzip | unzip 
-    command: cat /tmp/weekly.xml.gz | /bin/gzip -d > /tmp/wurfl.xml 
+    command: "cat /tmp/weekly.xml.gz | /bin/gzip -d > /tmp/wurfl.xml"
     sudo: yes
 #    unarchive: src=/tmp/weekly.xml.gz dest=/tmp copy=no
 
