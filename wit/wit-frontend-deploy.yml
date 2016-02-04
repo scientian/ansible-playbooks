@@ -17,6 +17,7 @@
 
   - name: Examine docker
     command: docker ps -fq name=frontend-varnish
+    sudo: yes
     register: cont_list
 
   - name: Application | Reload Varnish Config
