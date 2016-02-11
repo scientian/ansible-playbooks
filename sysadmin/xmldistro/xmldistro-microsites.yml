@@ -14,3 +14,8 @@
   - name: Install | copying and chmod XML to data folder
     shell: install -p -m a+r,u+w /tmp/wurfl.xml /u/data/wurfl/wurfl.xml
     sudo: yes
+
+  - name: Install | copying and chmod XML to data folder
+    shell: install -p -m a+r,u+w /tmp/wurfl.xml /u/apps/Tera-WURFL/data/wurfl.xml
+    sudo: yes
+
