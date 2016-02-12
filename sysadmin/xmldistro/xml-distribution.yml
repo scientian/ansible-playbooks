@@ -43,36 +43,41 @@
   - name: Install | Microsite - Tera-WURFL
     shell: install -p -m a+r,u+w /tmp/wurfl.xml /u/apps/Tera-WURFL/data/wurfl.xml
     sudo: yes
+    notify:
+      - Reload Microsite Tera-WURFL
     when: inventory_hostname == "microsite-host"
 
-  - name: RUN | Tera-WURFL Admin
-    shell: /usr/bin/php /u/apps/Tera-WURFL/admin/cmd_line_admin.php --update=local > /dev/null 2>&1
-    sudo: yes
-    when: inventory_hostname == "microsite-host"
-  
 ## production
 
   - name: Install | Prod - twsnap
     shell: install -p -m a+r,u+w /tmp/wurfl.xml /var/www/tera-wurfl.com/web/twsnap/data/wurfl.xml
     sudo: yes
+    notify:
+      - Reload twsnap Tera-WURFL
     when: inventory_hostname == "production"
 
   - name: Install | Prod - twprod
     shell: install -p -m a+r,u+w /tmp/wurfl.xml /var/www/tera-wurfl.com/web/twprod/data/wurfl.xml
     sudo: yes
+    notify:
+      - Reload twprod Tera-WURFL
     when: inventory_hostname == "production"
 
-  - name: RUN | Tera-WURFL Admin - twsnap
-    shell: /usr/bin/php /var/www/tera-wurfl.com/web/twsnap/admin/cmd_line_admin.php --update=local > /dev/null 2>&1
-    sudo: yes
-    when: inventory_hostname == "production"
+  handlers:
+    - name: Reload Microsite Tera-WURFL
+      shell: /usr/bin/php /u/apps/Tera-WURFL/admin/cmd_line_admin.php --update=local > /dev/null 2>&1
+      sudo: yes
+      
+    - name: Reload twsnap Tera-WURFL
+      shell: /usr/bin/php /var/www/tera-wurfl.com/web/twsnap/admin/cmd_line_admin.php --update=local > /dev/null 2>&1
+      sudo: yes
 
-  - name: RUN | Tera-WURFL Admin - twprod
-    shell: /usr/bin/php /var/www/tera-wurfl.com/web/twprod/admin/cmd_line_admin.php --clearCache --update=local > /dev/null 2>$1
-    sudo: yes
-    when: inventory_hostname == "production"
+    - name: Reload twprod Tera-WURFL
+      shell: /usr/bin/php /var/www/tera-wurfl.com/web/twprod/admin/cmd_line_admin.php --clearCache --update=local > /dev/null 2>$1
+      sudo: yes
+      notify:
+        - Reload Tera-WURFL Explorer
 
-  - name: RUN | PHP Reload - explore
-    shell: /usr/bin/php /var/www/tera-wurfl.com/web/explore/admin/reload_all.php > /dev/null 2>&1
-    sudo: yes
-    when: inventory_hostname == "production"
+    - name: Reload Tera-WURFL Explorer
+      shell: /usr/bin/php /var/www/tera-wurfl.com/web/explore/admin/reload_all.php > /dev/null 2>&1
+      sudo: yes
