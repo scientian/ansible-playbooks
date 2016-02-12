@@ -28,52 +28,51 @@
 
 ## insight-iad
 
-#  - name: Install | insight ftp folder
-#    shell: install -p -g insight -o insight -m a+r,u+w /tmp/wurfl.xml /u/ftpinsight/wurfl/wurfl.xml
-#    sudo: yes
-#    when: inventory_hostname == "insight-iad"
+  - name: Install | insight ftp folder
+    shell: install -p -g insight -o insight -m a+r,u+w /tmp/wurfl.xml /u/ftpinsight/wurfl/wurfl.xml
+    sudo: yes
+    when: inventory_hostname == "insight-iad"
 
 ## microsite-host
 
-#  - name: Install | Microsite - data
-#    shell: install -p -m a+r,u+w /tmp/wurfl.xml /u/data/wurfl/wurfl.xml
-#    sudo: yes
-#    when: inventory_hostname == "microsite-host"
+  - name: Install | Microsite - data
+    shell: install -p -m a+r,u+w /tmp/wurfl.xml /u/data/wurfl/wurfl.xml
+    sudo: yes
+    when: inventory_hostname == "microsite-host"
 
-#  - name: Install | Microsite - Tera-WURFL
-#    shell: install -p -m a+r,u+w /tmp/wurfl.xml /u/apps/Tera-WURFL/data/wurfl.xml
-#    sudo: yes
-#    when: inventory_hostname == "microsite-host"
+  - name: Install | Microsite - Tera-WURFL
+    shell: install -p -m a+r,u+w /tmp/wurfl.xml /u/apps/Tera-WURFL/data/wurfl.xml
+    sudo: yes
+    when: inventory_hostname == "microsite-host"
 
-#  - name: RUN | Tera-WURFL Admin
-#    shell: /usr/bin/php /u/apps/Tera-WURFL/admin/cmd_line_admin.php --update=local > /dev/null 2>&1
-#    sudo: yes
-#    when: inventory_hostname == "microsite-host"
+  - name: RUN | Tera-WURFL Admin
+    shell: /usr/bin/php /u/apps/Tera-WURFL/admin/cmd_line_admin.php --update=local > /dev/null 2>&1
+    sudo: yes
+    when: inventory_hostname == "microsite-host"
   
 ## prod
 
-#  - name: Install | Prod - twsnap
-#    shell: install -p -m a+r,u+w /tmp/wurfl.xml /var/www/tera-wurfl.com/web/twsnap/data/wurfl.xml
-#    sudo: yes
-#    when: inventory_hostname == "prod"
+  - name: Install | Prod - twsnap
+    shell: install -p -m a+r,u+w /tmp/wurfl.xml /var/www/tera-wurfl.com/web/twsnap/data/wurfl.xml
+    sudo: yes
+    when: inventory_hostname == "prod"
 
-#  - name: Install | Prod - twprod
-#    shell: install -p -m a+r,u+w /tmp/wurfl.xml /var/www/tera-wurfl.com/web/twprod/data/wurfl.xml
-#    sudo: yes
-#    when: inventory_hostname == "prod"
+  - name: Install | Prod - twprod
+    shell: install -p -m a+r,u+w /tmp/wurfl.xml /var/www/tera-wurfl.com/web/twprod/data/wurfl.xml
+    sudo: yes
+    when: inventory_hostname == "prod"
 
-#  - name: RUN | Tera-WURFL Admin - twsnap
-#    shell: /usr/bin/php /var/www/tera-wurfl.com/web/twsnap/admin/cmd_line_admin.php --update=local > /dev/null 2>&1
-#    sudo: yes
-#    when: inventory_hostname == "prod"
+  - name: RUN | Tera-WURFL Admin - twsnap
+    shell: /usr/bin/php /var/www/tera-wurfl.com/web/twsnap/admin/cmd_line_admin.php --update=local > /dev/null 2>&1
+    sudo: yes
+    when: inventory_hostname == "prod"
 
-#  - name: RUN | Tera-WURFL Admin - twprod
-#    shell: /usr/bin/php /var/www/tera-wurfl.com/web/twprod/admin/cmd_line_admin.php --clearCache --update=local > /dev/null 2>$1
-#    sudo: yes
-#    when: inventory_hostname == "prod"
+  - name: RUN | Tera-WURFL Admin - twprod
+    shell: /usr/bin/php /var/www/tera-wurfl.com/web/twprod/admin/cmd_line_admin.php --clearCache --update=local > /dev/null 2>$1
+    sudo: yes
+    when: inventory_hostname == "prod"
 
-#  - name: RUN | PHP Reload - explore
-#    shell: /usr/bin/php /var/www/tera-wurfl.com/web/explore/admin/reload_all.php > /dev/null 2>&1
-#    sudo: yes
-#    when: inventory_hostname == "prod"
-
+  - name: RUN | PHP Reload - explore
+    shell: /usr/bin/php /var/www/tera-wurfl.com/web/explore/admin/reload_all.php > /dev/null 2>&1
+    sudo: yes
+    when: inventory_hostname == "prod"
