@@ -52,20 +52,19 @@
       pull: always
       hostname: "{{ansible_hostname}}"
       name: "{{project}}-php-fpm"
-      image: scientiamobile/base.php-fpm
+      image: scientiamobile/wit-origin-cache.php-fpm
       state: reloaded
       email: "{{ docker_hub_email }}"
       username: "{{ docker_hub_username }}"
       password: "{{ docker_hub_password }}"
-      volumes:
-        - "{{ app_path }}/docker/resources/supervisor-wit-worker.conf:/etc/supervisor/conf.d/wit-origin-cache-worker.conf"
-        - "{{ app_path }}/docker/resources/www.conf:/etc/php5/fpm/pool.d/www.conf"
       volumes_from:
         - "{{project}}-data"
       links:
         - "{{project}}-beanstalkd:beanstalkd"
         - "{{project}}-redis:redis"
         - "{{project}}-redis-metadata:redismetadata"
+      env:
+        WORKERS:100
 
   - name: Docker | Nginx
     docker:
