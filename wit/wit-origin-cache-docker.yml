@@ -64,7 +64,7 @@
         - "{{project}}-redis:redis"
         - "{{project}}-redis-metadata:redismetadata"
       env:
-        WORKERS:100
+        WORKERS: "100"
 
   - name: Docker | Nginx
     docker:
