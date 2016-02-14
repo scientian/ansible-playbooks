@@ -34,13 +34,15 @@
       hostname: "{{ansible_hostname}}-doc-php-fpm"
       pull: always
       name: "{{project}}-php-fpm"
-      image: scientiamobile/vis-report-api.php-fpm
+      image: scientiamobile/base.php-fpm
       state: reloaded
       email: "{{ docker_hub_email }}"
       username: "{{ docker_hub_username }}"
       password: "{{ docker_hub_password }}"
       volumes_from:
         - "{{project}}-data"
+      volumes:
+        - "{{app_path}}/docker/resources/laravel_setup.sh:/etc/my_init.d/laravel_setup.sh"  
       links:
         - "{{project}}-mongo:mongo"
 
@@ -75,7 +77,7 @@
         - "{{project}}-data"
       volumes:
         - "{{app_path}}/docker/resources/wurfl-download-cron:/etc/cron.d/wurfl-download-cron"
-        - "{{app_path}}/docker/resources/vis-report-init.sh:/etc/sm_init.d/vis-report-init.sh"
+        - "{{app_path}}/docker/resources/vis-report-init.sh:/etc/my_init.d/vis-report-init.sh"
       links:
         - "{{project}}-mongo:mongo"
 
