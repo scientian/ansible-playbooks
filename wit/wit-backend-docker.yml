@@ -51,7 +51,7 @@
         - "{{project}}-data"
         - "{{project}}-node"
       volumes:
-        - "{{ app_path }}/docker/resources/wit-backend-cron:/etc/cron.d/wit-backend-cron"
+        - "{{ app_path }}/docker/resources/wit-backend-cron:/etc/my_cron.d/wit-backend-cron"
         - "{{ app_path }}/docker/php-fpm/resources/service/imgeng-garbage-collection/:/etc/service/imgeng-garbage-collection"
         - "{{ app_path }}/docker/php-fpm/resources/php-fpm/pool.d/www.conf:/etc/php5/fpm/pool.d/www.conf"
         - "{{ app_path }}/docker/php-fpm/resources/php-fpm/php.ini:/etc/php5/fpm/php.ini"

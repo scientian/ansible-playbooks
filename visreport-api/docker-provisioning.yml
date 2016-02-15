@@ -76,7 +76,7 @@
       volumes_from:
         - "{{project}}-data"
       volumes:
-        - "{{app_path}}/docker/resources/wurfl-download-cron:/etc/cron.d/wurfl-download-cron"
+        - "{{app_path}}/docker/resources/wurfl-download-cron:/etc/my_cron.d/wurfl-download-cron"
         - "{{app_path}}/docker/resources/vis-report-init.sh:/etc/my_init.d/vis-report-init.sh"
       links:
         - "{{project}}-mongo:mongo"
