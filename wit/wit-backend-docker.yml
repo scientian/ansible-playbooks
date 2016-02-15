@@ -50,13 +50,10 @@
       volumes_from:
         - "{{project}}-data"
         - "{{project}}-node"
-      volumes:
-        - "{{ app_path }}/docker/resources/wit-backend-cron:/etc/my_cron.d/wit-backend-cron"
-        - "{{ app_path }}/docker/php-fpm/resources/service/imgeng-garbage-collection/:/etc/service/imgeng-garbage-collection"
-        - "{{ app_path }}/docker/php-fpm/resources/php-fpm/pool.d/www.conf:/etc/php5/fpm/pool.d/www.conf"
-        - "{{ app_path }}/docker/php-fpm/resources/php-fpm/php.ini:/etc/php5/fpm/php.ini"
       links:
         - "{{project}}-redis:redis"
+      env:
+        MAX_THREADS_OVERRIDE: "wit-node-4-doc-php-fpm:1000,wit-node-5-doc-php-fpm:1000"
 
   - name: Docker | Nginx
     docker:
