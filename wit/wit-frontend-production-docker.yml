@@ -6,6 +6,14 @@
 
   tasks:
 
+  - name: Stat | varnish.bin
+    stat: path=/u/cache/varnish.bin
+    register: varnish_stat
+
+  - name: RM | varnish.bin
+    shell: rm -f  /u/cache/varnish.bin
+    when: varnish_stat.stat.exists
+
   - name: Docker | Data
     docker:
       hostname: "{{ansible_hostname}}-doc-data"
