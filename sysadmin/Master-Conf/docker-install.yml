@@ -1,0 +1,7 @@
+---
+- name: Host setup
+  hosts: all
+  sudo: yes
+  remote_user: "{{ remote_user }}"
+  roles:
+    - { role: docker-install }
