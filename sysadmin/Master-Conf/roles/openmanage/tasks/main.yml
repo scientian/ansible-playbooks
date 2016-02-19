@@ -1,0 +1,12 @@
+---
+- name: Dir | ensure path exists
+  file: path=/u/apps state=directory
+
+- name: Copy file
+  shell: curl -sSL https://raw.githubusercontent.com/kamermans/docker-openmanage/master/openmanage.sh > /u/apps/openmanage.sh
+
+- name: chmod
+  file: path=/u/apps/openmanage.sh mode=o+x
+
+- name: run openmanage
+  shell: sh /u/apps/openmanage.sh start public winserver

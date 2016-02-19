@@ -1,7 +1,7 @@
 ---
 - name: HOST | setup
-  hosts: all
+  hosts: Physical_Servers
   sudo: yes
   remote_user: "{{ remote_user }}"
   roles:
-    - { role: kernel-update }
+    - { role: openmanage }
