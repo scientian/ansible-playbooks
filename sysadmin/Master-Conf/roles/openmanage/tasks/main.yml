@@ -9,4 +9,4 @@
   file: path=/u/apps/openmanage.sh mode=o+x
 
 - name: run openmanage
-  shell: sh /u/apps/openmanage.sh start public winserver
+  shell: ./u/apps/openmanage.sh start public winserver
