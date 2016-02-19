@@ -4,4 +4,4 @@
   sudo: yes
   remote_user: "{{ remote_user }}"
   roles:
-    - { role: common }
+    - { role: docker-install }

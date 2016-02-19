@@ -1,0 +1,3 @@
+---
+- name: RUN | docker install script
+  script: install_docker.sh
