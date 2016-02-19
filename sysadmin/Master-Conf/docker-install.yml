@@ -1,5 +1,5 @@
 ---
-- name: Host setup
+- name: RUN | docker-install script
   hosts: all
   sudo: yes
   remote_user: "{{ remote_user }}"

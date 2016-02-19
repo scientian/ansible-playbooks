@@ -1,0 +1,7 @@
+---
+- name: APT | kernel update
+  apt: name={{item}} state=present update_cache=yes 
+  with_items:
+       - linux-image-4.2.0-27-generic 
+       - linux-image-extra-4.2.0-27-generic 
+       - linux-headers-4.2.0-27-generic
