@@ -1,0 +1,7 @@
+---
+- name: HOST | setup
+  hosts: all
+  sudo: yes
+  remote_user: "{{ remote_user }}"
+  roles:
+    - { role: kernel-update }
