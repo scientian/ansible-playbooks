@@ -73,7 +73,7 @@
       sudo: yes
 
     - name: Reload twprod Tera-WURFL
-      shell: /usr/bin/php /var/www/tera-wurfl.com/web/twprod/admin/cmd_line_admin.php --clearCache --update=local > /dev/null 2>$1
+      shell: /usr/bin/php /var/www/tera-wurfl.com/web/twprod/admin/cmd_line_admin.php --clearCache --update=local > /dev/null
       sudo: yes
       notify:
         - Reload Tera-WURFL Explorer
