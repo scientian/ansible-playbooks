@@ -16,7 +16,7 @@
 #    - { role: common }
 
   - role: docker-install 
-    when: docker-install | bool
+    when: "{{docker-install|bool}}"
 
   - role: openmanage
     when: openmanage | bool
