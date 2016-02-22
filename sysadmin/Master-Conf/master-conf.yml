@@ -1,7 +1,31 @@
 ---
-- name: HOST | setup
-  hosts: Physical_Servers
+- name: HOST | master-conf
+  hosts: all
   sudo: yes
   remote_user: "{{ remote_user }}"
+  vars:
+    openmanage: false
+    docker: false
+    kernel-update: false
+    ipa: false
+    zabbix: false
+  
   roles:
-    - { role: openmanage }
+
+# common roles
+#    - { role: common }
+
+  - role: docker 
+    when: docker | bool
+
+  - role: openmanage
+    when: openmanage | bool
+
+  - role: kernel-update
+    when: kernel-update | bool
+
+  - role: ipa
+    when: ipa | bool
+
+  - role: zabbix
+    when: zabbix | bool
