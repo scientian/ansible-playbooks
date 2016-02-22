@@ -40,7 +40,7 @@
       update_cache=yes
 
 - name: Ensure docker-compose is installed
-- command: docker-compose
+- command: docker-compose -v
   register: result
   ignore_errors: True
 
