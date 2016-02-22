@@ -45,12 +45,12 @@
 
   -name: Ensure docker-compose is installed
   -shell: docker-compose
-  register: result
-  ignore_errors: True
+   register: result
+   ignore_errors: True
 
   -name: Install docker-compose
-  when: result|failed
-  shell: curl -L https://github.com/docker/compose/releases/download/1.6.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+   when: result|failed
+   shell: curl -L https://github.com/docker/compose/releases/download/1.6.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 
   -name: Ensure docker-compose is executable
    file:/

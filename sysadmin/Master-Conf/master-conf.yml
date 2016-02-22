@@ -1,7 +1,7 @@
 ---
 - name: HOST | master-conf
   hosts: all
-  sudo: yes
+  become: yes
   remote_user: "{{ remote_user }}"
   vars:
     openmanage: false
