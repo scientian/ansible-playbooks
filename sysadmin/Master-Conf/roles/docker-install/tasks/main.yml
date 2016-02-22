@@ -35,7 +35,7 @@
 - name: Ensure apt cache is up to date & docker-engine is installed
   apt:
       name=docker-engine
-      dpkg_options='froce-confold,force-confdef'
+      dpkg_options='force-confold'
       state=present
       update_cache=yes
 
