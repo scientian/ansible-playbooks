@@ -13,7 +13,7 @@
       update_cache=yes
 
 - name: Ensure GPG Key is installed
-  apt-key:
+  apt_key:
       state=present
       keyserver=hkp://p80.pool.sks-keyservers.net:80
       id=58118E89F3A912897C070ADBF76221572C52609D
