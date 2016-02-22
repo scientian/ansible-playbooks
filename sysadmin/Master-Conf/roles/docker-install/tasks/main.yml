@@ -33,15 +33,8 @@
 - name: Ensure docker-engine is running
   service: name=docker state=started
 
-# probably better to use stat here
-- name: Ensure docker-compose is installed
-  command: /usr/local/bin/docker-compose
-  register: result
-  ignore_errors: True
-
-# results|failed always returning false
-- name: Install docker-compose
-  when: result|failed
+- name: Ensure docker-compose is installed 
+  creates: /usr/local/bin/docker-compose
   shell: curl -L https://github.com/docker/compose/releases/download/1.6.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
 
 - name: Ensure docker-compose is executable
