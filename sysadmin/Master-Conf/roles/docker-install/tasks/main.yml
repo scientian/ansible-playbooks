@@ -40,7 +40,7 @@
       update_cache=yes
 
 - name: Ensure docker-compose is installed
-- local_action: stat path="/usr/local/bin/docker-compose"
+  command: /usr/local/bin/docker-compose
   register: result
   ignore_errors: True
 
