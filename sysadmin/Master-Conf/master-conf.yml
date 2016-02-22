@@ -19,13 +19,13 @@
     when: "{{ docker | bool }}"
 
   - role: openmanage
-    when: openmanage | bool
+    when: "{{ openmanage | bool }}"
 
   - role: kernel-update
-    when: kernel-update | bool
+    when: "{{ kernel-update | bool }}"
 
   - role: ipa
-    when: ipa | bool
+    when: "{{ ipa | bool }}"
 
   - role: zabbix
-    when: zabbix | bool
+    when: "{{ zabbix | bool }}"
