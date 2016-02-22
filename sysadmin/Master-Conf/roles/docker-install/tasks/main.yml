@@ -30,7 +30,7 @@
       state=present
       create=yes
       dest=/etc/default/docker
-      line=DOCKER_OPTS="--bip=192.168.254.1/24 --default-ulimit='memlock=100000'"
+      line="DOCKER_OPTS="--bip=192.168.254.1/24 --default-ulimit='memlock=100000'""
 
 - name: Ensure apt cache is up to date & docker-engine is installed
   apt:
