@@ -6,7 +6,7 @@
   vars:
     openmanage: false
     docker: false
-    kernel-update: false
+    kernel_update: false
     ipa: false
     zabbix: false
   
@@ -22,7 +22,7 @@
     when: "{{ openmanage | bool }}"
 
   - role: kernel-update
-    when: "{{ kernel-update | bool }}"
+    when: "{{ kernel_update | bool }}"
 
   - role: ipa
     when: "{{ ipa | bool }}"
