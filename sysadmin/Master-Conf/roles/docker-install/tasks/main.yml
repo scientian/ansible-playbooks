@@ -22,7 +22,7 @@
   lineinfile: state=present create=yes dest=/etc/apt/sources.list.d/docker.list line="deb https://apt.dockerproject.org/repo ubuntu-trusty main"
 
 - name: Ensure docker default is set
-  lineinfile: state=present create=yes dest=/etc/default/docker line=DOCKER_OPTS=`"--bip=192.168.254.1/24 --default-ulimit='memlock=100000'`"
+  lineinfile: state=present create=yes dest=/etc/default/docker line=DOCKER_OPTS=\"--bip=192.168.254.1/24 --default-ulimit='memlock=100000'\"
 
 - name: Ensure apt cache is up to date & docker-engine is installed
   apt:
@@ -31,6 +31,7 @@
       state=present
       update_cache=yes
 
+# probably better to use state here
 - name: Ensure docker-compose is installed
   command: /usr/local/bin/docker-compose
   register: result
