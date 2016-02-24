@@ -27,7 +27,7 @@
   apt:
       name=docker-engine
       dpkg_options='force-confold'
-      state=present
+      state=latest
       update_cache=yes
 
 - name: Ensure docker-engine is running
