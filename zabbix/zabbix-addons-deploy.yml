@@ -11,28 +11,27 @@
       force=yes
       version={{version}}
 
-# to do: remove the build tasks once zabbix-addons repo is in "docker-auto-build"
+# Note: we pull them all here since we're not logged into Docker Hub when we run the start command
 
-  - name: Docker Hub | Pull base image
+  - name: Docker Hub | Updating Zabbix images
     become: yes
     become_user: root
     docker:
       hostname: "{{ansible_hostname}}-doc-base"
       pull: always
-      name: "{{project}}-doc-base"
-      image: scientiamobile/base.php
+      image: {{ item }}
       state: stopped
       email: "{{ docker_hub_email }}"
       username: "{{ docker_hub_username }}"
       password: "{{ docker_hub_password }}"
+    with_items:
+      - scientiamobile/base.phusion
+      - scientiamobile/base.php
+      - scientiamobile/zabbix-addons.varnish
+      - scientiamobile/zabbix-addons.php-fpm
+      - scientiamobile/zabbix-addons.beanstalkd
 
 # Varnish module deploy
-
-  - name: Docker Build | building zabbix-addons varnish module
-    when: "'wit-frontend' in group_names"
-    become: yes
-    become_user: root
-    command: "{{ app_path }}/scripts/build.sh varnish"
 
   - name: Docker UP | starting zabbix-addons varnish container
     when: "'wit-frontend' in group_names"
@@ -55,12 +54,6 @@
 
 # PHP-FPM module deploy
 
-  - name: Docker Build | building zabbix-addons php-fpm module
-    when: "'wit-backend' in group_names or 'wit-origin-cache' in group_names"
-    become: yes
-    become_user: root
-    command: "{{ app_path }}/scripts/build.sh php-fpm"
-
   - name: Docker UP | starting zabbix-addons php-fpm container
     when: "'wit-backend' in group_names or 'wit-origin-cache' in group_names"
     become: yes
@@ -75,20 +68,6 @@
     command: chdir={{ app_path }}/nginx ./start.sh
 
 # Beanstalk module deploy
-
-  - name: Docker Hub | Pull base image 
-    when: "'wit-origin-cache' in group_names"
-    become: yes
-    become_user: root
-    docker:
-      hostname: "{{ansible_hostname}}-doc-base"
-      pull: always
-      name: "{{project}}-doc-base"
-      image: scientiamobile/base.php
-      state: stopped
-      email: "{{ docker_hub_email }}"
-      username: "{{ docker_hub_username }}"
-      password: "{{ docker_hub_password }}"
 
   - name: Docker UP | starting zabbix-addons beanstalkd container
     when: "'wit-origin-cache' in group_names"
