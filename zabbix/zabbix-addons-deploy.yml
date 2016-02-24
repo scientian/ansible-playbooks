@@ -19,7 +19,7 @@
     docker:
       hostname: "{{ansible_hostname}}-doc-base"
       pull: always
-      image: {{ item }}
+      image: "{{ item }}"
       state: stopped
       email: "{{ docker_hub_email }}"
       username: "{{ docker_hub_username }}"
