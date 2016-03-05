@@ -9,6 +9,9 @@
   - name: File | varnish.bin
     file: path=/u/cache/varnish.bin state=absent
 
+  - name: File | Clear old varnish config
+    file: path=/etc/varnish/backends/active state=absent
+
   - name: Docker | Data
     docker:
       hostname: "{{ansible_hostname}}-doc-data"
