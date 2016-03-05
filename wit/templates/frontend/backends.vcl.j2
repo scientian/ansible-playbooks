@@ -1,0 +1,68 @@
+# Varnish backend selection logic
+
+{% set backend_sharing = True %}
+{% set miss_hosts = groups['wit-backend-miss']|default([]) %}
+
+##### Backend Definitions #####
+{% for host in groups['wit-backend'] %}
+    {% set node = hostvars[host].inventory_hostname.replace("-", "_") %}
+
+    {% if hostvars[host].inventory_hostname in miss_hosts %}
+        {% if backend_sharing %}
+
+# Hostname: {{ hostvars[host].inventory_hostname }}
+# NOTE: This is a MISS backend and is included because backend_sharing is on!
+backend {{ node }} {
+    .host = "{{ hostvars[host].ansible_default_ipv4.address }}";
+    .port = "80";
+    include "backends/wit_backend_highsensitivity_config.vcl";
+}
+        {% endif %}
+    {% else %}
+
+# Hostname: {{ hostvars[host].inventory_hostname }}
+backend {{ node }} {
+    .host = "{{ hostvars[host].ansible_default_ipv4.address }}";
+    .port = "80";
+    include "backends/wit_backend_config.vcl";
+}
+    {% endif %}
+{% endfor %}
+
+
+{% if groups['wit-backend-miss'] is defined %}
+##### MISS Backend Definitions #####
+    {% for host in groups['wit-backend-miss'] %}
+        {% set node = hostvars[host].inventory_hostname.replace("-", "_") %}
+
+backend {{ node }}_miss { # {{ hostvars[host].inventory_hostname }}
+    .host = "{{ hostvars[host].ansible_default_ipv4.address }}";
+    .port = "80";
+    include "backends/wit_backend_config.vcl";
+}
+
+    {% endfor %}
+{% endif %}
+
+
+##### VCL Init #####
+
+sub vcl_init {
+
+    ##### HIT Backends #####
+    new backend_ansible = directors.round_robin();
+    {% for host in groups['wit-backend'] %}
+    backend_ansible.add_backend({{ hostvars[host].inventory_hostname.replace("-", "_") }});
+    {% endfor %}
+
+{% if groups['wit-backend-miss'] is defined %}
+    ###### MISS Backends #####
+    new backend_ansible_miss = directors.round_robin();
+    {% for host in groups['wit-backend-miss'] %}
+    backend_ansible_miss.add_backend({{ hostvars[host].inventory_hostname.replace("-", "_") }}_miss);
+    {% endfor %}
+{% endif %}
+
+    # Load and initialize WURFL components
+    include "imageengine/wurfl.vcl";
+}

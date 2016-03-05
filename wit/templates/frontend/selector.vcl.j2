@@ -1,0 +1,25 @@
+# Varnish backend selection logic
+
+{% if groups['wit-backend-miss'] is defined %}
+
+# This region has dedicated miss servers
+# We choose the director based on the HTTP Host header (the hostname used to get here)
+if (req.http.host ~ "miss\.imgeng\.in$") {
+    # All "miss" requests have a hostname that ends in miss.imgeng.in
+    # ex:
+    #   foo.miss.imgeng.in
+    #   foo.lite-miss.imgeng.in
+    #   foo.staging-miss.imgeng.in
+    #   foo.staging-lite-miss.imgeng.in
+    set req.backend_hint = backend_ansible_miss.backend();
+} else {
+    set req.backend_hint = backend_ansible.backend();
+}
+
+{% else %}
+
+# This region does NOT have dedicated miss servers
+# All requests go to the main backend pool
+set req.backend_hint = backend_ansible.backend();
+
+{% endif %}

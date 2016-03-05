@@ -1,10 +1,24 @@
 ---
+
+- name: Gather facts about all other ImageEngine hosts
+  hosts: all
+  tasks: []
+
 - name: Deploy WIT Frontend
   hosts: wit-frontend
   remote_user: "{{ remote_user }}"
   sudo: no
-
   tasks:
+
+  - name: Ensure wit-frontend data directory exists
+    file: path=/u/data/wit-frontend/varnish/config owner=deploy group=deploy mode=0755 state=directory
+
+  - name: Generate region-specific Varnish Backends config
+    template: src=templates/frontend/backends.vcl.j2 dest=/u/data/wit-frontend/varnish/config/backends.vcl owner=deploy group=deploy mode=0644
+
+  - name: Generate region-specific Varnish Selector config
+    template: src=templates/frontend/selector.vcl.j2 dest=/u/data/wit-frontend/varnish/config/selector.vcl owner=deploy group=deploy mode=0644
+
   - name: Application | Git pull the latest code
     git: repo=git@github.com:ScientiaMobile/{{ project }}.git
       dest={{ source_path }}/{{ project }}
