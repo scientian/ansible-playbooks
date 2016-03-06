@@ -1,0 +1,33 @@
+# Varnish backend selection logic
+
+{# If there are no dedicated miss backends, use the normal backends #}
+{% set backends = groups['wit-backend-miss']|default([]) %}
+{% if length(backends) == 0 %}
+    {% set backends = groups['wit-backend'] %}
+{% endif %}
+
+##### Backend Definitions #####
+{% for host in backends %}
+    {% set node = hostvars[host].inventory_hostname.replace("-", "_") %}
+
+# Hostname: {{ hostvars[host].inventory_hostname }}
+backend {{ node }} {
+    .host = "{{ hostvars[host].ansible_default_ipv4.address }}";
+    .port = "80";
+    include "backends/wit_backend_config.vcl";
+}
+{% endfor %}
+
+##### VCL Init #####
+
+sub vcl_init {
+
+    ##### HIT Backends #####
+    new backend_ansible = directors.round_robin();
+    {% for host in backends %}
+    backend_ansible.add_backend({{ hostvars[host].inventory_hostname.replace("-", "_") }});
+    {% endfor %}
+
+    # Load and initialize WURFL components
+    include "imageengine/wurfl.vcl";
+}

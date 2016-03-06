@@ -1,0 +1,5 @@
+# Varnish backend selection logic
+
+# This region does NOT have dedicated miss servers
+# All requests go to the main backend pool
+set req.backend_hint = backend_ansible.backend();

@@ -13,11 +13,23 @@
   - name: Ensure wit-frontend data directory exists
     file: path=/u/data/wit-frontend/varnish/config owner=deploy group=deploy mode=0755 state=directory
 
+  # HIT Frontends
   - name: Generate region-specific Varnish Backends config
     template: src=templates/frontend/backends.vcl.j2 dest=/u/data/wit-frontend/varnish/config/backends.vcl owner=deploy group=deploy mode=0644
+    when: "'wit-frontend-miss' not in group_names"
 
   - name: Generate region-specific Varnish Selector config
     template: src=templates/frontend/selector.vcl.j2 dest=/u/data/wit-frontend/varnish/config/selector.vcl owner=deploy group=deploy mode=0644
+    when: "'wit-frontend-miss' not in group_names"
+
+  # MISS Frontends
+  - name: Generate region-specific Varnish Backends config
+    template: src=templates/frontend/miss-backends.vcl.j2 dest=/u/data/wit-frontend/varnish/config/backends.vcl owner=deploy group=deploy mode=0644
+    when: "'wit-frontend-miss' in group_names"
+
+  - name: Generate region-specific Varnish Selector config
+    template: src=templates/frontend/miss-selector.vcl.j2 dest=/u/data/wit-frontend/varnish/config/selector.vcl owner=deploy group=deploy mode=0644
+    when: "'wit-frontend-miss' in group_names"
 
   - name: Application | Git pull the latest code
     git: repo=git@github.com:ScientiaMobile/{{ project }}.git
