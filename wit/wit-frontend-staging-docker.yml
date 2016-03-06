@@ -10,7 +10,7 @@
     file: path=/u/cache/varnish.bin state=absent
 
   - name: File | Clear old varnish config
-    file: path=/etc/varnish/backends/active state=absent
+    file: path=/u/apps/site/docker/varnish/resources/config/backends/active state=absent
 
   - name: Docker | Data
     docker:
