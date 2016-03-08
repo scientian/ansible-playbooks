@@ -2,7 +2,7 @@
 
 {# If there are no dedicated miss backends, use the normal backends #}
 {% set backends = groups['wit-backend-miss']|default([]) %}
-{% if length(backends) == 0 %}
+{% if backends[0] is not defined %}
     {% set backends = groups['wit-backend'] %}
 {% endif %}
 
