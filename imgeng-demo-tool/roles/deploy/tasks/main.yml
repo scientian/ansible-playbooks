@@ -1,0 +1,24 @@
+- name: Application | Git pull the latest code
+  become: no
+  git: repo=git@github.com:ScientiaMobile/{{ project }}.git
+    dest={{ source_path }}/{{ project }}
+    accept_hostkey=yes
+    force=yes
+    version={{version}}
+
+- name: Application | Install node.js requirements
+  become: no
+  command: "docker run -it --rm -v {{ app_path }}/server:/imgeng-demo -w /imgeng-demo lucor/node-pm2:latest npm install --no-progress"
+
+- name: Application | Check if project data dir exists
+  become: no
+  stat: path=/u/data/imgeng-demo
+  register: check_project_data_path
+
+- name: Application | Create MySQL Storage Directory
+  when: check_project_data_path.stat.exists == false
+  become: yes
+  file: path=/u/data/imgeng-demo
+    state=directory
+    mode=0775
+    recurse=yes

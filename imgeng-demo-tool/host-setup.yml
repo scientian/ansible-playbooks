@@ -1,7 +1,7 @@
 ---
 - name: Host setup
   hosts: all
-  sudo: yes
+  become: yes
   remote_user: "{{ remote_user }}"
   roles:
-    - { role: host_setup }
+    - { role: host-setup }

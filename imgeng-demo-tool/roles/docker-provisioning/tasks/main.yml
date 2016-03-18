@@ -1,0 +1,77 @@
+- name: Docker | Data
+  docker:
+    hostname: "{{ansible_hostname}}-doc-data"
+    name: "{{project}}-data"
+    image: ubuntu:14.04
+    state: reloaded
+    volumes:
+      - "{{ app_path }}:/u/apps/site"
+      - /u/data/imgeng-demo:/var/lib/mysql
+
+- name: Docker | MySQL
+  docker:
+    hostname: "{{ansible_hostname}}-doc-mysql"
+    name: "{{project}}-mysql"
+    image: mysql:latest
+    state: reloaded
+    volumes_from:
+      - "{{project}}-data"
+    volumes:
+      - "{{ app_path }}/server/image_engine_demo_db.sql:/docker-entrypoint-initdb.d/image_engine_demo_db.sql"
+    env:
+      MYSQL_ROOT_PASSWORD: imgeng
+      MYSQL_DATABASE: image_engine_demo_db
+
+- name: Docker | Node.js
+  docker:
+    hostname: "{{ansible_hostname}}-doc-nodejs"
+    name: "{{project}}-nodejs"
+    image: lucor/node-pm2:latest
+    state: reloaded
+    volumes_from:
+      - "{{project}}-data"
+    links:
+      - "{{project}}-mysql:mysql"
+    command: "pm2 start /u/apps/site/server/pm2.json --no-daemon"
+    ports:
+      - "3000:3000"
+
+- name: Docker | Pull the base image required in order to build the Selenium image
+  docker:
+    image: scientiamobile/base.phusion
+    state: absent
+    pull: always
+    email: "{{ docker_hub_email }}"
+    username: "{{ docker_hub_username }}"
+    password: "{{ docker_hub_password }}"
+
+- name: Docker | Build Selenium Image
+  command: "docker build -t scientiamobile/imgeng-demo-tool.selenium {{ app_path }}/docker/selenium"
+
+- name: Docker | Selenium
+  docker:
+    hostname: "{{ansible_hostname}}-doc-selenium"
+    name: "{{project}}-selenium"
+    image: scientiamobile/imgeng-demo-tool.selenium
+    state: reloaded
+    volumes_from:
+      - "{{project}}-data"
+
+- name: Docker | Nginx
+  docker:
+    hostname: "{{ansible_hostname}}-doc-nginx"
+    pull: always
+    name: "{{project}}-nginx"
+    image: scientiamobile/base.nginx
+    state: reloaded
+    email: "{{ docker_hub_email }}"
+    username: "{{ docker_hub_username }}"
+    password: "{{ docker_hub_password }}"
+    volumes_from:
+      - "{{project}}-data"
+    volumes:
+        - "{{ app_path }}/docker/resources/nginx/site.conf:/etc/nginx/conf.d/site.conf"
+    links:
+      - "{{project}}-nodejs:nodejs"
+    ports:
+      - "80:80"

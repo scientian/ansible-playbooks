@@ -1,0 +1,23 @@
+---
+- name: ImageEngine Demo Tool
+  hosts: all
+  become: yes
+  remote_user: "{{ remote_user }}"
+  vars:
+    host_setup: false
+    deploy: false
+    docker: false
+
+  roles:
+
+# common roles
+#    - { role: common }
+
+  - role: host-setup
+    when: "{{ host_setup | bool }}"
+
+  - role: deploy
+    when: "{{ deploy | bool }}"
+
+  - role: docker-provisioning
+    when: "{{ docker | bool }}"
