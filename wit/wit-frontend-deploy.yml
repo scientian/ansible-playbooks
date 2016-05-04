@@ -7,7 +7,7 @@
 - name: Deploy WIT Frontend
   hosts: wit-frontend
   remote_user: "{{ remote_user }}"
-  sudo: no
+  become: no
   tasks:
 
   - name: Ensure wit-frontend data directory exists
