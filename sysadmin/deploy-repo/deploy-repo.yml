@@ -1,6 +1,6 @@
 ---
 - name: Deploy Github Repo
-  hosts: all
+  hosts: "{{ host }}"
   remote_user: "{{ remote_user }}"
 
   tasks:
