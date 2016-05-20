@@ -1,0 +1,17 @@
+APP_ENV=production
+APP_DEBUG=true
+APP_KEY=base64:giVF9ai2+bMlQKnlEk+dSawFvqanLJJsPkiDNdPlAHI=
+APP_URL=https://web.wurfl.io
+
+CACHE_DRIVER=redis
+SESSION_DRIVER=redis
+
+REDIS_HOST=redis
+REDIS_PASSWORD=null
+REDIS_PORT=6379
+
+WURFL_JS_URL=//wurfl.io/wurfl.js
+
+SCIENTIA_CORE_API=https://core.scientiamobile.com
+SCIENTIA_CORE_CLIENT_ID=web.wurfl.io
+SCIENTIA_CORE_CLIENT_SECRET=9c4791ab0fc4e3ceeac3480ee563820f

@@ -1,0 +1,26 @@
+---
+- name: Deploy WIT Frontend
+  hosts: wit-frontend
+  remote_user: "{{ remote_user }}"
+  sudo: no
+
+  tasks:
+  - name: Application | Git pull the latest code
+    git: repo=git@github.com:ScientiaMobile/{{ project }}.git
+      dest={{ source_path }}/{{ project }}
+      accept_hostkey=yes
+      force=yes
+      version={{version}}
+
+  - name: Application | Logger | Composer install
+    composer: command=install working_dir={{ app_path }}/docker/logger/resources
+
+  - name: Examine docker
+    command: docker ps -fq name=frontend-varnish
+    sudo: yes
+    register: cont_list
+
+  - name: Application | Reload Varnish Config
+    command: docker exec -ti {{ project }}-varnish /u/apps/site/docker/varnish/resources/utils/reload_config.sh
+    sudo: yes
+    when: cont_list.stdout

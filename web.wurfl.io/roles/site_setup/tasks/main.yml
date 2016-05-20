@@ -1,0 +1,10 @@
+  - name: Composer Install
+    shell: cd {{ source_path }}/{{ project }} && composer install 
+    
+  - name: Executing Gulp script
+    shell: {{ source_path }}/{{ project }}/docker/scripts/gulp.sh
+
+  - name: Remove Cache contents
+    shell: rm -rf {{ source_path }}/{{ project }}/bootstrap/cache/*
+
+

@@ -1,0 +1,5 @@
+if host=staging
+ 	copy files/staging-env to source-dir/app-dir/.env
+
+if host=production
+	copy files/production env to source-dir/app-dir/.env
