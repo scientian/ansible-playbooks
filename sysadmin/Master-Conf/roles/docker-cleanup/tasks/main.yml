@@ -1,0 +1,6 @@
+---
+- name: Docker - Remove exited container 
+  shell: docker rm $(docker ps -aq)
+
+- name: Docker Images - Remove unused images
+  shell: docker rmi $(docker images -aq)
