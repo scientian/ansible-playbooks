@@ -5,7 +5,8 @@
   remote_user: "{{ remote_user }}"
   vars:
     openmanage: false
-    docker: false
+    docker-install: false
+    docker-cleanup: false   
     kernel_update: false
     ipa: false
     zabbix: false
@@ -16,7 +17,10 @@
 #    - { role: common }
 
   - role: docker-install 
-    when: "{{ docker | bool }}"
+    when: "{{ docker-install | bool }}"
+
+  - role: docker-cleanup 
+    when: "{{ docker-cleanup | bool }}"
 
   - role: openmanage
     when: "{{ openmanage | bool }}"
