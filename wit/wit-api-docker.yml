@@ -66,6 +66,8 @@
       password: "{{ docker_hub_password }}"
       links:
         - "{{project}}-php-fpm:fcgi"
+      volumes_from:
+        - "{{project}}-data" 
       expose:
         - "8000"
       ports:
