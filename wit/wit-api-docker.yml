@@ -1,5 +1,5 @@
 ---
-- hosts: wit-api
+- hosts: image-engine-api
 
   remote_user: "{{ remote_user }}"
   sudo: yes
