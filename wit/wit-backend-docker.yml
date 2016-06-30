@@ -47,7 +47,6 @@
       username: "{{ docker_hub_username }}"
       password: "{{ docker_hub_password }}"
       pull: always
-      privileged: true
       cap_add:
         - SYS_PTRACE
       volumes_from:
