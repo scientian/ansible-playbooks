@@ -1,6 +1,6 @@
 ---
 - name: Deploy ImageEngine API
-  hosts: image-engine-api
+  hosts: image-engine-api-stg
   remote_user: "{{ remote_user }}"
   sudo: no
 
