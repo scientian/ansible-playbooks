@@ -11,8 +11,8 @@
     - pv
     - php5-cli 
 
-- name: Ensure consistent hostname
-  script: set_hostname.sh {{ ansible_hostname }} {{ ansible_fqdn }} creates=/etc/ansible-hostname
+#- name: Ensure consistent hostname
+#  script: set_hostname.sh {{ ansible_hostname }} {{ ansible_fqdn }} creates=/etc/ansible-hostname
 
 # above packages are included in the scientiamobile pxe image
 # enable and reset root passwd
