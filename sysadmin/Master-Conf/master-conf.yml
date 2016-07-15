@@ -4,6 +4,7 @@
   become: yes
   remote_user: "{{ remote_user }}"
   vars:
+    common: false
     openmanage: false
     docker_install: false
     docker_cleanup: false   
@@ -15,6 +16,8 @@
 
 # common roles
 #    - { role: common }
+  - role: common 
+    when: "{{ common | bool }}"
 
   - role: docker-install 
     when: "{{ docker_install | bool }}"
