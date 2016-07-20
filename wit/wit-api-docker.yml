@@ -41,15 +41,13 @@
       hostname: "{{ansible_hostname}}-doc-php-fpm"
       pull: always
       name: "{{project}}-php-fpm"
-      image: scientiamobile/base.php-fpm
+      image: scientiamobile/imgeng-api.php-fpm
       state: reloaded
       email: "{{ docker_hub_email }}"
       username: "{{ docker_hub_username }}"
       password: "{{ docker_hub_password }}"
       volumes_from:
         - "{{project}}-data"
-      volumes:
-        - "{{ app_path }}/docker/resources/supervisor-imgeng-api-workers.conf:/etc/supervisor/conf.d/imgeng-api-workers.conf"
       links:
         - "{{project}}-beanstalkd:beanstalkd"
         - "{{project}}-mongo:mongo"
