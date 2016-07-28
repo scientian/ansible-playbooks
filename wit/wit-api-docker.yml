@@ -70,6 +70,5 @@
         - "8000"
       ports:
         - "80"
-      environment:
+      env:
         - VIRTUAL_HOST=staging-api.imgeng.in,api.imgeng.in
-        - HTTPS_METHOD=noredirect
