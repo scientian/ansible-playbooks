@@ -1,6 +1,6 @@
 ---
 - name: HOST | master-conf
-  hosts: all
+  hosts: "{{ hosts }}"
   become: yes
   remote_user: "{{ remote_user }}"
   vars:
