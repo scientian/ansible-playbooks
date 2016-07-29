@@ -1,8 +1,8 @@
 ---
 - name: HOST | master-conf
   hosts: "{{ host }}"
-  become: yes
   remote_user: "{{ remote_user }}"
+  become: yes
   vars:
     common: false
     openmanage: false
