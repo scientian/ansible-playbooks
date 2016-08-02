@@ -32,3 +32,11 @@
       group={{ app_user }}
       mode=0775
       recurse=yes
+
+  - name: Application | Ensure python-pip is installed
+    become: yes
+    apt: name=python-pip state=present
+
+  - name: Application | Ensure docker-py is installed
+    become: yes
+    pip: name=docker-py state=present
