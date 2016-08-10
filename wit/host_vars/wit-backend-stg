@@ -1,3 +1,3 @@
 ---
 project: wit-backend
-version: wit_be
+version: {{ git_version }}
