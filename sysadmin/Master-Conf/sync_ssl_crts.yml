@@ -1,11 +1,7 @@
-# usage:
-# ansible-playbook cp_ssl_crts.yml --extra-var "tld=foo.com" --inventory-file hosts --limit subblockofhosts --ask-become-pass
-#
 ---
 - name: Copy SSL certs to remote hosts
   hosts: "{{ host }}"
   remote_user: "{{ remote_user }}"
-#  sudo: yes
   vars:
     ssl_path: "/etc/ssl/private/{{ tld }}"
 
@@ -16,7 +12,7 @@
 #  - name: RSYNC | copying over SSL certs
 #    command: rsync -aq backup:/data/IT/SSL_Certificates/{{ tld }}/ /tmp/{{ tld }}/
   - name: RSYNC | synchronizing SSL certs
-    synchronize: mode=pull src=/data/IT/SSL_Certificates/"{{ tld }}" dest=/tmp/"{{ tld }}" use_ssh_args=true
+    synchronize: mode=push src=/data/IT/SSL_Certificates/{{ tld }} dest=/tmp/{{ tld }} use_ssh_args=true
     delegate_to: backup
 
   - name: SSL | Move certs to TLD folder
