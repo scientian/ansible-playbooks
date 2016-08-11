@@ -19,7 +19,7 @@
     delegate_to: backup
 
   - name: SSL | Move certs to SSL folder
-    command: "mv /tmp/{{ tld }} /etc/ssl/private/"
+    command: "mv /tmp/{{ tld }} /etc/ssl/private"
     become: yes
 
   - name: SSL | Fix permissions
