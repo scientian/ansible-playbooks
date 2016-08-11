@@ -24,4 +24,7 @@
     delegate_to: "{{ host }}"
     become: yes
 
+  - name: SSL | Fix permissions
+    command: "chown -Rf root:root {{ ssl_path }}"
+    become: yes
 
