@@ -12,7 +12,6 @@
 
   - name: SSL | ensure /tmp path exists
     file: path=/tmp/{{ tld }} state=directory mode=0755
-    become: yes
 
   - name: RSYNC | synchronizing SSL certs
     synchronize: mode=push src=/data/IT/SSL_Certificates/{{ tld }}/ dest=/tmp/{{ tld }} use_ssh_args=true
