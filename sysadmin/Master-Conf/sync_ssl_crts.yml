@@ -6,18 +6,13 @@
     ssl_path: "/etc/ssl/private/{{ tld }}"
 
   tasks:
-  - name: SSL | create tmp dir for certs
-    file: path=/tmp/{{ tld }} state=directory mode=0755
+  - name: SSL | ensure SSL path exists
+    file: path={{ ssl_path }} state=directory mode=0755
+    become: yes
 
-#  - name: RSYNC | copying over SSL certs
-#    command: rsync -aq backup:/data/IT/SSL_Certificates/{{ tld }}/ /tmp/{{ tld }}/
   - name: RSYNC | synchronizing SSL certs
     synchronize: mode=push src=/data/IT/SSL_Certificates/{{ tld }}/ dest={{ ssl_path }}/ use_ssh_args=true
     delegate_to: backup
-
-#  - name: SSL | Move certs to TLD folder
-#    command: "mv /tmp/{{ tld }}/ {{ ssl_path }}/"
-#    become: yes
 
   - name: SSL | Fix permissions
     command: "chown -Rf root:root {{ ssl_path }}"
