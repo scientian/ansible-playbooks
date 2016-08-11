@@ -16,7 +16,7 @@
 #  - name: RSYNC | copying over SSL certs
 #    command: rsync -aq backup:/data/IT/SSL_Certificates/{{ tld }}/ /tmp/{{ tld }}/
   - name: RSYNC | synchronizing SSL certs
-    synchronize: mode=pull src=/data/IT/SSL_Certificates/{{ tld }} dest=/tmp/{{ tld }} use_ssh_args=true
+    synchronize: mode=pull src=/data/IT/SSL_Certificates/"{{ tld }}" dest=/tmp/"{{ tld }}" use_ssh_args=true
     delegate_to: backup
 
   - name: SSL | Move certs to TLD folder
