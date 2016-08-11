@@ -17,9 +17,12 @@
     synchronize: mode=push src=/data/IT/SSL_Certificates/{{ tld }}/ dest=/tmp/{{ tld }} use_ssh_args=true
     delegate_to: backup
 
-  - name: RSYNC | synchronize to SSL path
-    synchronize: src:/tmp/{{ tld }} dest:{{ ssl_path }}/
+  - name: RSYNC | synchronize SSL path on host
+    synchronize:
+        src:/tmp/{{ tld }} 
+        dest:{{ ssl_path }}/
     delegate_to: "{{ host }}"
+    become: yes
 
   - name: SSL | Fix permissions
     command: "chown -Rf root:root {{ ssl_path }}"
