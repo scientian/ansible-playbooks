@@ -13,17 +13,17 @@
   - name: SSL | create tmp dir for certs
     file: path=/tmp/{{ tld }} state=directory mode=0755
 
-  - name: RSYNC | copying over SSL certs
-    command: rsync -aq backup:/data/IT/SSL_Certificates/{{ tld }}/ /tmp/{{ tld }}/
+#  - name: RSYNC | copying over SSL certs
+#    command: rsync -aq backup:/data/IT/SSL_Certificates/{{ tld }}/ /tmp/{{ tld }}/
+  - name: RSYNC | synchronizing SSL certs
+    synchronize: mode=pull src=/data/IT/SSL_Certificates/{{ tld }} dest=/tmp/{{ tld }} rsync_path="sudo rsync"
+    delegate_to: backup
 
   - name: SSL | Move certs to TLD folder
     command: "mv /tmp/{{ tld }} {{ ssl_path }}"
-    sudo: yes
+    become: yes
 
   - name: SSL | Fix permissions
     command: "chown -Rf root:root {{ ssl_path }}"
-    sudo: yes
+    become: yes
 
-#  - name: RSYNC | coping over SSL certs
-#    synchronize: mode=pull src=/data/IT/SSL_Certificates/{{ tld }} dest=/etc/ssl/private/{{ tld }} rsync_path="sudo rsync"
-#    delegate_to: backup
