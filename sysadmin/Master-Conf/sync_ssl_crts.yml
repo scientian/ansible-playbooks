@@ -13,6 +13,7 @@
   - name: RSYNC | synchronizing SSL certs
     synchronize: mode=push src=/data/IT/SSL_Certificates/{{ tld }}/ dest={{ ssl_path }}/ use_ssh_args=true
     delegate_to: backup
+    become: yes
 
   - name: SSL | Fix permissions
     command: "chown -Rf root:root {{ ssl_path }}"
