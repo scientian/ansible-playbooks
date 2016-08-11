@@ -10,9 +10,16 @@
     file: path={{ ssl_path }} state=directory mode=0755
     become: yes
 
+  - name: SSL | ensure /tmp path exists
+    file: path=/tmp/{{ tld }} state=directory mode=0755
+    become: yes
+
   - name: RSYNC | synchronizing SSL certs
     synchronize: mode=push src=/data/IT/SSL_Certificates/{{ tld }}/ dest={{ ssl_path }}/ use_ssh_args=true
     delegate_to: backup
+
+ - name: SSL | Move certs to SSL folder
+    command: "mv /tmp/{{ tld }}/* {{ ssl_path }}/"
     become: yes
 
   - name: SSL | Fix permissions
