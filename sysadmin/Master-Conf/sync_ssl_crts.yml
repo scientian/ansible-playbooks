@@ -18,9 +18,8 @@
     delegate_to: backup
 
   - name: RSYNC | synchronize to SSL path
-    synchronize: src:/tmp/{{ tld }} dest:{{ ssl_path }}
+    synchronize: src:/tmp/{{ tld }} dest:{{ ssl_path }}/
     delegate_to: "{{ host }}"
-    become: yes
 
   - name: SSL | Fix permissions
     command: "chown -Rf root:root {{ ssl_path }}"
