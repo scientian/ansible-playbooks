@@ -20,7 +20,7 @@
   - name: RSYNC | synchronize SSL path on host
     synchronize:
         src: "/tmp/{{ tld }}" 
-        dest: "{{ ssl_path }}/"
+        dest: "{{ ssl_path }}"
     delegate_to: "{{ host }}"
     become: yes
 
