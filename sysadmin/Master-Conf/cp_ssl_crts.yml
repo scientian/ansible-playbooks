@@ -3,7 +3,7 @@
 #
 ---
 - name: Copy SSL certs to remote hosts
-  hosts: all
+  hosts: "{{ host }}"
   remote_user: "{{ remote_user }}"
 #  sudo: yes
   vars:
