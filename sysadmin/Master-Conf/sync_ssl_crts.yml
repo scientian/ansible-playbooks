@@ -14,8 +14,9 @@
     file: path=/tmp/{{ tld }} state=directory mode=0755
 
   - name: RSYNC | synchronize remote SSL certs
-    synchronize: mode=push src=/data/IT/SSL_Certificates/{{ tld }}/ dest=/tmp/{{ tld }} use_ssh_args=true
-    delegate_to: backup
+    synchronize: >
+    mode=pull src=rsync://backup/data/IT/SSL_Certificates/{{ tld }}/ dest=/tmp/{{ tld }} use_ssh_args=true
+    delegate_to: "{{ host }}"
 
   - name: RSYNC | synchronize SSL path on host
     synchronize:
