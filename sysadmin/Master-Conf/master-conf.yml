@@ -1,9 +1,10 @@
 ---
 - name: HOST | master-conf
-  hosts: all
-  become: yes
+  hosts: "{{ host }}"
   remote_user: "{{ remote_user }}"
+  become: yes
   vars:
+    common: false
     openmanage: false
     docker_install: false
     docker_cleanup: false   
@@ -15,6 +16,8 @@
 
 # common roles
 #    - { role: common }
+  - role: common 
+    when: "{{ common | bool }}"
 
   - role: docker-install 
     when: "{{ docker_install | bool }}"
@@ -28,8 +31,8 @@
   - role: kernel-update
     when: "{{ kernel_update | bool }}"
 
-  - role: ipa
-    when: "{{ ipa | bool }}"
+#  - role: ipa
+#    when: "{{ ipa | bool }}"
 
   - role: zabbix
     when: "{{ zabbix | bool }}"

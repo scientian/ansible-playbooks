@@ -2,7 +2,7 @@
 - name: Deploy WIT Backend
   hosts: wit-backend
   remote_user: "{{ remote_user }}"
-  sudo: no
+  become: no
 
   tasks:
   - name: Application | Git pull the latest code
@@ -21,7 +21,7 @@
 
   - name: Application | Create Image Cache dir
     when: check_cache_path.stat.exists == false
-    sudo: yes
+    become: yes
     file: path=/u/wit-backend/image_cache
       state=directory
       owner=www-data

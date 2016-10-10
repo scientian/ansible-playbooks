@@ -33,6 +33,13 @@
     sudo: yes
     when: inventory_hostname == "insight-iad"
 
+## staging-microhost
+
+  - name: Install | staging-microhost - data
+    shell: install -p -m a+r,u+w /tmp/wurfl.xml /u/data/wurfl/wurfl.xml
+    sudo: yes
+    when: inventory_hostname == "staging-microhost"
+
 ## microsite-host
 
   - name: Install | Microsite - data

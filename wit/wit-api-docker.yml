@@ -1,5 +1,5 @@
 ---
-- hosts: wit-api
+- hosts: all
 
   remote_user: "{{ remote_user }}"
   sudo: yes
@@ -8,7 +8,7 @@
 
   - name: Docker | Data
     docker:
-      hostname: "{{ansible_hostname}}-doc-data"
+      hostname: "{{location}}-doc-data"
       name: "{{project}}-data"
       image: ubuntu:14.04
       state: reloaded
@@ -18,7 +18,7 @@
 
   - name: Docker | Beanstalkd
     docker:
-      hostname: "{{ansible_hostname}}-doc-beanstalkd"
+      hostname: "{{location}}-doc-beanstalkd"
       pull: always
       name: "{{project}}-beanstalkd"
       image: scientiamobile/base.beanstalkd
@@ -29,7 +29,7 @@
 
   - name: Docker | MongoDB
     docker:
-      hostname: "{{ansible_hostname}}-doc-mongo"
+      hostname: "{{location}}-mongo"
       name: "{{project}}-mongo"
       image: mongo:3.0
       state: reloaded
@@ -38,7 +38,7 @@
 
   - name: Docker | PHP-FPM
     docker:
-      hostname: "{{ansible_hostname}}-doc-php-fpm"
+      hostname: "{{location}}-doc-php-fpm"
       pull: always
       name: "{{project}}-php-fpm"
       image: scientiamobile/imgeng-api.php-fpm
@@ -48,15 +48,13 @@
       password: "{{ docker_hub_password }}"
       volumes_from:
         - "{{project}}-data"
-      volumes:
-        - "{{ app_path }}/docker/resources/supervisor-imgeng-api-workers.conf:/etc/supervisor/conf.d/imgeng-api-workers.conf"
       links:
         - "{{project}}-beanstalkd:beanstalkd"
         - "{{project}}-mongo:mongo"
 
   - name: Docker | Nginx
     docker:
-      hostname: "{{ansible_hostname}}-doc-nginx"
+      hostname: "{{location}}-doc-nginx"
       pull: always
       name: "{{project}}-nginx"
       image: scientiamobile/base.nginx
@@ -64,14 +62,14 @@
       email: "{{ docker_hub_email }}"
       username: "{{ docker_hub_username }}"
       password: "{{ docker_hub_password }}"
-      volumes: 
-        - "{{ app_path }}/docker/nginx/site.conf:/etc/nginx/conf.d/site.conf"
-        - "{{ app_path }}/docker/nginx/nginx.conf:/etc/nginx/nginx.conf"
-      volumes_from:
-        - "{{project}}-data"
       links:
         - "{{project}}-php-fpm:fcgi"
+      volumes_from:
+        - "{{project}}-data" 
       expose:
         - "8000"
       ports:
-        - "80:80"
+        - "80"
+      env:
+          VIRTUAL_HOST: staging-api.imgeng.in,api.imgeng.in
+          HTTPS_METHOD: noredirect

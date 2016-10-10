@@ -5,7 +5,7 @@
 
   tasks:
   - name: Application | Create application dir
-    sudo: yes
+    become: yes
     file: path={{ source_path }} state=directory owner={{ app_user }} group={{ app_group }} mode=0775
     
   - name: Application | Git pull the latest code

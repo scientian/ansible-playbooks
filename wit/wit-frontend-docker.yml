@@ -2,7 +2,7 @@
 - hosts: wit-frontend
 
   remote_user: "{{ remote_user }}"
-  sudo: yes
+  become: yes
 
   tasks:
 

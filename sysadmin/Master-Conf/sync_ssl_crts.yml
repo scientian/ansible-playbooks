@@ -1,0 +1,31 @@
+---
+- name: Copy SSL certs to remote hosts
+  hosts: "{{ host }}"
+  remote_user: "{{ remote_user }}"
+  vars:
+    ssl_path: "/etc/ssl/private/{{ tld }}"
+
+  tasks:
+  - name: SSL | ensure SSL path exists
+    file: path={{ ssl_path }} state=directory mode=0755
+    become: yes
+
+  - name: SSL | ensure /tmp path exists
+    file: path=/tmp/{{ tld }} state=directory mode=0755
+
+  - name: RSYNC | synchronize remote SSL certs
+    synchronize: >
+        mode=pull src=rsync://backup/data/IT/SSL_Certificates/{{ tld }}/ dest=/tmp/{{ tld }} use_ssh_args=true
+        delegate_to: "{{ host }}"
+
+  - name: RSYNC | synchronize SSL path on host
+    synchronize:
+        src: "/tmp/{{ tld }}/" 
+        dest: "{{ ssl_path }}/"
+    delegate_to: "{{ host }}"
+    become: yes
+
+  - name: SSL | Fix permissions
+    command: "chown -Rf root:root {{ ssl_path }}"
+    become: yes
+
