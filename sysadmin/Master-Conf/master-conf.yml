@@ -33,3 +33,6 @@
 
   - role: zabbix
     when: "{{ zabbix | bool }}"
+
+  - role: install-composer
+    when: "{{ install-composer | bool }}"
