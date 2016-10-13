@@ -1,7 +1,4 @@
 ---
-#project: zabbix-addons
-#version: master
-
 remote_user: deploy
 app_user: deploy
 app_group: deploy
