@@ -1,6 +1,6 @@
 # Common tasks
 
-- name: Add common packages
+- name: APT- install common packages
   apt: name={{ item }} state=latest
   with_items:
     - curl
@@ -11,6 +11,11 @@
     - pv
     - php5-cli 
     - python-pip
+
+- name: PIP- install common packages
+  pip: name={{ itme }} state=latest
+  with_items:
+    - docker-py
 
 #- name: Install Composer
 #  script: install_composer.sh 
