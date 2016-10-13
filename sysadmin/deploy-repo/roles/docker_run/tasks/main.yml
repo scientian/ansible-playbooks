@@ -11,4 +11,4 @@
 
 - name: Docker Compose UP
   become: yes
-  shell: cd {{ app_path }}/docker && docker-compose up -d
+  shell: cd {{ app_path }}/docker && docker-compose up -d --force-recreate
