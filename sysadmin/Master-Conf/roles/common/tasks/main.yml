@@ -10,6 +10,7 @@
     - iftop
     - pv
     - php5-cli 
+    - python-pip
 
 #- name: Install Composer
 #  script: install_composer.sh 
