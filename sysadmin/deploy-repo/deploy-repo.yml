@@ -3,7 +3,7 @@
   hosts: "{{ host }}"
   remote_user: "{{ remote_user }}"
 
-  tasks:
+  pre_tasks:
   - name: Application | Create application dir
     become: yes
     file: path={{ source_path }} state=directory owner={{ app_user }} group={{ app_group }} mode=0775
@@ -16,6 +16,5 @@
       version={{branch}}
 
   roles:
-
   - role: docker-run
     when: "{{ docker_run | bool }}"
