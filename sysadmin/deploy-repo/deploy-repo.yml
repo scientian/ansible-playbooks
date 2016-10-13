@@ -16,5 +16,5 @@
       version={{branch}}
 
   roles:
-  - role: docker-run
+  - role: docker_run
     when: "{{ docker_run | bool }}"
