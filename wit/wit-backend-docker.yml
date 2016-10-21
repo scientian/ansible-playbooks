@@ -41,7 +41,7 @@
     docker:
       hostname: "{{ansible_hostname}}-doc-php-fpm"
       name: "{{project}}-php-fpm"
-      image: scientiamobile/wit-backend.php-fpm:16.04
+      image: scientiamobile/wit-backend.php-fpm
       state: reloaded
       email: "{{ docker_hub_email }}"
       username: "{{ docker_hub_username }}"
