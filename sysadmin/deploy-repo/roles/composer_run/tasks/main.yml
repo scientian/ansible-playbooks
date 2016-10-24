@@ -1,0 +1,7 @@
+---
+- name: Composer self-update
+  composer: command=self-update
+
+- name: Composer Install
+  composer: command=install working_dir="{{ app_path }}"
+

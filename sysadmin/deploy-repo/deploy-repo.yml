@@ -16,5 +16,8 @@
       version={{branch}}
 
   roles:
+  - role: composer_run
+    when: "{{ composer_run | bool }}"
+
   - role: docker_run
     when: "{{ docker_run | bool }}"
