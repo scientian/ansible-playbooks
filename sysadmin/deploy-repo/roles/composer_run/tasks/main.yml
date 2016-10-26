@@ -1,6 +1,7 @@
 ---
 - name: Composer self-update
-  composer: command=self-update
+  shell: $(which composer) self-update 
+  become: yes
 
 - name: Composer Install
   composer: command=install working_dir="{{ app_path }}"
