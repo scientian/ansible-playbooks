@@ -1,7 +1,4 @@
----
-- name: Composer Install
-  composer: command=install working_dir="{{ app_path }}"
-    
+---  
 - name: Docker Login
   become: yes
   docker_login: 
