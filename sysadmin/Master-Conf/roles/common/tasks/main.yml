@@ -12,10 +12,10 @@
     - php5-cli 
     - python-pip
 
-- name: PIP- install common packages
-  pip: name={{ itme }} state=latest
-  with_items:
-    - docker-py
+#- name: PIP- install common packages
+#  pip: name={{ itme }} state=latest
+#  with_items:
+#    - docker-py
 
 #- name: Install Composer
 #  script: install_composer.sh 
