@@ -19,6 +19,9 @@
       name: "{{project}}-data"
       image: scientiamobile/base.data
       state: reloaded
+      email: "{{ docker_hub_email }}"
+      username: "{{ docker_hub_username }}"
+      password: "{{ docker_hub_password }}"
       volumes:
         - "{{ app_path }}:/u/apps/site"
         - /etc/ssl:/etc/ssl
